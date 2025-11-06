@@ -1,0 +1,21 @@
+@let vehicle = this.vehicle();
+
+<div class="details">
+  @if (vehicle){
+    <img src="{{vehicle.images}}" alt="{{vehicle.model}}">
+  }
+  
+  <div class="info">
+    @if (vehicle){<h2>{{vehicle.brand}} {{vehicle.model}}</h2>
+    <p>Año: {{vehicle.year}}</p>
+    <p>Color: {{vehicle.color}}</p>
+    <p>${{vehicle.price}}</p>}
+    
+
+    <div class="actions">
+      <button (click)="openInquiryForm()">Consultar</button>
+      <button (click)="openBookingForm()">Reservar</button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,22 @@
+<h2>Catálogo de Vehículos</h2>
+@let vehicles = this.vehicles();
+
+<!--HACER FILTRADOS <div class="filters">
+  <label>Filtrar por marca:</label>
+  <select #marcaSelect onchange="window.angularComponentRef.filtrarPorMarca(marcaSelect.value)">
+    <option value="">Todas</option>
+    <option value="Toyota">Toyota</option>
+    <option value="Ford">Ford</option>
+    <option value="Chevrolet">Chevrolet</option>
+  </select>
+</div> -->
+
+<div class="vehicle-grid">
+  @for (vehicle of vehicles; track vehicle.id) {
+    <div class="vehicle-card"> 
+      <img src="{{vehicle.images}}" alt="{{vehicle.model}}">
+      <h3>{{vehicle.brand}} {{vehicle.model}}</h3>
+      <p>Año: {{vehicle.year}}</p>
+      <button (click)="navigateToDetails(vehicle.id!)">Ver Detalles</button>
+    </div> }
+</div>

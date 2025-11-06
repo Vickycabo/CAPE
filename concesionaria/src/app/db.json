@@ -1,0 +1,38 @@
+{
+  "vehiculos": [
+    {
+      "id": 1,
+      "brand": "Toyota",
+      "model": "Corolla",
+      "year": 2022,
+      "color": "Blanco",
+      "price": 25000,
+      "images": [
+        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200",
+        "https://link2.jpg"
+      ],
+      "description": "Sedán confiable y eficiente."
+    },
+    {
+      "id": 2,
+      "brand": "Chevrolet",
+      "model": "Tracker",
+      "year": 2024,
+      "color": "Blanco",
+      "price": 2500000,
+      "images": [
+        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200"
+      ],
+      "description": "Chevrolet confiable y eficiente."
+    }
+  ],
+  "consultas": [],
+  "reservas": [],
+  "usuarios": [
+    {
+      "id": 1,
+      "user": "admin",
+      "password": "admin123"
+    }
+  ]
+}
