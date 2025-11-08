@@ -1,0 +1,40 @@
+@let vehicle = this.vehicle();
+
+<div class="details">
+  @if (vehicle){
+    <img src="{{vehicle.images[0]}}" alt="{{vehicle.model}}">
+  }
+
+  <div class="info">
+    @if (vehicle){<h2>{{vehicle.brand}} {{vehicle.model}}</h2>
+    <p>Año: {{vehicle.year}}</p>
+    <p>Color: {{vehicle.color}}</p>
+    <p>Precio: ${{vehicle.price | number:'1.0-0'}}</p>
+    <p>{{vehicle.description}}</p>}
+
+
+    <div class="actions">
+      <button (click)="openInquiryForm()">Consultar</button>
+      <button (click)="openBookingForm()">Reservar</button>
+    </div>
+  </div>
+</div>
+
+
+@if (showInquiryForm()) {
+  <div class="form-container">
+    <h3>Formulario de Consulta</h3>
+    <button (click)="closeForm()">Cerrar</button>
+    <app-inquiry-form></app-inquiry-form>
+  </div>
+}
+
+
+@if (showBookingForm()) {
+  <div class="form-container">
+    <h3>Formulario de Reserva</h3>
+    <button (click)="closeForm()">Cerrar</button>
+    <app-booking-form></app-booking-form>
+  </div>
+}
+

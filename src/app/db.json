@@ -1,0 +1,86 @@
+{
+  "vehiculos": [
+    {
+      "id": 1,
+      "brand": "Toyota",
+      "model": "Corolla",
+      "year": 2022,
+      "color": "Blanco",
+      "price": 25000,
+      "images": [
+        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200",
+        "https://link2.jpg"
+      ],
+      "description": "Sedán confiable y eficiente."
+    },
+    {
+      "id": 2,
+      "brand": "Chevrolet",
+      "model": "Tracker",
+      "year": 2024,
+      "color": "Blanco",
+      "price": 2500000,
+      "images": [
+        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200"
+      ],
+      "description": "Chevrolet confiable y eficiente."
+    },
+    {
+      "id": 3,
+      "brand": "Ford",
+      "model": "Mustang",
+      "year": 2023,
+      "color": "Amarillo",
+      "price": 4500000,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/2018_Ford_Mustang_GT_5.0_Front.jpg/1200px-2018_Ford_Mustang_GT_5.0_Front.jpg"
+      ],
+      "description": "Deportivo icónico con motor V8 potente."
+    },
+    {
+      "id": 4,
+      "brand": "Volkswagen",
+      "model": "Amarok",
+      "year": 2023,
+      "color": "Gris",
+      "price": 3800000,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/VW_Amarok_DC_Highline_3.0_TDI_4Motion_%28II%29_%E2%80%93_f_20210106.jpg/1200px-VW_Amarok_DC_Highline_3.0_TDI_4Motion_%28II%29_%E2%80%93_f_20210106.jpg"
+      ],
+      "description": "Automática, 4x4, potente y espaciosa."
+    },
+    {
+      "id": 5,
+      "brand": "Honda",
+      "model": "Civic",
+      "year": 2022,
+      "color": "Azul",
+      "price": 2800000,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/2022_Honda_Civic_Touring_front_3.15.22.jpg/1200px-2022_Honda_Civic_Touring_front_3.15.22.jpg"
+      ],
+      "description": "Sedán deportivo con tecnología avanzada."
+    },
+    {
+      "id": 6,
+      "brand": "Fiat",
+      "model": "Cronos",
+      "year": 2024,
+      "color": "Negro",
+      "price": 1800000,
+      "images": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Fiat_Cronos_Precision_1.8_16V_AT6_%28Brasil%29_%28cropped%29.jpg/1200px-Fiat_Cronos_Precision_1.8_16V_AT6_%28Brasil%29_%28cropped%29.jpg"
+      ],
+      "description": "Sedán compacto y económico para la ciudad."
+    }
+  ],
+  "consultas": [],
+  "reservas": [],
+  "usuarios": [
+    {
+      "id": 1,
+      "user": "admin",
+      "password": "admin123"
+    }
+  ]
+}
