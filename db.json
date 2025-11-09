@@ -8,7 +8,7 @@
       "color": "Blanco",
       "price": 25000,
       "images": [
-        "assets/images/vehicle-1-toyota_corolla.svg"
+        "https://source.unsplash.com/1200x800/?toyota,corolla"
       ],
       "description": "Sedán confiable y eficiente."
     },
@@ -20,7 +20,7 @@
       "color": "Blanco",
       "price": 2500000,
       "images": [
-        "assets/images/vehicle-2-chevrolet_tracker.svg"
+        "https://source.unsplash.com/1200x800/?chevrolet,tracker"
       ],
       "description": "Chevrolet confiable y eficiente."
     },
@@ -32,7 +32,7 @@
       "color": "Amarillo",
       "price": 4500000,
       "images": [
-        "assets/images/vehicle-3-ford_mustang.svg"
+        "https://source.unsplash.com/1200x800/?ford,mustang"
       ],
       "description": "Deportivo icónico con motor V8 potente."
     },
@@ -44,7 +44,7 @@
       "color": "Gris",
       "price": 3800000,
       "images": [
-        "assets/images/vehicle-4-volkswagen_amarok.svg"
+        "https://source.unsplash.com/1200x800/?volkswagen,amarok"
       ],
       "description": "Automática, 4x4, potente y espaciosa."
     },
@@ -56,7 +56,7 @@
       "color": "Azul",
       "price": 2800000,
       "images": [
-        "assets/images/vehicle-5-honda_civic.svg"
+        "https://source.unsplash.com/1200x800/?honda,civic"
       ],
       "description": "Sedán deportivo con tecnología avanzada."
     },
@@ -68,7 +68,7 @@
       "color": "Negro",
       "price": 1800000,
       "images": [
-        "assets/images/vehicle-6-fiat_cronos.svg"
+        "https://source.unsplash.com/1200x800/?fiat,cronos"
       ],
       "description": "Sedán compacto y económico para la ciudad."
     },
@@ -80,7 +80,7 @@
       "color": "Gris Metalizado",
       "price": 8500000,
       "images": [
-        "assets/images/vehicle-7-bmw_x5.svg"
+        "https://source.unsplash.com/1200x800/?bmw,x5"
       ],
       "description": "SUV premium, amplio, con buena performance y equipamiento de confort."
     },
@@ -92,7 +92,7 @@
       "color": "Blanco Perlado",
       "price": 4200000,
       "images": [
-        "assets/images/vehicle-8-audi_a3.svg"
+        "https://source.unsplash.com/1200x800/?audi,a3"
       ],
       "description": "Hatchback premium, eficiente y con buen equipamiento tecnológico."
     },
@@ -104,7 +104,7 @@
       "color": "Negro",
       "price": 6700000,
       "images": [
-        "assets/images/vehicle-9-mercedes_benz_c_class.svg"
+        "https://source.unsplash.com/1200x800/?mercedes,cclass"
       ],
       "description": "Sedán ejecutivo con diseño elegante y confort para viajes largos."
     },
@@ -116,7 +116,7 @@
       "color": "Rojo",
       "price": 2600000,
       "images": [
-        "assets/images/vehicle-10-nissan_kicks.svg"
+        "https://source.unsplash.com/1200x800/?nissan,kicks"
       ],
       "description": "Crossover compacto, eficiente para uso urbano con buen espacio interior."
     },
@@ -128,7 +128,7 @@
       "color": "Azul",
       "price": 1500000,
       "images": [
-        "assets/images/vehicle-11-renault_sandero.svg"
+        "https://source.unsplash.com/1200x800/?renault,sandero"
       ],
       "description": "Hatch práctico y económico, ideal para familias y ciudad."
     },
@@ -140,7 +140,7 @@
       "color": "Verde",
       "price": 5200000,
       "images": [
-        "assets/images/vehicle-12-subaru_outback.svg"
+        "https://source.unsplash.com/1200x800/?subaru,outback"
       ],
       "description": "Wagon/SUV con tracción integral, buena para rutas y carga."
     }
