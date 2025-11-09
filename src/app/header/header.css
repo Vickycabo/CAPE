@@ -1,0 +1,45 @@
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #333;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.navigation {
+  display: flex;
+  gap: 20px;
+  align-self: flex-end;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: white;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: white;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navigation {
+    align-self: center;
+  }
+}

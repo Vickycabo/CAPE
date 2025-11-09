@@ -22,19 +22,26 @@
 
 
 @if (showInquiryForm()) {
-  <div class="form-container">
-    <h3>Formulario de Consulta</h3>
-    <button (click)="closeForm()">Cerrar</button>
-    <app-inquiry-form></app-inquiry-form>
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Consulta</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-inquiry-form></app-inquiry-form>
+    </div>
   </div>
 }
 
-
 @if (showBookingForm()) {
-  <div class="form-container">
-    <h3>Formulario de Reserva</h3>
-    <button (click)="closeForm()">Cerrar</button>
-    <app-booking-form></app-booking-form>
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Reserva</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-booking-form></app-booking-form>
+    </div>
   </div>
 }
 

@@ -79,8 +79,24 @@
   "usuarios": [
     {
       "id": 1,
-      "user": "admin",
-      "password": "admin123"
+      "nombre": "Administrador",
+      "email": "admin@concesionaria.com",
+      "password": "admin123",
+      "rol": "admin"
+    },
+    {
+      "id": 2,
+      "nombre": "Usuario Demo",
+      "email": "usuario@demo.com",
+      "password": "user123",
+      "rol": "usuario"
+    },
+    {
+      "id": 3,
+      "nombre": "Vendedor",
+      "email": "vendedor@concesionaria.com",
+      "password": "vend123",
+      "rol": "vendedor"
     }
   ]
 }

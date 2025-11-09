@@ -6,13 +6,15 @@ import { VehicleForm } from '../vehicle-form/vehicle-form';
 import { Vehicle } from '../vehicle';
 import { InquiryForm } from '../inquiry-form/inquiry-form';
 import { BookingForm } from '../booking-form/booking-form';
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle-details',
-  imports: [InquiryForm, BookingForm, DecimalPipe],
+  standalone: true,
+  imports: [InquiryForm, BookingForm, DecimalPipe, CommonModule, ReactiveFormsModule],
   templateUrl: './vehicle-details.html',
-  styleUrl: './vehicle-details.css',
+  styleUrl: './vehicle-details.css'
 })
 export class VehicleDetails {
 

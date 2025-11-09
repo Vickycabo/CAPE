@@ -2,13 +2,14 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { VehicleClient } from '../vehicle-client';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
-  imports: [DecimalPipe],
+  standalone: true,
+  imports: [DecimalPipe, CommonModule],
   templateUrl: './catalog.html',
-  styleUrl: './catalog.css',
+  styleUrl: './catalog.css'
 })
 export class Catalog {
 

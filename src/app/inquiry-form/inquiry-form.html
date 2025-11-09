@@ -1,14 +1,70 @@
-<h2>Consulta sobre el vehículo</h2>
-<form>
-  <label>Nombre:</label>
-  <input type="text" id="nombre" placeholder="Tu nombre">
+<div class="form-container">
+  <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()" class="inquiry-form">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input 
+        type="text" 
+        id="nombre" 
+        formControlName="nombre" 
+        placeholder="Ingrese su nombre"
+        class="form-control">
+      <div class="error-message" *ngIf="inquiryForm.get('nombre')?.errors?.['required'] && inquiryForm.get('nombre')?.touched">
+        El nombre es requerido
+      </div>
+    </div>
 
-  <label>Email:</label>
-  <input type="email" id="email" placeholder="tuemail@ejemplo.com">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email" 
+        placeholder="ejemplo@email.com"
+        class="form-control">
+      <div class="error-message" *ngIf="inquiryForm.get('email')?.errors?.['required'] && inquiryForm.get('email')?.touched">
+        El email es requerido
+      </div>
+      <div class="error-message" *ngIf="inquiryForm.get('email')?.errors?.['email'] && inquiryForm.get('email')?.touched">
+        Ingrese un email válido
+      </div>
+    </div>
 
-  <label>Mensaje:</label>
-  <textarea id="mensaje" rows="4" placeholder="Tu consulta..."></textarea>
+    <div class="form-group">
+      <label for="telefono">Teléfono:</label>
+      <input 
+        type="tel" 
+        id="telefono" 
+        formControlName="telefono" 
+        placeholder="Ingrese su teléfono"
+        class="form-control">
+      <div class="error-message" *ngIf="inquiryForm.get('telefono')?.errors?.['required'] && inquiryForm.get('telefono')?.touched">
+        El teléfono es requerido
+      </div>
+    </div>
 
-  <button type="button" onclick="window.angularComponentRef.enviarConsulta()">Enviar consulta</button>
-</form>
+    <div class="form-group">
+      <label for="mensaje">Mensaje:</label>
+      <textarea 
+        id="mensaje" 
+        formControlName="mensaje" 
+        placeholder="Escriba su consulta"
+        class="form-control textarea"></textarea>
+      <div class="error-message" *ngIf="inquiryForm.get('mensaje')?.errors?.['required'] && inquiryForm.get('mensaje')?.touched">
+        El mensaje es requerido
+      </div>
+    </div>
+
+    <div class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" [disabled]="!inquiryForm.valid" class="submit-button">
+      Enviar Consulta
+    </button>
+  </form>
+</div>
 
