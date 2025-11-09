@@ -8,8 +8,7 @@
       "color": "Blanco",
       "price": 25000,
       "images": [
-        "assets/images/vehicle-1-1-toyota-corolla.png",
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-1-toyota_corolla.svg"
       ],
       "description": "Sedán confiable y eficiente."
     },
@@ -21,7 +20,7 @@
       "color": "Blanco",
       "price": 2500000,
       "images": [
-        "assets/images/vehicle-2-1-chevrolet-tracker.png"
+        "assets/images/vehicle-2-chevrolet_tracker.svg"
       ],
       "description": "Chevrolet confiable y eficiente."
     },
@@ -33,7 +32,7 @@
       "color": "Amarillo",
       "price": 4500000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-3-ford_mustang.svg"
       ],
       "description": "Deportivo icónico con motor V8 potente."
     },
@@ -45,7 +44,7 @@
       "color": "Gris",
       "price": 3800000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-4-volkswagen_amarok.svg"
       ],
       "description": "Automática, 4x4, potente y espaciosa."
     },
@@ -57,7 +56,7 @@
       "color": "Azul",
       "price": 2800000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-5-honda_civic.svg"
       ],
       "description": "Sedán deportivo con tecnología avanzada."
     },
@@ -69,7 +68,7 @@
       "color": "Negro",
       "price": 1800000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-6-fiat_cronos.svg"
       ],
       "description": "Sedán compacto y económico para la ciudad."
     },
@@ -81,7 +80,7 @@
       "color": "Gris Metalizado",
       "price": 8500000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-7-bmw_x5.svg"
       ],
       "description": "SUV premium, amplio, con buena performance y equipamiento de confort."
     },
@@ -93,7 +92,7 @@
       "color": "Blanco Perlado",
       "price": 4200000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-8-audi_a3.svg"
       ],
       "description": "Hatchback premium, eficiente y con buen equipamiento tecnológico."
     },
@@ -105,7 +104,7 @@
       "color": "Negro",
       "price": 6700000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-9-mercedes_benz_c_class.svg"
       ],
       "description": "Sedán ejecutivo con diseño elegante y confort para viajes largos."
     },
@@ -117,7 +116,7 @@
       "color": "Rojo",
       "price": 2600000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-10-nissan_kicks.svg"
       ],
       "description": "Crossover compacto, eficiente para uso urbano con buen espacio interior."
     },
@@ -129,7 +128,7 @@
       "color": "Azul",
       "price": 1500000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-11-renault_sandero.svg"
       ],
       "description": "Hatch práctico y económico, ideal para familias y ciudad."
     },
@@ -141,7 +140,7 @@
       "color": "Verde",
       "price": 5200000,
       "images": [
-        "assets/images/placeholder.jpg"
+        "assets/images/vehicle-12-subaru_outback.svg"
       ],
       "description": "Wagon/SUV con tracción integral, buena para rutas y carga."
     }
