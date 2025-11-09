@@ -8,8 +8,8 @@
       "color": "Blanco",
       "price": 25000,
       "images": [
-        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200",
-        "https://link2.jpg"
+        "assets/images/vehicle-1-1-toyota-corolla.png",
+        "assets/images/placeholder.jpg"
       ],
       "description": "Sedán confiable y eficiente."
     },
@@ -21,7 +21,7 @@
       "color": "Blanco",
       "price": 2500000,
       "images": [
-        "https://www.chevroletcomar.com.ar/content/dam/chevrolet/sa/ar/es/master/home/crossovers-and-suvs/tracker/tracker-2026/2-colorizer/tracker-rs/exterior/blancosummitrs.png?imwidth=1200"
+        "assets/images/vehicle-2-1-chevrolet-tracker.png"
       ],
       "description": "Chevrolet confiable y eficiente."
     },
@@ -33,7 +33,7 @@
       "color": "Amarillo",
       "price": 4500000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/2018_Ford_Mustang_GT_5.0_Front.jpg/1200px-2018_Ford_Mustang_GT_5.0_Front.jpg"
+        "assets/images/placeholder.jpg"
       ],
       "description": "Deportivo icónico con motor V8 potente."
     },
@@ -45,7 +45,7 @@
       "color": "Gris",
       "price": 3800000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/VW_Amarok_DC_Highline_3.0_TDI_4Motion_%28II%29_%E2%80%93_f_20210106.jpg/1200px-VW_Amarok_DC_Highline_3.0_TDI_4Motion_%28II%29_%E2%80%93_f_20210106.jpg"
+        "assets/images/placeholder.jpg"
       ],
       "description": "Automática, 4x4, potente y espaciosa."
     },
@@ -57,7 +57,7 @@
       "color": "Azul",
       "price": 2800000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/2022_Honda_Civic_Touring_front_3.15.22.jpg/1200px-2022_Honda_Civic_Touring_front_3.15.22.jpg"
+        "assets/images/placeholder.jpg"
       ],
       "description": "Sedán deportivo con tecnología avanzada."
     },
@@ -69,9 +69,81 @@
       "color": "Negro",
       "price": 1800000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Fiat_Cronos_Precision_1.8_16V_AT6_%28Brasil%29_%28cropped%29.jpg/1200px-Fiat_Cronos_Precision_1.8_16V_AT6_%28Brasil%29_%28cropped%29.jpg"
+        "assets/images/placeholder.jpg"
       ],
       "description": "Sedán compacto y económico para la ciudad."
+    },
+    {
+      "id": 7,
+      "brand": "BMW",
+      "model": "X5",
+      "year": 2023,
+      "color": "Gris Metalizado",
+      "price": 8500000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "SUV premium, amplio, con buena performance y equipamiento de confort."
+    },
+    {
+      "id": 8,
+      "brand": "Audi",
+      "model": "A3",
+      "year": 2022,
+      "color": "Blanco Perlado",
+      "price": 4200000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "Hatchback premium, eficiente y con buen equipamiento tecnológico."
+    },
+    {
+      "id": 9,
+      "brand": "Mercedes-Benz",
+      "model": "C-Class",
+      "year": 2021,
+      "color": "Negro",
+      "price": 6700000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "Sedán ejecutivo con diseño elegante y confort para viajes largos."
+    },
+    {
+      "id": 10,
+      "brand": "Nissan",
+      "model": "Kicks",
+      "year": 2024,
+      "color": "Rojo",
+      "price": 2600000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "Crossover compacto, eficiente para uso urbano con buen espacio interior."
+    },
+    {
+      "id": 11,
+      "brand": "Renault",
+      "model": "Sandero",
+      "year": 2023,
+      "color": "Azul",
+      "price": 1500000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "Hatch práctico y económico, ideal para familias y ciudad."
+    },
+    {
+      "id": 12,
+      "brand": "Subaru",
+      "model": "Outback",
+      "year": 2022,
+      "color": "Verde",
+      "price": 5200000,
+      "images": [
+        "assets/images/placeholder.jpg"
+      ],
+      "description": "Wagon/SUV con tracción integral, buena para rutas y carga."
     }
   ],
   "consultas": [],
