@@ -1,0 +1,55 @@
+@let vehicle = this.vehicle();
+
+<div class="details">
+  @if (vehicle){
+    <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.model}}">
+  }
+
+  <div class="info">
+    @if (vehicle){<h2>{{vehicle.brand}} {{vehicle.model}}</h2>
+    <p>Año: {{vehicle.year}}</p>
+    <p>Color: {{vehicle.color}}</p>
+    <p>Precio: ${{vehicle.price | number:'1.0-0'}}</p>
+    <p>{{vehicle.description}}</p>}
+
+
+    <div class="actions">
+      <button (click)="openInquiryForm()">Consultar</button>
+      <button
+        (click)="openBookingForm()"
+        [class.disabled]="!isLoggedIn()"
+        [title]="!isLoggedIn() ? 'Debes iniciar sesión para reservar' : 'Reservar este vehículo'">
+        Reservar
+      </button>
+      @if (isAdmin()) {
+        <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
+      }
+    </div>
+  </div>
+</div>
+
+
+@if (showInquiryForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Consulta</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-inquiry-form></app-inquiry-form>
+    </div>
+  </div>
+}
+
+@if (showBookingForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Reserva</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-booking-form></app-booking-form>
+    </div>
+  </div>
+}
+
