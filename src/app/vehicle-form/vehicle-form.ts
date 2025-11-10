@@ -1,7 +1,8 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VehicleClient } from '../vehicle-client';
 import { Vehicle } from '../vehicle';
+import { AuthService } from '../auth-service';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -11,11 +12,12 @@ import { Vehicle } from '../vehicle';
 })
 export class VehicleForm {
 
-  readonly brands = ['Toyota', 'Chevrolet', 'Honda', 'Mercedes-Benz'];
+  readonly brands = ['Toyota', 'Chevrolet', 'Honda', 'Mercedes-Benz', "Ford", "Volkswagen","Audi"];
   readonly colors = ['Rojo', 'Blanco', 'Negro', 'Gris', 'Azul'];
 
   private readonly client = inject(VehicleClient);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
 
   readonly isEditing = input(false);
   readonly vehicle = input<Vehicle>();
@@ -36,6 +38,8 @@ export class VehicleForm {
     });
   }
 
+  protected readonly canAdd = computed(() => this.auth.isLoggedIn() && !this.auth.isAdmin());
+
   protected readonly form = this.formBuilder.nonNullable.group({
     brand: ['', Validators.required],
     model: ['', Validators.required],
@@ -49,6 +53,7 @@ export class VehicleForm {
  get brand() {return this.form.controls.brand;}
   get model() { return this.form.controls.model; }
   get year() { return this.form.controls.year; }
+  get color() { return this.form.controls.color; }
   get price() { return this.form.controls.price; }
   get images() { return this.form.controls.images; }
   get description() { return this.form.controls.description; }

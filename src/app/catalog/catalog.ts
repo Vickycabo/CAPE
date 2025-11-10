@@ -3,6 +3,8 @@ import { VehicleClient } from '../vehicle-client';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { AuthService } from '../auth-service';
+import { Vehicle } from '../vehicle';
 
 @Component({
   selector: 'app-catalog',
@@ -15,8 +17,17 @@ export class Catalog {
 
   private readonly client = inject(VehicleClient);
   private readonly router = inject(Router);
-  private readonly allVehicles = toSignal(this.client.getVehicles());
+  private readonly auth = inject(AuthService);
+  private readonly allVehicles = signal<Vehicle[] | undefined>(undefined);
   protected readonly isLoading = computed(() => this.allVehicles() === undefined);
+
+  constructor() {
+    this.loadVehicles();
+  }
+
+  private loadVehicles() {
+    this.client.getVehicles().subscribe(v => this.allVehicles.set(v));
+  }
 
   // Signals para los filtros
   protected readonly filterBrand = signal('');
@@ -93,5 +104,29 @@ export class Catalog {
     this.filterBrand.set('');
     this.filterYear.set('');
     this.filterMaxPrice.set('');
+  }
+
+  // Fallback para imágenes externas que fallen: usa un data URI 1x1
+  onImgError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    const placeholderSvg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='100%' height='100%' fill='%23cccccc'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23666666'>Imagen no disponible</text></svg>";
+    if (img && img.src !== placeholderSvg) {
+      img.src = placeholderSvg;
+      img.alt = (img.alt || 'Imagen') + ' (no disponible)';
+    }
+  }
+
+  isAdmin() {
+    return this.auth.isAdmin();
+  }
+
+  deleteVehicle(id: string | number) {
+    if (!this.isAdmin()) return;
+    if (confirm('¿Eliminar este vehículo?')) {
+      this.client.deleteVehicle(id).subscribe(() => {
+        this.loadVehicles();
+        alert('Vehículo eliminado');
+      });
+    }
   }
 }

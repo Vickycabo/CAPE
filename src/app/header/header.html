@@ -2,6 +2,17 @@
   <div class="title">Concesionaria</div>
   <nav class="navigation">
     <a routerLink="/catalogo" class="nav-button">Vehículos</a>
-    <a routerLink="/login" class="nav-button">Login</a>
+    @if (isAdmin()) {
+      <a routerLink="/admin" class="nav-button">Usuarios</a>
+    }
+    @if (isLoggedIn()) {
+      @if (!isAdmin()) {
+        <a routerLink="/agregar-vehiculos" class="nav-button">Agregar Vehículo</a>
+      }
+      <span class="user-label">{{currentUserName()}}</span>
+      <button class="nav-button" (click)="logout()">Salir</button>
+    } @else {
+      <a routerLink="/login" class="nav-button">Login</a>
+    }
   </nav>
 </header>

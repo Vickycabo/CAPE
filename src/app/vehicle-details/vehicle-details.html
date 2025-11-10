@@ -2,7 +2,7 @@
 
 <div class="details">
   @if (vehicle){
-    <img src="{{vehicle.images[0]}}" alt="{{vehicle.model}}">
+    <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.model}}">
   }
 
   <div class="info">
@@ -16,6 +16,9 @@
     <div class="actions">
       <button (click)="openInquiryForm()">Consultar</button>
       <button (click)="openBookingForm()">Reservar</button>
+      @if (isAdmin()) {
+        <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
+      }
     </div>
   </div>
 </div>

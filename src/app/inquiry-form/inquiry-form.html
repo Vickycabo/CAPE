@@ -8,9 +8,9 @@
         formControlName="nombre" 
         placeholder="Ingrese su nombre"
         class="form-control">
-      <div class="error-message" *ngIf="inquiryForm.get('nombre')?.errors?.['required'] && inquiryForm.get('nombre')?.touched">
-        El nombre es requerido
-      </div>
+      @if (inquiryForm.get('nombre')?.errors?.['required'] && inquiryForm.get('nombre')?.touched) {
+        <div class="error-message">El nombre es requerido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -21,12 +21,12 @@
         formControlName="email" 
         placeholder="ejemplo@email.com"
         class="form-control">
-      <div class="error-message" *ngIf="inquiryForm.get('email')?.errors?.['required'] && inquiryForm.get('email')?.touched">
-        El email es requerido
-      </div>
-      <div class="error-message" *ngIf="inquiryForm.get('email')?.errors?.['email'] && inquiryForm.get('email')?.touched">
-        Ingrese un email válido
-      </div>
+      @if (inquiryForm.get('email')?.errors?.['required'] && inquiryForm.get('email')?.touched) {
+        <div class="error-message">El email es requerido</div>
+      }
+      @if (inquiryForm.get('email')?.errors?.['email'] && inquiryForm.get('email')?.touched) {
+        <div class="error-message">Ingrese un email válido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -37,9 +37,9 @@
         formControlName="telefono" 
         placeholder="Ingrese su teléfono"
         class="form-control">
-      <div class="error-message" *ngIf="inquiryForm.get('telefono')?.errors?.['required'] && inquiryForm.get('telefono')?.touched">
-        El teléfono es requerido
-      </div>
+      @if (inquiryForm.get('telefono')?.errors?.['required'] && inquiryForm.get('telefono')?.touched) {
+        <div class="error-message">El teléfono es requerido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -49,18 +49,14 @@
         formControlName="mensaje" 
         placeholder="Escriba su consulta"
         class="form-control textarea"></textarea>
-      <div class="error-message" *ngIf="inquiryForm.get('mensaje')?.errors?.['required'] && inquiryForm.get('mensaje')?.touched">
-        El mensaje es requerido
-      </div>
+      @if (inquiryForm.get('mensaje')?.errors?.['required'] && inquiryForm.get('mensaje')?.touched) {
+        <div class="error-message">El mensaje es requerido</div>
+      }
     </div>
 
-    <div class="success-message" *ngIf="successMessage">
-      {{ successMessage }}
-    </div>
+  @if (successMessage()) { <div class="success-message">{{ successMessage() }}</div> }
 
-    <div class="error-message" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+  @if (errorMessage()) { <div class="error-message">{{ errorMessage() }}</div> }
 
     <button type="submit" [disabled]="!inquiryForm.valid" class="submit-button">
       Enviar Consulta

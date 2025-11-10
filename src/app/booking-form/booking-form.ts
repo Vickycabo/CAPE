@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -13,8 +13,8 @@ import { HttpClient } from '@angular/common/http';
 export class BookingForm {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
-  protected successMessage = '';
-  protected errorMessage = '';
+  protected successMessage = signal('');
+  protected errorMessage = signal('');
 
   protected bookingForm = this.fb.group({
     nombre: ['', Validators.required],
@@ -34,11 +34,11 @@ export class BookingForm {
 
       this.http.post('http://localhost:3000/reservas', reserva).subscribe({
         next: () => {
-          this.successMessage = 'Reserva realizada exitosamente';
+          this.successMessage.set('Reserva realizada exitosamente');
           this.bookingForm.reset();
         },
         error: () => {
-          this.errorMessage = 'Error al realizar la reserva';
+          this.errorMessage.set('Error al realizar la reserva');
         }
       });
     }

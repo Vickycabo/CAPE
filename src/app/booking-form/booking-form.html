@@ -8,9 +8,9 @@
         formControlName="nombre" 
         placeholder="Ingrese su nombre"
         class="form-control">
-      <div class="error-message" *ngIf="bookingForm.get('nombre')?.errors?.['required'] && bookingForm.get('nombre')?.touched">
-        El nombre es requerido
-      </div>
+      @if (bookingForm.get('nombre')?.errors?.['required'] && bookingForm.get('nombre')?.touched) {
+        <div class="error-message">El nombre es requerido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -21,12 +21,12 @@
         formControlName="email" 
         placeholder="ejemplo@email.com"
         class="form-control">
-      <div class="error-message" *ngIf="bookingForm.get('email')?.errors?.['required'] && bookingForm.get('email')?.touched">
-        El email es requerido
-      </div>
-      <div class="error-message" *ngIf="bookingForm.get('email')?.errors?.['email'] && bookingForm.get('email')?.touched">
-        Ingrese un email válido
-      </div>
+      @if (bookingForm.get('email')?.errors?.['required'] && bookingForm.get('email')?.touched) {
+        <div class="error-message">El email es requerido</div>
+      }
+      @if (bookingForm.get('email')?.errors?.['email'] && bookingForm.get('email')?.touched) {
+        <div class="error-message">Ingrese un email válido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -37,9 +37,9 @@
         formControlName="telefono" 
         placeholder="Ingrese su teléfono"
         class="form-control">
-      <div class="error-message" *ngIf="bookingForm.get('telefono')?.errors?.['required'] && bookingForm.get('telefono')?.touched">
-        El teléfono es requerido
-      </div>
+      @if (bookingForm.get('telefono')?.errors?.['required'] && bookingForm.get('telefono')?.touched) {
+        <div class="error-message">El teléfono es requerido</div>
+      }
     </div>
 
     <div class="form-group">
@@ -49,9 +49,9 @@
         id="fecha" 
         formControlName="fecha" 
         class="form-control">
-      <div class="error-message" *ngIf="bookingForm.get('fecha')?.errors?.['required'] && bookingForm.get('fecha')?.touched">
-        La fecha es requerida
-      </div>
+      @if (bookingForm.get('fecha')?.errors?.['required'] && bookingForm.get('fecha')?.touched) {
+        <div class="error-message">La fecha es requerida</div>
+      }
     </div>
 
     <div class="form-group">
@@ -61,18 +61,14 @@
         id="hora" 
         formControlName="hora" 
         class="form-control">
-      <div class="error-message" *ngIf="bookingForm.get('hora')?.errors?.['required'] && bookingForm.get('hora')?.touched">
-        La hora es requerida
-      </div>
+      @if (bookingForm.get('hora')?.errors?.['required'] && bookingForm.get('hora')?.touched) {
+        <div class="error-message">La hora es requerida</div>
+      }
     </div>
 
-    <div class="success-message" *ngIf="successMessage">
-      {{ successMessage }}
-    </div>
+  @if (successMessage()) { <div class="success-message">{{ successMessage() }}</div> }
 
-    <div class="error-message" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </div>
+  @if (errorMessage()) { <div class="error-message">{{ errorMessage() }}</div> }
 
     <button type="submit" [disabled]="!bookingForm.valid" class="submit-button">
       Confirmar Reserva

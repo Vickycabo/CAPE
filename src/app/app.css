@@ -7,5 +7,5 @@
 main {
   flex: 1;
   padding: 20px;
-  margin-bottom: 100px; /* Espacio para el footer */
+  /* Ya no necesitamos margen inferior artificial porque el footer no es fixed */
 }

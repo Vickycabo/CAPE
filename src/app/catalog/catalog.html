@@ -40,10 +40,13 @@
 <div class="vehicle-grid">
   @for (vehicle of vehicles; track vehicle.id) {
     <div class="vehicle-card">
-      <img src="{{vehicle.images[0]}}" alt="{{vehicle.model}}">
+        <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.brand}} {{vehicle.model}}">
+        @if (isAdmin()) {
+          <button class="delete-btn" (click)="deleteVehicle(vehicle.id!)">Eliminar</button>
+        }
       <h3>{{vehicle.brand}} {{vehicle.model}}</h3>
       <p>Año: {{vehicle.year}}</p>
-      <p>Precio: ${{vehicle.price}}</p>
+      <p>Precio: ${{vehicle.price | number:'1.0-0'}} </p>
       <button (click)="navigateToDetails(vehicle.id!)">Ver Detalles</button>
     </div>
   } @empty {

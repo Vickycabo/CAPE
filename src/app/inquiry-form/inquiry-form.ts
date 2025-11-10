@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
 export class InquiryForm {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
-  protected successMessage = '';
-  protected errorMessage = '';
+  protected successMessage = signal('');
+  protected errorMessage = signal('');
 
   protected inquiryForm = this.fb.group({
     nombre: ['', Validators.required],
@@ -34,11 +34,11 @@ export class InquiryForm {
 
       this.http.post('http://localhost:3000/consultas', consulta).subscribe({
         next: () => {
-          this.successMessage = 'Consulta enviada exitosamente';
+          this.successMessage.set('Consulta enviada exitosamente');
           this.inquiryForm.reset();
         },
         error: () => {
-          this.errorMessage = 'Error al enviar la consulta';
+          this.errorMessage.set('Error al enviar la consulta');
         }
       });
     }

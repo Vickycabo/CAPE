@@ -1,15 +1,19 @@
+@if (canAdd()) {
 <h2>{{ isEditing() ? 'Editar Vehículo' : 'Agregar Vehículo' }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
 
 <div class="form-field">
     <label for="brand">Marca</label>
-    <select> id="brand" formControlName= "brand"
-        <option value=" " selected disabled>Seleccione una marca</option>
+    <select id="brand" formControlName="brand">
+        <option value="" selected disabled>Seleccione una marca</option>
         @for (brand of brands; track $index){
             <option [value]="brand">{{brand}}</option>
         }
     </select>
+    @if (brand.touched && brand.hasError('required')) {
+        <span class="errors">La marca es requerida</span>
+    }
 </div>
 
 <div class="form-field">
@@ -38,12 +42,15 @@
 
 <div class="form-field">
     <label for="color">Color</label>
-    <select> id="color" formControlName= "color"
-        <option value=" " selected disabled>Seleccione color del vehículo</option>
+    <select id="color" formControlName="color">
+        <option value="" selected disabled>Seleccione color del vehículo</option>
         @for (color of colors; track $index){
             <option [value]="color">{{color}}</option>
         }
     </select>
+    @if (color.touched && color.hasError('required')) {
+        <span class="errors">El color es requerido</span>
+    }
 </div>
 
 <div class="form-field">
@@ -84,3 +91,6 @@
     <button type="submit" [disabled]="form.invalid">{{ isEditing() ? 'Actualizar' : 'Agregar' }}</button>
   </div>
 </form>
+} @else {
+    <p>Debes iniciar sesión con una cuenta de usuario para agregar un vehículo.</p>
+}

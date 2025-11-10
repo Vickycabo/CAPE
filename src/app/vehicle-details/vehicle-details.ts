@@ -8,6 +8,7 @@ import { InquiryForm } from '../inquiry-form/inquiry-form';
 import { BookingForm } from '../booking-form/booking-form';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../auth-service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -21,6 +22,7 @@ export class VehicleDetails {
   private readonly client = inject(VehicleClient);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly auth = inject(AuthService);
   private readonly id= this.route.snapshot.paramMap.get('id');
 
   protected readonly vehicleSource = toSignal(this.client.getVehicleById(this.id!));
@@ -39,6 +41,7 @@ handleEdit(vehicle: Vehicle) {
   }
 
   deleteVehicle() {
+    if (!this.isAdmin()) return;
     if (confirm('Desea borrar este vehículo?')) {
       this.client.deleteVehicle(this.id!).subscribe(() => {
         alert('Vehículo borrado');
@@ -60,6 +63,19 @@ handleEdit(vehicle: Vehicle) {
   closeForm() { 
     this.showInquiryForm.set(false);
     this.showBookingForm.set(false);
+  }
+
+  onImgError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    const placeholderSvg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='100%' height='100%' fill='%23e0e0e0'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='26' fill='%23777777'>Imagen no disponible</text></svg>";
+    if (img && img.src !== placeholderSvg) {
+      img.src = placeholderSvg;
+      img.alt = (img.alt || 'Imagen') + ' (no disponible)';
+    }
+  }
+
+  isAdmin() {
+    return this.auth.isAdmin();
   }
 }
 
