@@ -12,17 +12,71 @@
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   margin: 0;
-  background: linear-gradient(90deg, #ffffff 0%, #a5b4fc 40%, #60a5fa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #60a5fa 50%, #a78bfa 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  z-index: 1001;
+  text-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #60a5fa 50%, transparent 100%);
+  opacity: 0.6;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+}
+
+.hamburger {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #fff;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 2px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.hamburger::before {
+  top: -8px;
+}
+
+.hamburger::after {
+  bottom: -8px;
 }
 
 .navigation {
@@ -40,11 +94,14 @@
   color: #e5e7eb;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 9999px;
+  border-radius: 8px;
   transition: all 200ms ease;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .nav-button:hover {
@@ -58,23 +115,105 @@
 .user-label {
   color: #cbd5e1;
   font-size: 0.9rem;
-  padding: 0.35rem 0.65rem;
+  padding: 0.5rem 0.9rem;
   background: rgba(99,102,241,0.15);
   border: 1px solid rgba(99,102,241,0.35);
-  border-radius: 9999px;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
-/* Responsive */
+/* Responsive para tablets */
 @media (max-width: 768px) {
   .header-container {
-    padding: 0.65rem 0.9rem;
+    padding: 0.75rem 1rem;
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.65rem;
+    letter-spacing: 2.5px;
+  }
+
+  .title::after {
+    bottom: -3px;
+    height: 1.5px;
   }
 
   .navigation {
     gap: 0.4rem;
+  }
+
+  .nav-button,
+  .navigation a.nav-button,
+  .navigation button.nav-button {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .user-label {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.55rem;
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 640px) {
+  .header-container {
+    padding: 0.65rem 0.9rem;
+    flex-wrap: nowrap;
+  }
+
+  .title {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+
+  .title::after {
+    bottom: -2px;
+    height: 1.5px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .navigation {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 280px;
+    max-width: 80%;
+    background: linear-gradient(180deg, rgba(20,20,22,0.98) 0%, rgba(20,20,22,0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 5rem 1.5rem 2rem;
+    gap: 1rem;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .navigation.active {
+    right: 0;
+  }
+
+  .nav-button,
+  .navigation a.nav-button,
+  .navigation button.nav-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .user-label {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
   }
 }
