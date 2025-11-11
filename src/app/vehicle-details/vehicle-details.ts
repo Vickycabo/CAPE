@@ -2,7 +2,6 @@ import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { VehicleClient } from '../vehicle-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { VehicleForm } from '../vehicle-form/vehicle-form';
 import { Vehicle } from '../vehicle';
 import { InquiryForm } from '../inquiry-form/inquiry-form';
 import { BookingForm } from '../booking-form/booking-form';
@@ -55,7 +54,12 @@ handleEdit(vehicle: Vehicle) {
      this.showBookingForm.set(false);
   }
 
-  openBookingForm() { 
+  openBookingForm() {
+    if (!this.auth.isLoggedIn()) {
+      alert('Debes iniciar sesión para reservar un vehículo');
+      this.router.navigate(['/login']);
+      return;
+    }
     this.showBookingForm.set(true);
     this.showInquiryForm.set(false);
   }
@@ -76,6 +80,10 @@ handleEdit(vehicle: Vehicle) {
 
   isAdmin() {
     return this.auth.isAdmin();
+  }
+
+  isLoggedIn() {
+    return this.auth.isLoggedIn();
   }
 }
 

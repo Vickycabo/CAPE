@@ -107,7 +107,6 @@ label {
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: .95rem;
-  font-family: system-ui, Arial, sans-serif;
   background: #f8fafc;
   transition: border-color .25s, background .25s, box-shadow .25s;
 }

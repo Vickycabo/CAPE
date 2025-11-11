@@ -34,34 +34,126 @@
 }
 
 .footer-section h4 {
-  margin: 0 0 0.75rem;
-  font-size: 0.95rem;
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
-  font-weight: 600;
+  letter-spacing: 1px;
+  font-weight: 700;
   color: #f1f5f9;
 }
 
 .footer-section p, .footer-section a {
-  margin: 0.3rem 0;
-  font-size: 0.8rem;
-  line-height: 1.3rem;
-  color: #94a3b8;
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  color: #cbd5e1;
   text-decoration: none;
   transition: color 160ms ease;
+  font-weight: 400;
 }
 
-.footer-section a:hover { color: #fff; }
+.footer-section a:hover {
+  color: #fff;
+}
 
 .copyright {
   grid-column: 1 / -1;
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   letter-spacing: 0.5px;
-  color: #64748b;
+  color: #94a3b8;
+  font-weight: 400;
 }
 
+/* Responsive para tablets */
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.8rem 0 2rem;
+  }
+
+  .footer-content {
+    padding: 0 1rem;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-section h4 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-section p, .footer-section a {
+    font-size: 0.925rem;
+    line-height: 1.4rem;
+  }
+
+  .copyright {
+    grid-column: 1 / -1;
+    font-size: 0.8rem;
+    margin-top: 1.2rem;
+  }
+}
+
+/* Responsive para móviles */
 @media (max-width: 640px) {
-  .footer-content { gap: 1.5rem; }
+  .footer {
+    padding: 1.5rem 0 1.8rem;
+  }
+
+  .footer::before {
+    width: 80%;
+    height: 120px;
+  }
+
+  .footer-content {
+    padding: 0 1rem;
+    gap: 1.2rem;
+    grid-template-columns: 1fr;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+
+  .footer-section h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .footer-section p, .footer-section a {
+    font-size: 0.875rem;
+    line-height: 1.3rem;
+    margin: 0.3rem 0;
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+  }
+}
+
+/* Responsive para pantallas muy pequeñas */
+@media (max-width: 375px) {
+  .footer {
+    padding: 1.2rem 0 1.5rem;
+  }
+
+  .footer-content {
+    padding: 0 0.75rem;
+    gap: 1rem;
+  }
+
+  .footer-section h4 {
+    font-size: 0.9rem;
+  }
+
+  .footer-section p, .footer-section a {
+    font-size: 0.825rem;
+  }
+
+  .copyright {
+    font-size: 0.7rem;
+  }
 }

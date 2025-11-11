@@ -12,7 +12,7 @@
       <span class="user-label">{{currentUserName()}}</span>
       <button class="nav-button" (click)="logout()">Salir</button>
     } @else {
-      <a routerLink="/login" class="nav-button">Login</a>
+      <a routerLink="/login" class="nav-button" (click)="closeMenu()">Login</a>
     }
   </nav>
 </header>

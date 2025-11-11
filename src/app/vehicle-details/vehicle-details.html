@@ -15,7 +15,12 @@
 
     <div class="actions">
       <button (click)="openInquiryForm()">Consultar</button>
-      <button (click)="openBookingForm()">Reservar</button>
+      <button
+        (click)="openBookingForm()"
+        [class.disabled]="!isLoggedIn()"
+        [title]="!isLoggedIn() ? 'Debes iniciar sesión para reservar' : 'Reservar este vehículo'">
+        Reservar
+      </button>
       @if (isAdmin()) {
         <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
       }
