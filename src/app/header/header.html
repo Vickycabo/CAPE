@@ -1,13 +1,16 @@
 <header class="header-container">
   <div class="title">Concesionaria</div>
-  <nav class="navigation">
-    <a routerLink="/catalogo" class="nav-button">Vehículos</a>
+  <button class="menu-toggle" (click)="toggleMenu()" aria-label="Menu">
+    <span class="hamburger"></span>
+  </button>
+  <nav class="navigation" [class.active]="menuOpen">
+    <a routerLink="/catalogo" class="nav-button" (click)="closeMenu()">Vehículos</a>
     @if (isAdmin()) {
-      <a routerLink="/admin" class="nav-button">Usuarios</a>
+      <a routerLink="/admin" class="nav-button" (click)="closeMenu()">Usuarios</a>
     }
     @if (isLoggedIn()) {
-      @if (!isAdmin()) {
-        <a routerLink="/agregar-vehiculos" class="nav-button">Agregar Vehículo</a>
+      @if (isAdmin()) {
+        <a routerLink="/agregar-vehiculos" class="nav-button" (click)="closeMenu()">Agregar Vehículo</a>
       }
       <span class="user-label">{{currentUserName()}}</span>
       <button class="nav-button" (click)="logout()">Salir</button>

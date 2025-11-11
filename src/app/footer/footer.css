@@ -8,7 +8,8 @@
   position: static; /* footer estático al final del flujo del documento */
   overflow: hidden;
   border-top: 1px solid rgba(255,255,255,0.08);
-  margin-top: auto; /* asegura que empuje hacia abajo en el contenedor flex */
+  margin: auto 0 0 0; /* asegura que empuje hacia abajo en el contenedor flex */
+  box-sizing: border-box;
 }
 
 .footer::before {
