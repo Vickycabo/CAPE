@@ -1,25 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Inquiry } from './inquiry';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class InquiryService {
+  private readonly http = inject(HttpClient);
+   private readonly baseUrl = 'http://localhost:3000/consultas';
 
-   private apiUrl = 'http://localhost:3000/consultas';
-
-  constructor(private http: HttpClient) {}
-
-  getConsultas(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
-
-  addConsulta(consulta: any): Observable<any> {
-    return this.http.post(this.apiUrl, consulta);
-  }
-
-  deleteConsulta(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
+  getInquiries() {
+      return this.http.get<Inquiry[]>(this.baseUrl);
+    }
+  
+    // getInquiryById(id: string | number) {
+    //   return this.http.get<Inquiry>(`${this.baseUrl}/${id}`);
+    // }
+  
+    // addInquiry(inquiry: Inquiry) {
+    //   return this.http.post<Inquiry>(this.baseUrl, inquiry);
+    // }
+  
+    // updateInquiry(inquiry: Inquiry, id: string | number) {
+    //   return this.http.put<Inquiry>(`${this.baseUrl}/${id}`, inquiry);
+    // }
+  
+    // deleteInquiry(id: string | number) {
+    //   return this.http.delete(`${this.baseUrl}/${id}`);
+    // }
+  
 }

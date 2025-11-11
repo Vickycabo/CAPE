@@ -27,12 +27,11 @@ export class VehicleForm {
     effect(() => {
       if (this.isEditing() && this.vehicle()) {
         const vehicle = this.vehicle()!;
-        // Convert numbers to string for form
         this.form.patchValue({
           ...vehicle,
-          year: vehicle.year.toString(),
-          price: vehicle.price.toString(),
-          images: vehicle.images.join(',') // Convert array to string
+          year: vehicle.year,
+          price: vehicle.price,
+          images: vehicle.images.join(',') // Convertir el arreglo de fotos a un string
         });
       }
     });
@@ -43,9 +42,9 @@ export class VehicleForm {
   protected readonly form = this.formBuilder.nonNullable.group({
     brand: ['', Validators.required],
     model: ['', Validators.required],
-    year: ['', [Validators.required, Validators.min(2000), Validators.max(2030)]],
+    year: [2000, [Validators.required, Validators.min(2000), Validators.max(2030)]],
     color: ['', Validators.required],
-    price: ['', [Validators.required, Validators.min(1)]],
+    price: [50000000, [Validators.required, Validators.min(1)]],
     images: ['', Validators.required],
     description: ['', Validators.required]
   });
