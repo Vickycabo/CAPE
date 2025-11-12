@@ -10,11 +10,22 @@
         @for (brand of brands; track $index){
             <option [value]="brand">{{brand}}</option>
         }
+        <option value="Otra">Otra (escribir manualmente)</option>
     </select>
     @if (brand.touched && brand.hasError('required')) {
         <span class="errors">La marca es requerida</span>
     }
 </div>
+
+@if (brand.value === 'Otra') {
+    <div class="form-field">
+        <label for="customBrand">Escribir marca personalizada</label>
+        <input type="text" id="customBrand" formControlName="customBrand" placeholder="Ingrese la marca del vehículo">
+        @if (customBrand.touched && !customBrand.value) {
+            <span class="errors">Debe ingresar el nombre de la marca</span>
+        }
+    </div>
+}
 
 <div class="form-field">
 <label for="model">Modelo</label>
@@ -47,11 +58,22 @@
         @for (color of colors; track $index){
             <option [value]="color">{{color}}</option>
         }
+        <option value="Otro">Otro (escribir manualmente)</option>
     </select>
     @if (color.touched && color.hasError('required')) {
         <span class="errors">El color es requerido</span>
     }
 </div>
+
+@if (color.value === 'Otro') {
+    <div class="form-field">
+        <label for="customColor">Escribir color personalizado</label>
+        <input type="text" id="customColor" formControlName="customColor" placeholder="Ingrese el color del vehículo">
+        @if (customColor.touched && !customColor.value) {
+            <span class="errors">Debe ingresar el color</span>
+        }
+    </div>
+}
 
 <div class="form-field">
     <label for="price">Precio</label>

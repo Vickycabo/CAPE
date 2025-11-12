@@ -22,7 +22,7 @@ export class VehicleDetails {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthService);
-  private readonly id= this.route.snapshot.paramMap.get('id');
+  protected readonly id = this.route.snapshot.paramMap.get('id');
 
   protected readonly vehicleSource = toSignal(this.client.getVehicleById(this.id!));
   protected readonly vehicle = linkedSignal(() => this.vehicleSource());

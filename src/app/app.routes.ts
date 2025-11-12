@@ -25,7 +25,7 @@ export const routes: Routes = [{
         canActivate: [() => {
             const auth = inject(AuthService);
             const router = inject(Router);
-            return (auth.isLoggedIn() && !auth.isAdmin()) || router.createUrlTree(['/login']);
+            return (auth.isLoggedIn() && auth.isAdmin()) || router.createUrlTree(['/login']);
         }]
     },
     {
