@@ -1,4 +1,4 @@
-import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { Component, effect, inject, linkedSignal, signal } from '@angular/core';
 import { VehicleClient } from '../vehicle-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,6 +29,22 @@ export class VehicleDetails {
   protected readonly isEditing = signal(false);
   protected readonly showInquiryForm = signal(false);
   protected readonly showBookingForm = signal(false);
+
+  //Para los autos que tengan +1 foto
+  protected readonly selectedImage = signal<string | undefined>(undefined);
+
+  constructor() {
+    effect(() => {
+      const currentVehicle = this.vehicle();
+      if (currentVehicle && currentVehicle.images && currentVehicle.images.length > 0) {
+        this.selectedImage.set(currentVehicle.images[0]);
+      }
+    });
+  }
+
+  protected selectImage(image: string) {
+    this.selectedImage.set(image);
+  }
 
 toggleEdit(){
   this.isEditing.set(!this.isEditing());
