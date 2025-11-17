@@ -60,3 +60,7 @@ button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
 }
+
+h2{
+  text-align: center;
+}

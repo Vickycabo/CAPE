@@ -68,7 +68,7 @@ export class VehicleForm {
     year: [2000, [Validators.required, Validators.min(2000), Validators.max(2030)]],
     color: ['', Validators.required],
     customColor: [''],
-    price: [50000000, [Validators.required, Validators.min(1)]],
+    price: [2000000, [Validators.required, Validators.min(1)]],
     images: ['', Validators.required],
     description: ['', Validators.required]
   });

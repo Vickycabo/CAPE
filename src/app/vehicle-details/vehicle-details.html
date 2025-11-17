@@ -39,11 +39,15 @@
           </button>
         }
         @if (isAdmin()) {
-          <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
-        }
+           <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
+          <button class="edit-btn" (click) ="toggleEdit()">Editar</button>
+          }
       </div>
-    </div> } </div>
-
+    </div> } </div> @if (vehicle && isEditing()) {
+  <div class="edit-form-container">
+    <app-vehicle-form [isEditing]="true" [vehicle]="vehicle" (edited)="handleEdit($event)"></app-vehicle-form>
+  </div>
+}
 
 @if (showInquiryForm()) {
   <div class="modal-overlay">

@@ -8,11 +8,12 @@ import { BookingForm } from '../booking-form/booking-form';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth-service';
+import { VehicleForm } from '../vehicle-form/vehicle-form';
 
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
-  imports: [InquiryForm, BookingForm, DecimalPipe, CommonModule, ReactiveFormsModule],
+  imports: [VehicleForm,InquiryForm, BookingForm, DecimalPipe, CommonModule, ReactiveFormsModule],
   templateUrl: './vehicle-details.html',
   styleUrl: './vehicle-details.css'
 })
