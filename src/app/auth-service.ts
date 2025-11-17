@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 export interface AppUser {
   id: number;
-  nombre: string;
+  name: string;
   email: string;
   password: string;
   rol: 'admin' | 'usuario';

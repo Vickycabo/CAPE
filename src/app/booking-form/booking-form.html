@@ -1,14 +1,14 @@
 <div class="form-container">
   <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
     <div class="form-group">
-      <label for="nombre">Nombre:</label>
-      <input 
-        type="text" 
-        id="nombre" 
-        formControlName="nombre" 
+      <label for="name">Nombre:</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
         placeholder="Ingrese su nombre"
         class="form-control">
-      @if (bookingForm.get('nombre')?.errors?.['required'] && bookingForm.get('nombre')?.touched) {
+      @if (bookingForm.get('name')?.errors?.['required'] && bookingForm.get('name')?.touched) {
         <div class="error-message">El nombre es requerido</div>
       }
     </div>
@@ -30,39 +30,30 @@
     </div>
 
     <div class="form-group">
-      <label for="telefono">Teléfono:</label>
-      <input 
-        type="tel" 
-        id="telefono" 
-        formControlName="telefono" 
+      <label for="phone">Teléfono:</label>
+      <input
+        type="tel"
+        id="phone"
+        formControlName="phone"
         placeholder="Ingrese su teléfono"
         class="form-control">
-      @if (bookingForm.get('telefono')?.errors?.['required'] && bookingForm.get('telefono')?.touched) {
+      @if (bookingForm.get('phone')?.errors?.['required'] && bookingForm.get('phone')?.touched) {
         <div class="error-message">El teléfono es requerido</div>
       }
-    </div>
-
-    <div class="form-group">
-      <label for="fecha">Fecha de Visita:</label>
-      <input 
-        type="date" 
-        id="fecha" 
-        formControlName="fecha" 
-        class="form-control">
-      @if (bookingForm.get('fecha')?.errors?.['required'] && bookingForm.get('fecha')?.touched) {
-        <div class="error-message">La fecha es requerida</div>
+      @if (bookingForm.get('phone')?.errors?.['pattern'] && bookingForm.get('phone')?.touched) {
+        <div class="error-message">El teléfono debe contener solo números</div>
       }
     </div>
 
     <div class="form-group">
-      <label for="hora">Hora de Visita:</label>
-      <input 
-        type="time" 
-        id="hora" 
-        formControlName="hora" 
+      <label for="date">Fecha de Visita:</label>
+      <input
+        type="date"
+        id="date"
+        formControlName="date"
         class="form-control">
-      @if (bookingForm.get('hora')?.errors?.['required'] && bookingForm.get('hora')?.touched) {
-        <div class="error-message">La hora es requerida</div>
+      @if (bookingForm.get('date')?.errors?.['required'] && bookingForm.get('date')?.touched) {
+        <div class="error-message">La fecha es requerida</div>
       }
     </div>
 

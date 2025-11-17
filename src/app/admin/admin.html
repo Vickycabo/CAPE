@@ -1,34 +1,113 @@
-<h2>Administrar Usuarios</h2>
-@if (cargando()) { <p>Cargando...</p> }
-@if (error()) { <p class="error">{{ error() }}</p> }
+<h2>Panel de Administración</h2>
 
-@if (!cargando() && !error()) {
-<table class="usuarios-table">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Nombre</th>
-			<th>Email</th>
-			<th>Rol</th>
-			<th>Cambiar Rol</th>
-		</tr>
-	</thead>
-	<tbody>
-		@for (u of usuarios; track u.id) {
+<div class="botones-vista">
+	<button (click)="mostrarUsuarios()">Usuarios</button>
+	<button (click)="mostrarReservas()">Reservas</button>
+	<button (click)="mostrarConsultas()">Consultas</button>
+</div>
+
+@if (cargando()) {
+	<p>Cargando...</p>
+}
+
+@if (error()) {
+	<p class="error">{{ error() }}</p>
+}
+
+@if (vistaActual() === 'usuarios' && !cargando() && !error()) {
+	<h3>Usuarios</h3>
+	<table class="usuarios-table">
+		<thead>
 			<tr>
-				<td>{{u.id}}</td>
-				<td>{{u.nombre}}</td>
-				<td>{{u.email}}</td>
-				<td>{{u.rol}}</td>
-				<td>
-					<select [value]="u.rol" (change)="cambiarRol(u, $any($event.target).value)">
-						<option value="usuario">usuario</option>
-						<option value="admin">admin</option>
-						<option value="vendedor">vendedor</option>
-					</select>
-				</td>
+				<th>ID</th>
+				<th>Nombre</th>
+				<th>Email</th>
+				<th>Rol</th>
+				<th>Cambiar Rol</th>
 			</tr>
-		}
-	</tbody>
-  </table>
+		</thead>
+		<tbody>
+			@for (u of usuarios; track u.id) {
+				<tr>
+					<td>{{u.id}}</td>
+					<td>{{u.name}}</td>
+					<td>{{u.email}}</td>
+					<td>{{u.rol}}</td>
+					<td>
+						<select (change)="cambiarRol(u, $any($event.target).value)">
+							<option value="usuario" [selected]="u.rol === 'usuario'">usuario</option>
+							<option value="admin" [selected]="u.rol === 'admin'">admin</option>
+						</select>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@if (vistaActual() === 'reservas' && !cargando() && !error()) {
+	<h3>Reservas</h3>
+	<table class="usuarios-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>ID Usuario</th>
+				<th>Nombre</th>
+				<th>Email</th>
+				<th>Teléfono</th>
+				<th>ID Vehículo</th>
+				<th>Fecha</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (r of reservas; track r.id) {
+				<tr>
+					<td>{{r.id}}</td>
+					<td>{{r.userId}}</td>
+					<td>{{r.name}}</td>
+					<td>{{r.email}}</td>
+					<td>{{r.phone}}</td>
+					<td>{{r.vehicleId}}</td>
+					<td>{{r.date}}</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@if (vistaActual() === 'consultas' && !cargando() && !error()) {
+	<h3>Consultas</h3>
+	<table class="usuarios-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nombre</th>
+				<th>Email</th>
+				<th>Teléfono</th>
+				<th>ID Vehículo</th>
+				<th>Mensaje</th>
+				<th>Fecha</th>
+				<th>Estado</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (c of consultas; track c.id) {
+				<tr>
+					<td>{{c.id}}</td>
+					<td>{{c.name}}</td>
+					<td>{{c.email}}</td>
+					<td>{{c.phone}}</td>
+					<td>{{c.vehicleId}}</td>
+					<td>{{c.message}}</td>
+					<td>{{c.date}}</td>
+					<td>
+						<select (change)="cambiarEstado(c, $any($event.target).value)">
+							<option value="pendiente" [selected]="c.status === 'pendiente'">pendiente</option>
+							<option value="contactado" [selected]="c.status === 'contactado'">contactado</option>
+						</select>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }

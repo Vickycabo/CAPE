@@ -13,21 +13,9 @@ export class InquiryService {
   getInquiries() {
       return this.http.get<Inquiry[]>(this.baseUrl);
     }
-  
-    // getInquiryById(id: string | number) {
-    //   return this.http.get<Inquiry>(`${this.baseUrl}/${id}`);
-    // }
-  
-    // addInquiry(inquiry: Inquiry) {
-    //   return this.http.post<Inquiry>(this.baseUrl, inquiry);
-    // }
-  
-    // updateInquiry(inquiry: Inquiry, id: string | number) {
-    //   return this.http.put<Inquiry>(`${this.baseUrl}/${id}`, inquiry);
-    // }
-  
-    // deleteInquiry(id: string | number) {
-    //   return this.http.delete(`${this.baseUrl}/${id}`);
-    // }
+
+  updateInquiryStatus(id: string | number, estado: string) {
+    return this.http.patch<Inquiry>(`${this.baseUrl}/${id}`, { estado });
+  }
   
 }

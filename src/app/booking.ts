@@ -3,6 +3,7 @@ export interface Booking {
     name: string,
     email: string,
     phone: string,
-    vehicleId: number
-    date: Date
+    vehicleId?: string | number,
+    userId?: string | number,
+    date?: string
 }

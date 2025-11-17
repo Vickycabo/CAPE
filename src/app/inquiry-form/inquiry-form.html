@@ -1,14 +1,14 @@
 <div class="form-container">
   <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()" class="inquiry-form">
     <div class="form-group">
-      <label for="nombre">Nombre:</label>
-      <input 
-        type="text" 
-        id="nombre" 
-        formControlName="nombre" 
+      <label for="name">Nombre:</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
         placeholder="Ingrese su nombre"
         class="form-control">
-      @if (inquiryForm.get('nombre')?.errors?.['required'] && inquiryForm.get('nombre')?.touched) {
+      @if (inquiryForm.get('name')?.errors?.['required'] && inquiryForm.get('name')?.touched) {
         <div class="error-message">El nombre es requerido</div>
       }
     </div>
@@ -30,26 +30,29 @@
     </div>
 
     <div class="form-group">
-      <label for="telefono">Teléfono:</label>
-      <input 
-        type="tel" 
-        id="telefono" 
-        formControlName="telefono" 
+      <label for="phone">Teléfono:</label>
+      <input
+        type="tel"
+        id="phone"
+        formControlName="phone"
         placeholder="Ingrese su teléfono"
         class="form-control">
-      @if (inquiryForm.get('telefono')?.errors?.['required'] && inquiryForm.get('telefono')?.touched) {
+      @if (inquiryForm.get('phone')?.errors?.['required'] && inquiryForm.get('phone')?.touched) {
         <div class="error-message">El teléfono es requerido</div>
+      }
+      @if (inquiryForm.get('phone')?.errors?.['pattern'] && inquiryForm.get('phone')?.touched) {
+        <div class="error-message">El teléfono debe contener solo números</div>
       }
     </div>
 
     <div class="form-group">
-      <label for="mensaje">Mensaje:</label>
-      <textarea 
-        id="mensaje" 
-        formControlName="mensaje" 
+      <label for="message">Mensaje:</label>
+      <textarea
+        id="message"
+        formControlName="message"
         placeholder="Escriba su consulta"
         class="form-control textarea"></textarea>
-      @if (inquiryForm.get('mensaje')?.errors?.['required'] && inquiryForm.get('mensaje')?.touched) {
+      @if (inquiryForm.get('message')?.errors?.['required'] && inquiryForm.get('message')?.touched) {
         <div class="error-message">El mensaje es requerido</div>
       }
     </div>

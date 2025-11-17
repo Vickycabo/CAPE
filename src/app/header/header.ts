@@ -16,7 +16,7 @@ export class Header {
 
   protected readonly isLoggedIn = computed(() => this.auth.isLoggedIn());
   protected readonly isAdmin = computed(() => this.auth.isAdmin());
-  protected readonly currentUserName = computed(() => this.auth.getUser()?.nombre || '');
+  protected readonly currentUserName = computed(() => this.auth.getUser()?.name || '');
 
   menuOpen = signal(false);
 

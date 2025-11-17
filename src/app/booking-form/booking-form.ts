@@ -22,11 +22,10 @@ export class BookingForm {
   protected errorMessage = signal('');
 
   protected bookingForm = this.fb.group({
-    nombre: ['', Validators.required],
+    name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    telefono: ['', Validators.required],
-    fecha: ['', Validators.required],
-    hora: ['', Validators.required]
+    phone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    date: ['', Validators.required]
   });
 
   onSubmit() {
@@ -34,10 +33,8 @@ export class BookingForm {
       const user = this.auth.getUser();
       const reserva = {
         ...this.bookingForm.value,
-        vehiculoId: this.vehicleId(),
-        usuarioId: user?.id,
-        fechaCreacion: new Date(),
-        estado: 'pendiente'
+        vehicleId: this.vehicleId(),
+        userId: user?.id
       };
 
       this.http.post('http://localhost:3000/reservas', reserva).subscribe({

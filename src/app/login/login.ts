@@ -27,7 +27,7 @@ export class Login {
   });
 
   protected registerForm = this.fb.group({
-    nombre: ['', Validators.required],
+    name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(4)]]
   });
@@ -59,13 +59,13 @@ export class Login {
 
   onRegister() {
     if (this.registerForm.invalid) return;
-    const { nombre, email, password } = this.registerForm.getRawValue();
+    const { name, email, password } = this.registerForm.getRawValue();
     // Verificar email duplicado y crear
     this.auth.emailExists(email!).subscribe(exists => {
       if (exists) {
         this.errorMessage.set('Ese email ya está registrado');
       } else {
-        this.auth.createUser({ nombre: nombre!, email: email!, password: password! }).subscribe(user => {
+        this.auth.createUser({ name: name!, email: email!, password: password! }).subscribe(user => {
           // Ingresar automáticamente tras registrar
           this.auth.setCurrentUser(user);
           this.router.navigate(['/catalogo']);

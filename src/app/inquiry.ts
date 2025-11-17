@@ -3,6 +3,8 @@ export interface Inquiry { //Consultas
     name: string,
     email: string,
     phone: string,
-    message: string //Campo de consultas
-    vehicleId: number
+    message: string,
+    vehicleId?: string | number,
+    date?: string,
+    status?: string
 }
