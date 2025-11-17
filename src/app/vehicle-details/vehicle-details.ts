@@ -46,9 +46,9 @@ export class VehicleDetails {
     this.selectedImage.set(image);
   }
 
-toggleEdit(){
-  this.isEditing.set(!this.isEditing());
-}
+  toggleEdit(){
+    this.isEditing.set(!this.isEditing());
+  }
 
 handleEdit(vehicle: Vehicle) {
     this.vehicle.set(vehicle);
@@ -101,7 +101,5 @@ handleEdit(vehicle: Vehicle) {
   isLoggedIn() {
     return this.auth.isLoggedIn();
   }
+
 }
-
-
-
