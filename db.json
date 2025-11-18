@@ -21,7 +21,8 @@
       "color": "Blanco",
       "price": 2500000,
       "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv5TTswl-vGQHkal8gS_Hhj3uhue-1Os9HFw&s"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv5TTswl-vGQHkal8gS_Hhj3uhue-1Os9HFw&s",
+        "https://tn.com.ar/resizer/v2/chevrolet-tracker-rs-RARMM75EUJAWTO7DW75LQ6O3NM.jpg?auth=8ea5b29b0df4e6cdf928edccd8d1a26fa627750e1bedeb71cf5734099580c025&width=1023"
       ],
       "description": "Chevrolet confiable y eficiente."
     },
@@ -34,7 +35,8 @@
       "customColor": "",
       "price": 4500000,
       "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYogBP7dC_JSP8HG6AL5RAsiLVum7Fn7Z3HA&s"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYogBP7dC_JSP8HG6AL5RAsiLVum7Fn7Z3HA&s",
+        "https://www.hardyforddallas.com/static/dealer-14780/ford-mustang-2023-interior.jpg__900_600_.png"
       ],
       "description": "Deportivo icónico con motor V8 potente.",
       "id": "3"
@@ -48,58 +50,72 @@
       "customColor": "",
       "price": 3800000,
       "images": [
-        "https://www.deruedas.com.ar/images/autos/Volkswagen-Amarok-2023/755/755396_1_im.jpg"
+        "https://www.deruedas.com.ar/images/autos/Volkswagen-Amarok-2023/755/755396_1_im.jpg",
+        "https://www.autonocion.com/wp-content/uploads/2022/07/Volkswagen-Amarok-2023-64.jpg",
+        "https://www.megautos.com/wp-content/uploads/2022/07/Volkswagen-Amarok-2023-interior.jpg"
       ],
       "description": "Automática, 4x4, potente y espaciosa.",
       "id": "4"
     },
     {
-      "id": "5",
       "brand": "Honda",
+      "customBrand": "",
       "model": "Civic",
       "year": 2022,
       "color": "Azul",
+      "customColor": "",
       "price": 2800000,
       "images": [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-StVDk8KHTQn75T2qUF68tmc7nNn1pI7xDw&s"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-StVDk8KHTQn75T2qUF68tmc7nNn1pI7xDw&s",
+        "https://www.rutamotor.com/wp-content/uploads/2022/01/Honda-Civic-rutamotor-02-1024x694.jpg"
       ],
-      "description": "Sedán deportivo con tecnología avanzada."
+      "description": "Sedán deportivo con tecnología avanzada.",
+      "id": "5"
     },
     {
-      "id": "6",
       "brand": "Fiat",
+      "customBrand": "Fiat",
       "model": "Cronos",
       "year": 2024,
-      "color": "Negro",
+      "color": "Gris",
+      "customColor": "",
       "price": 1800000,
       "images": [
-        "https://autotest.com.ar/wp-content/uploads/2022/06/FIAT-CRONOS-PRECISION-FRENTE.jpg"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5R6SdiyXb6MWwzUljWgouvFa24ycMcd7pGw&s",
+        "https://media.a24.com/p/712ae01ad038d89e720489067b087f78/adjuntos/296/imagenes/008/760/0008760634/1200x675/smart/fiat-cronos-cambios-el-lider-del-mercado-argentino.png"
       ],
-      "description": "Sedán compacto y económico para la ciudad."
+      "description": "Fiat moderno y económico para la ciudad.",
+      "id": "6"
     },
     {
-      "id": "8",
       "brand": "Audi",
+      "customBrand": "",
       "model": "A3",
       "year": 2022,
-      "color": "Blanco Perlado",
+      "color": "Azul",
+      "customColor": "",
       "price": 4200000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/f/f0/Audi_A3_Sedan_%28IV%29_IMG_4868.jpg"
+        "https://www.elcarrocolombiano.com/wp-content/uploads/2022/04/20220428-AUDI-A3-SEDAN-2022-COLOMBIA-PRECIO-CARACTERISTICAS-01.jpg",
+        "https://cdn.autoproyecto.com/wp-content/uploads/2022/07/Audi-A3_Sedan-2021-1600-78.jpg"
       ],
-      "description": "Hatchback premium, eficiente y con buen equipamiento tecnológico."
+      "description": "Audi premium, eficiente y con buen equipamiento tecnológico.",
+      "id": "8"
     },
     {
-      "id": "9",
       "brand": "Mercedes-Benz",
+      "customBrand": "",
       "model": "C-Class",
       "year": 2021,
-      "color": "Negro",
+      "color": "Rojo",
+      "customColor": "",
       "price": 6700000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/4/4b/Mercedes-Benz_C_200_Avantgarde_%28W206%29_%E2%80%93_f_03032024.jpg"
+        "https://vehicle-images.dealerinspire.com/9f1d-11002531/thumbnails/large/W1KAF4HB8SR292792/9f1c502f95f82dcf136ad90151a61da3.jpg",
+        "https://e00-marca.uecdn.es/assets/multimedia/imagenes/2021/02/22/16139895844635.jpg"
       ],
-      "description": "Sedán ejecutivo con diseño elegante y confort para viajes largos."
+      "description": "Sedán ejecutivo con diseño elegante y confort para viajes largos.",
+      "id": "9"
     },
     {
       "brand": "Nissan",
@@ -117,40 +133,50 @@
       "id": "10"
     },
     {
-      "id": "11",
       "brand": "Renault",
+      "customBrand": "",
       "model": "Sandero",
       "year": 2023,
       "color": "Azul",
+      "customColor": "",
       "price": 1500000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/3/35/Renault_Sandero_2020_%28cropped%29.jpg"
+        "https://australrenault.com.ar/wp-content/uploads/2021/09/sandero-equip-3.jpg",
+        "https://cdn.group.renault.com/ren/ar/sandero/junio2025/09.jpg.ximg.xsmall.jpg/2a81839dbf.jpg"
       ],
-      "description": "Hatch práctico y económico, ideal para familias y ciudad."
+      "description": "Hatch práctico y económico, ideal para familias y ciudad.",
+      "id": "11"
     },
     {
-      "id": "12",
       "brand": "Subaru",
+      "customBrand": "",
       "model": "Outback",
       "year": 2022,
       "color": "Verde",
+      "customColor": "",
       "price": 5200000,
       "images": [
-        "https://upload.wikimedia.org/wikipedia/commons/0/0b/Subaru_Outback_2020_5th_gen_%28cropped%29.jpg"
+        "https://www.elcarrocolombiano.com/wp-content/uploads/2020/06/20200627-SUBARU-OUTBACK-2021-COLOMBIA-PRECIO-CARACTERISTICAS-01.jpg",
+        "https://www.rutamotor.com/wp-content/uploads/2021/03/2022-Subaru-Outback-Wilderness-12.jpg"
       ],
-      "description": "Wagon/SUV con tracción integral, buena para rutas y carga."
+      "description": "Wagon/SUV con tracción integral, buena para rutas y carga.",
+      "id": "12"
     },
     {
-      "id": "ea9c",
       "brand": "Volkswagen",
+      "customBrand": "",
       "model": "Fox",
       "year": 2015,
       "color": "Blanco",
+      "customColor": "",
       "price": 100000000,
       "images": [
-        "https://motorwebargentina.com/wp-content/uploads/2015/09/2015-09-TEST-VolkswagenFox-Highline-16v-Motorweb-Argentina-31.jpg"
+        "https://motorwebargentina.com/wp-content/uploads/2015/09/2015-09-TEST-VolkswagenFox-Highline-16v-Motorweb-Argentina-31.jpg",
+        "https://media.elpatagonico.com/p/f3161f4ac965e7b53cadde135cde4c3d/adjuntos/193/imagenes/010/833/0010833612/pepefox4jpg.jpg",
+        "https://kilometros.com.ar/wp-content/uploads/2016/02/vw-fox-track-4.jpg"
       ],
-      "description": "Flamaa"
+      "description": "El Fox está equipado con un motor naftero 1.6 MSI de 8 válvulas, 101 CV asociado a una caja manual de cinco velocidades.",
+      "id": "ea9c"
     }
   ],
   "consultas": [

@@ -21,6 +21,10 @@ export class BookingForm {
   protected successMessage = signal('');
   protected errorMessage = signal('');
 
+
+// Que tome la fecha actual fromateada para prevenir "fecha de visita" en fechas pasadas
+  protected readonly today = new Date().toISOString().split('T')[0]; 
+
   protected bookingForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],

@@ -39,14 +39,14 @@
 
 <div class="form-field">
     <label for="year">Año</label>
-    <input type="number" id="year" formControlName="year" min="1980" max="2025">
+    <input type="number" id="year" formControlName="year" min="1980" [max]="nextYear">
     @if (year.dirty){
         @if(year.hasError('required')){
             <span class="errors">El año del vehículo es requerido</span>
         }@else if(year.hasError('min')){
             <span class="errors">El vehículo mas viejo que se vende es de 1980</span>
         }@else if(year.hasError('max')){
-             <span class="errors">El vehículo mas nuevo que se vende es de este año</span>
+             <span class="errors">El vehículo mas nuevo que se vende es de {{nextYear}}</span>
         }
     }
 </div>
@@ -77,12 +77,12 @@
 
 <div class="form-field">
     <label for="price">Precio</label>
-    <input type="number" id="price" formControlName="price" min="2000000" max="250000000">
+    <input type="number" id="price" formControlName="price" min="1000000" max="250000000">
     @if (price.dirty){
         @if(price.hasError('required')){
             <span class="errors">El precio del vehículo es requerido</span>
         }@else if(price.hasError('min')){
-            <span class="errors">El minimo es 2.000.000</span>
+            <span class="errors">El minimo es 1.000.000</span>
         }@else if(price.hasError('max')){
              <span class="errors">El máximo es 250.000.000</span>
         }

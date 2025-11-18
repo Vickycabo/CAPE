@@ -61,14 +61,17 @@ export class VehicleForm {
 
   protected readonly canAdd = computed(() => this.auth.isLoggedIn() && this.auth.isAdmin());
 
+  //Para que el año del auto pueda ser haste el año siguiente del actual (preventas/modelos próximos)
+  protected readonly nextYear = new Date().getFullYear() + 1;
+
   protected readonly form = this.formBuilder.nonNullable.group({
     brand: ['', Validators.required],
     customBrand: [''],
     model: ['', Validators.required],
-    year: [2000, [Validators.required, Validators.min(2000), Validators.max(2030)]],
+    year: [2000, [Validators.required, Validators.min(2000), Validators.max(this.nextYear)]],
     color: ['', Validators.required],
     customColor: [''],
-    price: [2000000, [Validators.required, Validators.min(1)]],
+    price: [1000000, [Validators.required, Validators.min(1)]],
     images: ['', Validators.required],
     description: ['', Validators.required]
   });

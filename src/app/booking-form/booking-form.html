@@ -51,7 +51,7 @@
         type="date"
         id="date"
         formControlName="date"
-        class="form-control">
+        class="form-control" [min]="today">
       @if (bookingForm.get('date')?.errors?.['required'] && bookingForm.get('date')?.touched) {
         <div class="error-message">La fecha es requerida</div>
       }
