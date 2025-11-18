@@ -19,7 +19,7 @@ export class Admin {
   private bookingService = inject(BookingService);
   private inquiryService = inject(InquiryService);
 
-  protected usuarios: AppUser[] = [];
+  protected usuarios = signal<AppUser[]>([]); //señal para el cambio de rol
   protected reservas: Booking[] = [];
   protected consultas: Inquiry[] = [];
 
@@ -50,7 +50,7 @@ export class Admin {
     this.cargando.set(true);
     this.auth.listUsers().subscribe({
       next: users => {
-        this.usuarios = users;
+       this.usuarios.set(users);
         this.cargando.set(false);
       },
       error: () => {
@@ -92,8 +92,10 @@ export class Admin {
     if (user.rol === nuevoRol) return;
     this.auth.updateUserRole(user.id, nuevoRol).subscribe({
       next: updated => {
-        const idx = this.usuarios.findIndex(u => u.id === updated.id);
-        if (idx >= 0) this.usuarios[idx] = updated;
+
+        this.usuarios.update(currentUsers => 
+          currentUsers.map(u => u.id === updated.id ? updated : u)
+        );
 
         // Si el usuario modificado es el actual, actualizar la sesión
         const currentUser = this.auth.getUser();
