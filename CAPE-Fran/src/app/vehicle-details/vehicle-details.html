@@ -1,0 +1,74 @@
+@let vehicle = this.vehicle();
+
+<div class="details">
+  @if (vehicle){ <div class="image-gallery">
+      
+      @if (selectedImage()) {
+        <img [src]="selectedImage()" [alt]="vehicle.model" class="main-image">
+      } @else {
+        <div class="no-image">Sin imagen</div>
+      }
+
+      @if (vehicle.images && vehicle.images.length > 1) {
+        <div class="thumbnail-gallery">
+          @for (image of vehicle.images; track $index) {
+            <img 
+              [src]="image" 
+              [alt]="vehicle.model + ' miniatura ' + ($index + 1)"
+              class="thumbnail"
+              (click)="selectImage(image)"
+              [class.active]="image === selectedImage()"
+            >
+          }
+        </div>
+      } </div> <div class="info">
+      <h2>{{vehicle.brand}} {{vehicle.model}}</h2>
+      <p>Año: {{vehicle.year}}</p>
+      <p>Color: {{vehicle.color}}</p>
+      <p>Precio: ${{vehicle.price | number:'1.0-0'}}</p>
+      <p>{{vehicle.description}}</p>
+
+      <div class="actions">
+        @if (!isAdmin()) {
+          <button (click)="openInquiryForm()">Consultar</button>
+          <button
+            (click)="openBookingForm()"
+            [class.disabled]="!isLoggedIn()"
+            [title]="!isLoggedIn() ? 'Debes iniciar sesión para reservar' : 'Reservar este vehículo'">
+            Reservar
+          </button>
+        }
+        @if (isAdmin()) {
+           <button class="delete-btn" (click)="deleteVehicle()">Eliminar</button>
+          <button class="edit-btn" (click) ="toggleEdit()">Editar</button>
+          }
+      </div>
+    </div> } </div> @if (vehicle && isEditing()) {
+  <div class="edit-form-container">
+    <app-vehicle-form [isEditing]="true" [vehicle]="vehicle" (edited)="handleEdit($event)"></app-vehicle-form>
+  </div>
+}
+
+@if (showInquiryForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Consulta</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-inquiry-form [vehicleId]="id!"></app-inquiry-form>
+    </div>
+  </div>
+}
+
+@if (showBookingForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Reserva</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-booking-form [vehicleId]="id!"></app-booking-form>
+    </div>
+  </div>
+}
