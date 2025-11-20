@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, computed } from '@angular/core';
+import { Component, effect, inject, input, output, computed, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VehicleClient } from '../vehicle-client';
 import { Vehicle } from '../vehicle';
@@ -23,6 +23,10 @@ export class VehicleForm {
   readonly vehicle = input<Vehicle>();
   readonly edited = output<Vehicle>();
 
+  // Signals para manejar cambios de formulario
+  private brandValue = signal('');
+  private colorValue = signal('');
+
   constructor() {
     effect(() => {
       if (this.isEditing() && this.vehicle()) {
@@ -36,10 +40,11 @@ export class VehicleForm {
       }
     });
 
-    // Validación dinámica para marca personalizada
-    this.form.get('brand')?.valueChanges.subscribe(value => {
+    // Effect para validación dinámica de marca personalizada
+    effect(() => {
+      const brandValue = this.brandValue();
       const customBrandControl = this.form.get('customBrand');
-      if (value === 'Otra') {
+      if (brandValue === 'Otra') {
         customBrandControl?.setValidators([Validators.required]);
       } else {
         customBrandControl?.clearValidators();
@@ -47,16 +52,26 @@ export class VehicleForm {
       customBrandControl?.updateValueAndValidity();
     });
 
-    // Validación dinámica para color personalizado
-    this.form.get('color')?.valueChanges.subscribe(value => {
+    // Effect para validación dinámica de color personalizado
+    effect(() => {
+      const colorValue = this.colorValue();
       const customColorControl = this.form.get('customColor');
-      if (value === 'Otro') {
+      if (colorValue === 'Otro') {
         customColorControl?.setValidators([Validators.required]);
       } else {
         customColorControl?.clearValidators();
       }
       customColorControl?.updateValueAndValidity();
     });
+  }
+
+  // Métodos para actualizar signals cuando cambian los valores del formulario
+  onBrandChange(value: string) {
+    this.brandValue.set(value);
+  }
+
+  onColorChange(value: string) {
+    this.colorValue.set(value);
   }
 
   protected readonly canAdd = computed(() => this.auth.isLoggedIn() && this.auth.isAdmin());

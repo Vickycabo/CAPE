@@ -5,7 +5,7 @@
 
 <div class="form-field">
     <label for="brand">Marca</label>
-    <select id="brand" formControlName="brand">
+    <select id="brand" formControlName="brand" (change)="onBrandChange($any($event.target).value)">
         <option value="" selected disabled>Seleccione una marca</option>
         @for (brand of brands; track $index){
             <option [value]="brand">{{brand}}</option>
@@ -53,7 +53,7 @@
 
 <div class="form-field">
     <label for="color">Color</label>
-    <select id="color" formControlName="color">
+    <select id="color" formControlName="color" (change)="onColorChange($any($event.target).value)">
         <option value="" selected disabled>Seleccione color del vehículo</option>
         @for (color of colors; track $index){
             <option [value]="color">{{color}}</option>
