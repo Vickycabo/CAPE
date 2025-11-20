@@ -20,13 +20,13 @@ export class ConsultasList {
   protected vehiculos = signal<Vehicle[]>([]);
   protected cargando = signal(true);
   protected error = signal('');
-  protected cambiosPendientes = new Map<string | number, string>();
+  protected cambiosPendientes = signal(new Map<string | number, string>());
   protected guardando = signal(false);
   
   // Computed signals
   protected consultasComputed = computed(() => this.consultas());
   protected vehiculosComputed = computed(() => this.vehiculos());
-  protected hayCambiosPendientes = computed(() => this.cambiosPendientes.size > 0);
+  protected hayCambiosPendientes = computed(() => this.cambiosPendientes().size > 0);
 
   ngOnInit() {
     this.cargarDatos();
@@ -69,20 +69,26 @@ export class ConsultasList {
   cambiarEstado(consulta: Inquiry, nuevoEstado: string) {
     if (!consulta.id) return;
     
-    if (nuevoEstado === consulta.status) {
-      // Si vuelve al estado original, eliminar de cambios pendientes
-      this.cambiosPendientes.delete(consulta.id);
-    } else {
-      // Guardar el cambio pendiente
-      this.cambiosPendientes.set(consulta.id, nuevoEstado);
-    }
+    this.cambiosPendientes.update(cambios => {
+      const nuevosCambios = new Map(cambios);
+      
+      if (nuevoEstado === consulta.status) {
+        // Si vuelve al estado original, eliminar de cambios pendientes
+        nuevosCambios.delete(consulta.id!);
+      } else {
+        // Guardar el cambio pendiente
+        nuevosCambios.set(consulta.id!, nuevoEstado);
+      }
+      
+      return nuevosCambios;
+    });
   }
 
   async guardarCambios() {
-    if (this.cambiosPendientes.size === 0) return;
+    if (this.cambiosPendientes().size === 0) return;
     
     this.guardando.set(true);
-    const cambiosArray = Array.from(this.cambiosPendientes.entries());
+    const cambiosArray = Array.from(this.cambiosPendientes().entries());
     
     try {
       // Procesar todos los cambios en paralelo
@@ -99,10 +105,10 @@ export class ConsultasList {
       await this.cargarDatos();
       
       if (errores === 0) {
-        this.cambiosPendientes.clear();
+        this.cambiosPendientes.set(new Map());
         alert(`${exitosos} cambio(s) guardado(s) exitosamente`);
       } else if (exitosos > 0) {
-        this.cambiosPendientes.clear();
+        this.cambiosPendientes.set(new Map());
         alert(`${exitosos} cambio(s) guardado(s), ${errores} error(es)`);
       } else {
         alert('Error al guardar los cambios');
@@ -116,16 +122,16 @@ export class ConsultasList {
 
   tieneChangesPendientes(consultaId: string | number | undefined): boolean {
     if (!consultaId) return false;
-    return this.cambiosPendientes.has(consultaId);
+    return this.cambiosPendientes().has(consultaId);
   }
 
   getEstadoActual(consulta: Inquiry): string {
     if (!consulta.id) return consulta.status || 'pendiente';
-    return this.cambiosPendientes.get(consulta.id) || consulta.status || 'pendiente';
+    return this.cambiosPendientes().get(consulta.id) || consulta.status || 'pendiente';
   }
 
   cancelarCambios() {
-    this.cambiosPendientes.clear();
+    this.cambiosPendientes.set(new Map());
   }
 
   async eliminarConsulta(consulta: Inquiry) {
@@ -136,7 +142,11 @@ export class ConsultasList {
         await this.inquiryService.deleteInquiry(consulta.id);
         this.consultas.update(consultas => consultas.filter(c => c.id !== consulta.id));
         // Remover cambios pendientes si los había
-        this.cambiosPendientes.delete(consulta.id);
+        this.cambiosPendientes.update(cambios => {
+          const nuevosCambios = new Map(cambios);
+          nuevosCambios.delete(consulta.id!);
+          return nuevosCambios;
+        });
       } catch (err) {
         alert('Error al eliminar la consulta');
       }
