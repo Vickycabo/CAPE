@@ -177,6 +177,20 @@
       ],
       "description": "El Fox está equipado con un motor naftero 1.6 MSI de 8 válvulas, 101 CV asociado a una caja manual de cinco velocidades.",
       "id": "ea9c"
+    },
+    {
+      "id": "71cb",
+      "brand": "Ford",
+      "customBrand": "",
+      "model": "Focus",
+      "year": 1998,
+      "color": "Gris",
+      "customColor": "",
+      "price": 6000000,
+      "images": [
+        "https://www.carsinvasion.com/gallery/1998-ford-focus/1998-ford-focus-02.jpg"
+      ],
+      "description": "coupe"
     }
   ],
   "consultas": [
@@ -198,6 +212,16 @@
       "vehicleId": "3",
       "date": "2025-11-17",
       "status": "pendiente"
+    },
+    {
+      "id": "8681",
+      "name": "Carlos",
+      "email": "carlos@mail.com",
+      "phone": "02235402873",
+      "message": "me interesa fecha para probar el vehiculo",
+      "vehicleId": "4",
+      "date": "2025-11-19",
+      "status": "pendiente"
     }
   ],
   "reservas": [
@@ -218,6 +242,15 @@
       "date": "2025-11-19",
       "vehicleId": "1",
       "userId": "2"
+    },
+    {
+      "id": "8101",
+      "name": "Juan",
+      "email": "juan@mail.com",
+      "phone": "02235402873",
+      "date": "2025-11-19",
+      "vehicleId": "11",
+      "userId": "348a"
     }
   ],
   "usuarios": [
@@ -241,6 +274,20 @@
       "email": "vendedor@concesionaria.com",
       "password": "vend123",
       "rol": "admin"
+    },
+    {
+      "id": "348a",
+      "name": "Juan",
+      "email": "juan@mail.com",
+      "password": "12568",
+      "rol": "usuario"
+    },
+    {
+      "id": "a7a3",
+      "name": "Maria",
+      "email": "mery@mail.com",
+      "password": "7415",
+      "rol": "usuario"
     }
   ]
 }

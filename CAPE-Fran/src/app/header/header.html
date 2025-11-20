@@ -7,6 +7,8 @@
     <a routerLink="/catalogo" class="nav-button" (click)="closeMenu()">Vehículos</a>
     @if (isAdmin()) {
       <a routerLink="/admin" class="nav-button" (click)="closeMenu()">Usuarios</a>
+      <a routerLink="/reservas" class="nav-button" (click)="closeMenu()">Reservas</a>
+      <a routerLink="/consultas" class="nav-button" (click)="closeMenu()">Consultas</a>
     }
     @if (isLoggedIn()) {
       @if (isAdmin()) {

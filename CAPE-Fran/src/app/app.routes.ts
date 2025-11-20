@@ -7,6 +7,8 @@ import { VehicleForm } from './vehicle-form/vehicle-form';
 import { Login } from './login/login';
 import { AuthService } from './auth-service';
 import { Admin } from './admin/admin';
+import { InquiryForm } from './inquiry-form/inquiry-form';
+import { BookingForm } from './booking-form/booking-form';
 
 export const routes: Routes = [{
         path: '', redirectTo: 'catalogo', pathMatch: 'full'
@@ -35,6 +37,24 @@ export const routes: Routes = [{
     {
         path: 'admin', component: Admin,
         title: 'Administración de Usuarios',
+        canActivate: [() => {
+            const auth = inject(AuthService);
+            const router = inject(Router);
+            return auth.isAdmin() || router.createUrlTree(['/login']);
+        }]
+    },
+    {
+        path: 'reservas', component: BookingForm,
+        title: 'Gestión de Reservas',
+        canActivate: [() => {
+            const auth = inject(AuthService);
+            const router = inject(Router);
+            return auth.isAdmin() || router.createUrlTree(['/login']);
+        }]
+    },
+    {
+        path: 'consultas', component: InquiryForm,
+        title: 'Gestión de Consultas',
         canActivate: [() => {
             const auth = inject(AuthService);
             const router = inject(Router);

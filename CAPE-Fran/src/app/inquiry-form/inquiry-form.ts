@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class InquiryForm {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
+  private router = inject(Router);
   protected successMessage = signal('');
   protected errorMessage = signal('');
 
@@ -39,6 +40,7 @@ export class InquiryForm {
         next: () => {
           this.successMessage.set('Consulta enviada exitosamente');
           this.inquiryForm.reset();
+          this.router.navigate(['/catalogo'])
         },
         error: () => {
           this.errorMessage.set('Error al enviar la consulta');

@@ -66,9 +66,9 @@ export class Login {
         this.errorMessage.set('Ese email ya está registrado');
       } else {
         this.auth.createUser({ name: name!, email: email!, password: password! }).subscribe(user => {
-          // Ingresar automáticamente tras registrar
-          this.auth.setCurrentUser(user);
-          this.router.navigate(['/catalogo']);
+        this.loginForm.reset();
+        this.showRegister.set(false);   // vuelve a modo login
+        this.router.navigate(['/login']);
         });
       }
     });

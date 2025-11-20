@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-form',
@@ -15,6 +16,7 @@ export class BookingForm {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private auth = inject(AuthService);
+  private router = inject(Router);
 
   vehicleId = input.required<string | number>();
 
@@ -45,6 +47,7 @@ export class BookingForm {
         next: () => {
           this.successMessage.set('Reserva realizada exitosamente');
           this.bookingForm.reset();
+          this.router.navigate(['/catalogo']);
         },
         error: () => {
           this.errorMessage.set('Error al realizar la reserva');
