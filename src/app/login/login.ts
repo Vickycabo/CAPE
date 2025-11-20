@@ -36,42 +36,44 @@ export class Login {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       
-      // Buscar el usuario en la base de datos
-      this.http.get<any[]>('http://localhost:3000/usuarios', {
-        params: { email: email || '' }
-      }).subscribe({
-        next: (users) => {
-          const user = users.find(u => u.email === email && u.password === password);
-          if (user) {
-            // Login exitoso
-            this.auth.setCurrentUser(user);
-            this.router.navigate(['/catalogo']);
-          } else {
-            this.errorMessage.set('Usuario o contraseña incorrectos');
-          }
-        },
-        error: () => {
-          this.errorMessage.set('Error al intentar iniciar sesión');
+      try {
+        // Buscar el usuario en la base de datos
+        const users = await this.http.get<any[]>('http://localhost:3000/usuarios', {
+          params: { email: email || '' }
+        }).toPromise();
+        
+        const user = users?.find(u => u.email === email && u.password === password);
+        if (user) {
+          // Login exitoso
+          this.auth.setCurrentUser(user);
+          this.router.navigate(['/catalogo']);
+        } else {
+          this.errorMessage.set('Usuario o contraseña incorrectos');
         }
-      });
+      } catch (error) {
+        this.errorMessage.set('Error al intentar iniciar sesión');
+      }
     }
   }
 
-  onRegister() {
+  async onRegister() {
     if (this.registerForm.invalid) return;
     const { name, email, password } = this.registerForm.getRawValue();
-    // Verificar email duplicado y crear
-    this.auth.emailExists(email!).subscribe(exists => {
+    
+    try {
+      // Verificar email duplicado
+      const exists = await this.auth.emailExists(email!);
       if (exists) {
         this.errorMessage.set('Ese email ya está registrado');
       } else {
-        this.auth.createUser({ name: name!, email: email!, password: password! }).subscribe(user => {
+        const user = await this.auth.createUser({ name: name!, email: email!, password: password! });
         this.loginForm.reset();
         this.showRegister.set(false);   // vuelve a modo login
         this.router.navigate(['/login']);
-        });
       }
-    });
+    } catch (error) {
+      this.errorMessage.set('Error al registrar usuario');
+    }
   }
 
   toggleRegister() {

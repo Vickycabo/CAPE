@@ -86,7 +86,7 @@ export class VehicleForm {
   get images() { return this.form.controls.images; }
   get description() { return this.form.controls.description; }
 
-  handleSubmit() {
+  async handleSubmit() {
     if (this.form.invalid) {
       alert("Formulario invalido");
       return;
@@ -105,19 +105,23 @@ export class VehicleForm {
         images: formValue.images.split(',').map(img => img.trim())
       };
 
-      if (!this.isEditing()) {
-        this.client.addVehicle(vehicle).subscribe(() => {
+      try {
+        if (!this.isEditing()) {
+          await this.client.addVehicle(vehicle);
           alert('Vehículo agregado');
           this.form.reset();
-        });
-      } else if (this.vehicle()) {
-        this.client.updateVehicle(vehicle, this.vehicle()?.id!).subscribe((v) => {
-        alert('Vehículo editado');
-        this.edited.emit(v);
-      });
+        } else if (this.vehicle()) {
+          const updatedVehicle = await this.client.updateVehicle(vehicle, this.vehicle()?.id!);
+          if (updatedVehicle) {
+            alert('Vehículo editado');
+            this.edited.emit(updatedVehicle);
+          }
+        }
+      } catch (error) {
+        alert('Error al procesar el vehículo');
+      }
     }
   }
-}
 
   }
 

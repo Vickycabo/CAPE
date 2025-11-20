@@ -34,7 +34,7 @@ export class BookingForm {
     date: ['', Validators.required]
   });
 
-  onSubmit() {
+  async onSubmit() {
     if (this.bookingForm.valid) {
       const user = this.auth.getUser();
       const reserva = {
@@ -43,16 +43,16 @@ export class BookingForm {
         userId: user?.id
       };
 
-      this.http.post('http://localhost:3000/reservas', reserva).subscribe({
-        next: () => {
-          this.successMessage.set('Reserva realizada exitosamente');
-          this.bookingForm.reset();
-          this.router.navigate(['/catalogo']);
-        },
-        error: () => {
-          this.errorMessage.set('Error al realizar la reserva');
-        }
-      });
+      try {
+        await this.http.post('http://localhost:3000/reservas', reserva).toPromise();
+        this.successMessage.set('Reserva realizada exitosamente');
+        this.errorMessage.set('');
+        this.bookingForm.reset();
+        this.router.navigate(['/catalogo']);
+      } catch (error) {
+        this.errorMessage.set('Error al realizar la reserva');
+        this.successMessage.set('');
+      }
     }
   }
 }

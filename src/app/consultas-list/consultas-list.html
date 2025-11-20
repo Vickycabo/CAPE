@@ -15,9 +15,9 @@
 
   @if (!cargando() && !error()) {
     <div class="consultas-header">
-      <p>Total de consultas: <strong>{{ consultas.length }}</strong></p>
+      <p>Total de consultas: <strong>{{ consultas().length }}</strong></p>
       
-      @if (cambiosPendientes.size > 0) {
+      @if (hayCambiosPendientes()) {
         <div class="cambios-pendientes">
           <div class="cambios-info">
             <span class="cambios-count">{{ cambiosPendientes.size }} cambio(s) pendiente(s)</span>
@@ -42,13 +42,13 @@
       }
     </div>
 
-    @if (consultas.length === 0) {
+    @if (consultas().length === 0) {
       <div class="no-data">
         <p>No hay consultas registradas aún.</p>
       </div>
     } @else {
       <div class="consultas-grid">
-        @for (consulta of consultas; track consulta.id) {
+        @for (consulta of consultas(); track consulta.id) {
           <div class="consulta-card" [class]="getStatusClass(consulta.status)" 
                [class.cambio-pendiente]="tieneChangesPendientes(consulta.id)">
             <div class="consulta-header">

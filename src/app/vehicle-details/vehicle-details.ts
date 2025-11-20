@@ -1,7 +1,6 @@
-import { Component, effect, inject, linkedSignal, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { VehicleClient } from '../vehicle-client';
 import { ActivatedRoute, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Vehicle } from '../vehicle';
 import { InquiryForm } from '../inquiry-form/inquiry-form';
 import { BookingForm } from '../booking-form/booking-form';
@@ -25,8 +24,7 @@ export class VehicleDetails {
   private readonly auth = inject(AuthService);
   protected readonly id = this.route.snapshot.paramMap.get('id');
 
-  protected readonly vehicleSource = toSignal(this.client.getVehicleById(this.id!));
-  protected readonly vehicle = linkedSignal(() => this.vehicleSource());
+  protected readonly vehicle = signal<Vehicle | null>(null);
   protected readonly isEditing = signal(false);
   protected readonly showInquiryForm = signal(false);
   protected readonly showBookingForm = signal(false);
@@ -35,12 +33,26 @@ export class VehicleDetails {
   protected readonly selectedImage = signal<string | undefined>(undefined);
 
   constructor() {
+    this.loadVehicle();
+    
     effect(() => {
       const currentVehicle = this.vehicle();
       if (currentVehicle && currentVehicle.images && currentVehicle.images.length > 0) {
         this.selectedImage.set(currentVehicle.images[0]);
       }
     });
+  }
+
+  private async loadVehicle() {
+    if (this.id) {
+      try {
+        const vehicle = await this.client.getVehicleById(this.id);
+        this.vehicle.set(vehicle);
+      } catch (error) {
+        console.error('Error cargando vehículo:', error);
+        this.vehicle.set(null);
+      }
+    }
   }
 
   protected selectImage(image: string) {
@@ -56,13 +68,16 @@ handleEdit(vehicle: Vehicle) {
     this.toggleEdit();
   }
 
-  deleteVehicle() {
+  async deleteVehicle() {
     if (!this.isAdmin()) return;
     if (confirm('Desea borrar este vehículo?')) {
-      this.client.deleteVehicle(this.id!).subscribe(() => {
+      try {
+        await this.client.deleteVehicle(this.id!);
         alert('Vehículo borrado');
         this.router.navigateByUrl('/catalogo');
-      });
+      } catch (error) {
+        alert('Error al borrar el vehículo');
+      }
     }
   }
 

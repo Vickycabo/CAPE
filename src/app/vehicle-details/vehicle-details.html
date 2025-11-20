@@ -1,23 +1,23 @@
-@let vehicle = this.vehicle();
+@let vehicleData = this.vehicle();
 
 <div class="vehicle-details-container">
-  @if (vehicle) {
+  @if (vehicleData) {
     <div class="vehicle-card">
       <!-- Sección de imágenes -->
       <div class="image-section">
         <div class="image-gallery">
           @if (selectedImage()) {
-            <img [src]="selectedImage()" [alt]="vehicle.model" class="main-image">
+            <img [src]="selectedImage()" [alt]="vehicleData.model" class="main-image">
           } @else {
             <div class="no-image">Sin imagen disponible</div>
           }
 
-          @if (vehicle.images && vehicle.images.length > 1) {
+          @if (vehicleData.images && vehicleData.images.length > 1) {
             <div class="thumbnail-gallery">
-              @for (image of vehicle.images; track $index) {
+              @for (image of vehicleData.images; track $index) {
                 <img 
                   [src]="image" 
-                  [alt]="vehicle.model + ' miniatura ' + ($index + 1)"
+                  [alt]="vehicleData.model + ' miniatura ' + ($index + 1)"
                   class="thumbnail"
                   (click)="selectImage(image)"
                   [class.active]="image === selectedImage()"
@@ -32,28 +32,28 @@
       <div class="info-section">
         <div class="vehicle-info-card">
           <div class="vehicle-header">
-            <h1 class="vehicle-title">{{vehicle.brand}} {{vehicle.model}}</h1>
+            <h1 class="vehicle-title">{{vehicleData.brand}} {{vehicleData.model}}</h1>
             <div class="price-tag">
-              ${{vehicle.price | number:'1.0-0'}}
+              ${{vehicleData.price | number:'1.0-0'}}
             </div>
           </div>
 
           <div class="vehicle-details-grid">
             <div class="detail-item">
               <span class="detail-label">📅 Año:</span>
-              <span class="detail-value">{{vehicle.year}}</span>
+              <span class="detail-value">{{vehicleData.year}}</span>
             </div>
             
             <div class="detail-item">
               <span class="detail-label">🎨 Color:</span>
-              <span class="detail-value">{{vehicle.color}}</span>
+              <span class="detail-value">{{vehicleData.color}}</span>
             </div>
           </div>
 
-          @if (vehicle.description) {
+          @if (vehicleData.description) {
             <div class="description-section">
               <h3 class="description-title">Descripción</h3>
-              <p class="description-text">{{vehicle.description}}</p>
+              <p class="description-text">{{vehicleData.description}}</p>
             </div>
           }
 
@@ -83,9 +83,9 @@
       </div>
     </div>
   }
-</div> @if (vehicle && isEditing()) {
+</div> @if (vehicleData && isEditing()) {
   <div class="edit-form-container">
-    <app-vehicle-form [isEditing]="true" [vehicle]="vehicle" (edited)="handleEdit($event)"></app-vehicle-form>
+    <app-vehicle-form [isEditing]="true" [vehicle]="vehicleData" (edited)="handleEdit($event)"></app-vehicle-form>
   </div>
 }
 

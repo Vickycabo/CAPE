@@ -27,7 +27,7 @@ export class InquiryForm {
     message: ['', Validators.required]
   });
 
-  onSubmit() {
+  async onSubmit() {
     if (this.inquiryForm.valid) {
       const consulta = {
         ...this.inquiryForm.value,
@@ -36,16 +36,16 @@ export class InquiryForm {
         status: 'pendiente'
       };
 
-      this.http.post('http://localhost:3000/consultas', consulta).subscribe({
-        next: () => {
-          this.successMessage.set('Consulta enviada exitosamente');
-          this.inquiryForm.reset();
-          this.router.navigate(['/catalogo'])
-        },
-        error: () => {
-          this.errorMessage.set('Error al enviar la consulta');
-        }
-      });
+      try {
+        await this.http.post('http://localhost:3000/consultas', consulta).toPromise();
+        this.successMessage.set('Consulta enviada exitosamente');
+        this.errorMessage.set('');
+        this.inquiryForm.reset();
+        this.router.navigate(['/catalogo']);
+      } catch (error) {
+        this.errorMessage.set('Error al enviar la consulta');
+        this.successMessage.set('');
+      }
     }
   }
 }

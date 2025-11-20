@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InquiryService } from '../inquiry-service';
 import { VehicleClient } from '../vehicle-client';
@@ -16,37 +16,45 @@ export class ConsultasList {
   private inquiryService = inject(InquiryService);
   private vehicleClient = inject(VehicleClient);
 
-  protected consultas: Inquiry[] = [];
-  protected vehiculos: Vehicle[] = [];
+  protected consultas = signal<Inquiry[]>([]);
+  protected vehiculos = signal<Vehicle[]>([]);
   protected cargando = signal(true);
   protected error = signal('');
   protected cambiosPendientes = new Map<string | number, string>();
   protected guardando = signal(false);
+  
+  // Computed signals
+  protected consultasComputed = computed(() => this.consultas());
+  protected vehiculosComputed = computed(() => this.vehiculos());
+  protected hayCambiosPendientes = computed(() => this.cambiosPendientes.size > 0);
 
   ngOnInit() {
     this.cargarDatos();
   }
 
-  cargarDatos() {
+  async cargarDatos() {
     this.cargando.set(true);
+    this.error.set('');
     
-    // Cargar vehículos y consultas en paralelo
-    Promise.all([
-      this.vehicleClient.getVehicles().toPromise(),
-      this.inquiryService.getInquiries().toPromise()
-    ]).then(([vehiculos, consultas]) => {
-      this.vehiculos = vehiculos || [];
-      this.consultas = consultas || [];
-      this.cargando.set(false);
-    }).catch(() => {
+    try {
+      // Cargar vehículos y consultas en paralelo usando signals
+      const [vehiculos, consultas] = await Promise.all([
+        this.vehicleClient.getVehicles(),
+        this.inquiryService.getInquiries()
+      ]);
+      
+      this.vehiculos.set(vehiculos);
+      this.consultas.set(consultas);
+    } catch (err) {
       this.error.set('Error cargando los datos');
+    } finally {
       this.cargando.set(false);
-    });
+    }
   }
 
   getVehicleInfo(vehicleId: string | number | undefined): string {
     if (!vehicleId) return 'Consulta general';
-    const vehicle = this.vehiculos.find(v => v.id == vehicleId);
+    const vehicle = this.vehiculos().find(v => v.id == vehicleId);
     return vehicle ? `${vehicle.brand} ${vehicle.model} (${vehicle.year})` : `Vehículo ID: ${vehicleId}`;
   }
 
@@ -70,46 +78,39 @@ export class ConsultasList {
     }
   }
 
-  guardarCambios() {
+  async guardarCambios() {
     if (this.cambiosPendientes.size === 0) return;
     
     this.guardando.set(true);
     const cambiosArray = Array.from(this.cambiosPendientes.entries());
-    let cambiosCompletados = 0;
-    let errores = 0;
     
-    cambiosArray.forEach(([consultaId, nuevoEstado]) => {
-      this.inquiryService.updateInquiryStatus(consultaId, nuevoEstado).subscribe({
-        next: (updated) => {
-          const index = this.consultas.findIndex(c => c.id === updated.id);
-          if (index >= 0) {
-            this.consultas[index] = updated;
-          }
-          cambiosCompletados++;
-          this.verificarCompletado(cambiosArray.length, cambiosCompletados, errores);
-        },
-        error: () => {
-          errores++;
-          this.verificarCompletado(cambiosArray.length, cambiosCompletados, errores);
-        }
-      });
-    });
-  }
-
-  private verificarCompletado(total: number, completados: number, errores: number) {
-    if (completados + errores === total) {
-      this.guardando.set(false);
+    try {
+      // Procesar todos los cambios en paralelo
+      const resultados = await Promise.allSettled(
+        cambiosArray.map(([consultaId, nuevoEstado]) => 
+          this.inquiryService.updateInquiryStatus(consultaId, nuevoEstado)
+        )
+      );
+      
+      const exitosos = resultados.filter(r => r.status === 'fulfilled').length;
+      const errores = resultados.filter(r => r.status === 'rejected').length;
+      
+      // Actualizar las consultas localmente
+      await this.cargarDatos();
       
       if (errores === 0) {
         this.cambiosPendientes.clear();
-        alert(`${completados} cambio(s) guardado(s) exitosamente`);
-      } else if (completados > 0) {
-        // Limpiar solo los cambios exitosos
+        alert(`${exitosos} cambio(s) guardado(s) exitosamente`);
+      } else if (exitosos > 0) {
         this.cambiosPendientes.clear();
-        alert(`${completados} cambio(s) guardado(s), ${errores} error(es)`);
+        alert(`${exitosos} cambio(s) guardado(s), ${errores} error(es)`);
       } else {
         alert('Error al guardar los cambios');
       }
+    } catch (err) {
+      this.error.set('Error guardando cambios');
+    } finally {
+      this.guardando.set(false);
     }
   }
 
@@ -127,18 +128,18 @@ export class ConsultasList {
     this.cambiosPendientes.clear();
   }
 
-  eliminarConsulta(consulta: Inquiry) {
+  async eliminarConsulta(consulta: Inquiry) {
     if (!consulta.id) return;
     
     if (confirm(`¿Está seguro de que desea eliminar la consulta de ${consulta.name}?`)) {
-      this.inquiryService.deleteInquiry(consulta.id).subscribe({
-        next: () => {
-          this.consultas = this.consultas.filter(c => c.id !== consulta.id);
-        },
-        error: () => {
-          alert('Error al eliminar la consulta');
-        }
-      });
+      try {
+        await this.inquiryService.deleteInquiry(consulta.id);
+        this.consultas.update(consultas => consultas.filter(c => c.id !== consulta.id));
+        // Remover cambios pendientes si los había
+        this.cambiosPendientes.delete(consulta.id);
+      } catch (err) {
+        alert('Error al eliminar la consulta');
+      }
     }
   }
 }
