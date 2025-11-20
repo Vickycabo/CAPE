@@ -283,4 +283,3 @@ this.router.navigate(['/vehicle-details', vehicleId]);
 
 **Fecha de creación:** 20 de Noviembre, 2025
 **Versión del sistema:** 1.0.0
-**Desarrollado por:** Sistema de IA GitHub Copilot

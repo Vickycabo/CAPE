@@ -26,18 +26,16 @@ export class Admin {
 
 
 
-  cargarUsuarios() {
+  async cargarUsuarios() {
     this.cargando.set(true);
-    this.auth.listUsers().subscribe({
-      next: users => {
-       this.usuarios.set(users);
-        this.cargando.set(false);
-      },
-      error: () => {
-        this.error.set('Error cargando usuarios');
-        this.cargando.set(false);
-      }
-    });
+    try {
+      const users = await this.auth.listUsers();
+      this.usuarios.set(users);
+    } catch (err) {
+      this.error.set('Error cargando usuarios');
+    } finally {
+      this.cargando.set(false);
+    }
   }
 
 
@@ -71,33 +69,31 @@ export class Admin {
     this.cambiarRol(usuario, nuevoRol);
   }
 
-  guardarCambios() {
+  async guardarCambios() {
     if (this.cambiosPendientes.size === 0) return;
 
     const cambios = Array.from(this.cambiosPendientes.entries());
-    let cambiosCompletados = 0;
-
-    cambios.forEach(([userId, nuevoRol]) => {
-      this.auth.updateUserRole(userId, nuevoRol).subscribe({
-        next: () => {
-          cambiosCompletados++;
-          if (cambiosCompletados === cambios.length) {
-            // Todos los cambios completados
-            this.cambiosPendientes.clear();
-            this.hayCambios.set(false);
-            this.cargarUsuarios();
-          }
-        },
-        error: () => {
-          this.error.set('Error guardando algunos cambios');
-        }
-      });
-    });
+    
+    try {
+      // Procesar todos los cambios en paralelo
+      await Promise.all(
+        cambios.map(([userId, nuevoRol]) => 
+          this.auth.updateUserRole(userId, nuevoRol)
+        )
+      );
+      
+      // Todos los cambios completados
+      this.cambiosPendientes.clear();
+      this.hayCambios.set(false);
+      await this.cargarUsuarios();
+    } catch (err) {
+      this.error.set('Error guardando algunos cambios');
+    }
   }
 
 
 
-  eliminarUsuario(usuario: AppUser) {
+  async eliminarUsuario(usuario: AppUser) {
     if (!usuario.id) return;
     
     // Verificar que no sea el usuario actual
@@ -108,18 +104,16 @@ export class Admin {
     }
 
     if (confirm(`¿Estás seguro de que quieres eliminar al usuario ${usuario.name}?`)) {
-      this.auth.deleteUser(usuario.id).subscribe({
-        next: () => {
-          // Remover cambios pendientes si los había
-          this.cambiosPendientes.delete(usuario.id);
-          this.hayCambios.set(this.cambiosPendientes.size > 0);
-          // Actualizar la lista de usuarios
-          this.cargarUsuarios();
-        },
-        error: () => {
-          this.error.set('Error eliminando usuario');
-        }
-      });
+      try {
+        await this.auth.deleteUser(usuario.id);
+        // Remover cambios pendientes si los había
+        this.cambiosPendientes.delete(usuario.id);
+        this.hayCambios.set(this.cambiosPendientes.size > 0);
+        // Actualizar la lista de usuarios
+        await this.cargarUsuarios();
+      } catch (err) {
+        this.error.set('Error eliminando usuario');
+      }
     }
   }
 

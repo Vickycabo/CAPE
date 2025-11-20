@@ -1,5 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 export interface AppUser {
@@ -26,13 +25,15 @@ export class AuthService {
     }
   }
 
-  // Compatibilidad: método login booleano (no usado por el flujo actual)
-  login(email: string, password: string): Observable<boolean> {
-    return new Observable(observer => {
-      observer.next(false);
-      observer.complete();
-    });
-  }
+  // Signals para manejo de estado
+  private readonly users = signal<AppUser[]>([]);
+  private readonly loading = signal(false);
+  private readonly error = signal<string | null>(null);
+  
+  // Computed signals
+  readonly usersComputed = computed(() => this.users());
+  readonly isLoadingComputed = computed(() => this.loading());
+  readonly errorComputed = computed(() => this.error());
 
   setCurrentUser(user: AppUser) {
     this.currentUser.set(user);
@@ -56,25 +57,72 @@ export class AuthService {
     return this.currentUser();
   }
 
-  // Users API
-  listUsers() {
-    return this.http.get<AppUser[]>(this.usersUrl);
+  // Users API con Signals
+  async listUsers() {
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const users = await this.http.get<AppUser[]>(this.usersUrl).toPromise();
+      this.users.set(users || []);
+      return this.users();
+    } catch (err) {
+      this.error.set('Error cargando usuarios');
+      return [];
+    } finally {
+      this.loading.set(false);
+    }
   }
 
-  createUser(user: Omit<AppUser, 'id'|'rol'> & { rol?: AppUser['rol'] }) {
+  async createUser(user: Omit<AppUser, 'id'|'rol'> & { rol?: AppUser['rol'] }) {
     const payload = { ...user, rol: user.rol ?? 'usuario' } as Omit<AppUser,'id'>;
-    return this.http.post<AppUser>(this.usersUrl, payload);
+    try {
+      const newUser = await this.http.post<AppUser>(this.usersUrl, payload).toPromise();
+      if (newUser) {
+        this.users.update(users => [...users, newUser]);
+      }
+      return newUser;
+    } catch (err) {
+      this.error.set('Error creando usuario');
+      throw err;
+    }
   }
 
-  emailExists(email: string) {
-    return this.http.get<AppUser[]>(this.usersUrl, { params: { email } }).pipe(map(arr => arr.length > 0));
+  async emailExists(email: string): Promise<boolean> {
+    try {
+      const users = await this.http.get<AppUser[]>(this.usersUrl, { params: { email } }).toPromise();
+      return (users?.length || 0) > 0;
+    } catch (err) {
+      this.error.set('Error verificando email');
+      return false;
+    }
   }
 
-  updateUserRole(id: number, rol: AppUser['rol']) {
-    return this.http.patch<AppUser>(`${this.usersUrl}/${id}`, { rol });
+  async updateUserRole(id: number, rol: AppUser['rol']): Promise<AppUser | null> {
+    try {
+      const updatedUser = await this.http.patch<AppUser>(`${this.usersUrl}/${id}`, { rol }).toPromise();
+      if (updatedUser) {
+        this.users.update(users => 
+          users.map(u => u.id === updatedUser.id ? updatedUser : u)
+        );
+        // Si es el usuario actual, actualizar también
+        if (this.currentUser()?.id === updatedUser.id) {
+          this.setCurrentUser(updatedUser);
+        }
+      }
+      return updatedUser || null;
+    } catch (err) {
+      this.error.set('Error actualizando rol');
+      throw err;
+    }
   }
 
-  deleteUser(id: number) {
-    return this.http.delete(`${this.usersUrl}/${id}`);
+  async deleteUser(id: number): Promise<void> {
+    try {
+      await this.http.delete(`${this.usersUrl}/${id}`).toPromise();
+      this.users.update(users => users.filter(u => u.id !== id));
+    } catch (err) {
+      this.error.set('Error eliminando usuario');
+      throw err;
+    }
   }
 }

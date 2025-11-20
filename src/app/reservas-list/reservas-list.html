@@ -15,16 +15,16 @@
 
   @if (!cargando() && !error()) {
     <div class="reservas-header">
-      <p>Total de reservas: <strong>{{ reservas.length }}</strong></p>
+      <p>Total de reservas: <strong>{{ reservasComputed().length }}</strong></p>
     </div>
 
-    @if (reservas.length === 0) {
+    @if (reservasComputed().length === 0) {
       <div class="no-data">
         <p>No hay reservas registradas aún.</p>
       </div>
     } @else {
       <div class="reservas-grid">
-        @for (reserva of reservas; track reserva.id) {
+        @for (reserva of reservasComputed(); track reserva.id) {
           <div class="reserva-card">
             <div class="reserva-header">
               <h3>{{ reserva.name }}</h3>
