@@ -1,9 +1,11 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../auth-service';
+import { AuthService, AppUser } from '../auth-service';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { BookingFormData, Booking } from '../types';
 
 @Component({
   selector: 'app-booking-form',
@@ -12,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './booking-form.html',
   styleUrl: './booking-form.css'
 })
-export class BookingForm {
+export class BookingForm implements OnInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private auth = inject(AuthService);
@@ -34,17 +36,29 @@ export class BookingForm {
     date: ['', Validators.required]
   });
 
+  ngOnInit() {
+    // Prellenar formulario si el usuario está logueado
+    const currentUser: AppUser | null = this.auth.getUser();
+    if (currentUser) {
+      this.bookingForm.patchValue({
+        name: currentUser.name,
+        email: currentUser.email
+      });
+    }
+  }
+
   async onSubmit() {
     if (this.bookingForm.valid) {
-      const user = this.auth.getUser();
-      const reserva = {
-        ...this.bookingForm.value,
+      const user: AppUser | null = this.auth.getUser();
+      const formData: BookingFormData = this.bookingForm.value as BookingFormData;
+      const reserva: Omit<Booking, 'id'> = {
+        ...formData,
         vehicleId: this.vehicleId(),
-        userId: user?.id
+        userId: user?.id || ''
       };
 
       try {
-        await this.http.post('http://localhost:3000/reservas', reserva).toPromise();
+        await firstValueFrom(this.http.post<Booking>('http://localhost:3000/reservas', reserva));
         this.successMessage.set('Reserva realizada exitosamente');
         this.errorMessage.set('');
         this.bookingForm.reset();

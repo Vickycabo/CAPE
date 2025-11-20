@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { Inquiry } from './inquiry';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class InquiryService {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const inquiries = await this.http.get<Inquiry[]>(this.baseUrl).toPromise();
+      const inquiries = await firstValueFrom(this.http.get<Inquiry[]>(this.baseUrl));
       this.inquiries.set(inquiries || []);
       return this.inquiries();
     } catch (err) {
@@ -36,7 +37,7 @@ export class InquiryService {
 
   async updateInquiryStatus(id: string | number, status: string): Promise<Inquiry | null> {
     try {
-      const updatedInquiry = await this.http.patch<Inquiry>(`${this.baseUrl}/${id}`, { status }).toPromise();
+      const updatedInquiry = await firstValueFrom(this.http.patch<Inquiry>(`${this.baseUrl}/${id}`, { status }));
       if (updatedInquiry) {
         this.inquiries.update(inquiries => 
           inquiries.map(i => i.id == id ? updatedInquiry : i)
@@ -51,7 +52,7 @@ export class InquiryService {
 
   async addInquiry(inquiry: Inquiry): Promise<Inquiry | null> {
     try {
-      const newInquiry = await this.http.post<Inquiry>(this.baseUrl, inquiry).toPromise();
+      const newInquiry = await firstValueFrom(this.http.post<Inquiry>(this.baseUrl, inquiry));
       if (newInquiry) {
         this.inquiries.update(inquiries => [...inquiries, newInquiry]);
       }
@@ -64,7 +65,7 @@ export class InquiryService {
 
   async deleteInquiry(id: string | number): Promise<void> {
     try {
-      await this.http.delete(`${this.baseUrl}/${id}`).toPromise();
+      await firstValueFrom(this.http.delete(`${this.baseUrl}/${id}`));
       this.inquiries.update(inquiries => inquiries.filter(i => i.id != id));
     } catch (err) {
       this.error.set('Error eliminando consulta');

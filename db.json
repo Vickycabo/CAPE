@@ -201,7 +201,7 @@
       "phone": "2235895318",
       "message": "Quiero que me contacten por el auto",
       "date": "2025-11-17",
-      "status": "pendiente"
+      "status": "contactado"
     },
     {
       "id": "0ede",
@@ -221,6 +221,16 @@
       "message": "me interesa fecha para probar el vehiculo",
       "vehicleId": "4",
       "date": "2025-11-19",
+      "status": "pendiente"
+    },
+    {
+      "id": "eba6",
+      "name": "maxi",
+      "email": "asdasdas@asdasd.com",
+      "phone": "2236359607",
+      "message": "cuanto vale ?",
+      "vehicleId": "3",
+      "date": "2025-11-20",
       "status": "pendiente"
     }
   ],
@@ -251,6 +261,15 @@
       "date": "2025-11-19",
       "vehicleId": "11",
       "userId": "348a"
+    },
+    {
+      "id": "34fc",
+      "name": "Maxi",
+      "email": "asasdas@asd.com",
+      "phone": "2236359607",
+      "date": "2025-11-20",
+      "vehicleId": "2",
+      "userId": "2"
     }
   ],
   "usuarios": [

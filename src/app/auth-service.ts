@@ -1,5 +1,6 @@
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 export interface AppUser {
   id: number;
@@ -62,7 +63,7 @@ export class AuthService {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const users = await this.http.get<AppUser[]>(this.usersUrl).toPromise();
+      const users = await firstValueFrom(this.http.get<AppUser[]>(this.usersUrl));
       this.users.set(users || []);
       return this.users();
     } catch (err) {
@@ -76,7 +77,7 @@ export class AuthService {
   async createUser(user: Omit<AppUser, 'id'|'rol'> & { rol?: AppUser['rol'] }) {
     const payload = { ...user, rol: user.rol ?? 'usuario' } as Omit<AppUser,'id'>;
     try {
-      const newUser = await this.http.post<AppUser>(this.usersUrl, payload).toPromise();
+      const newUser = await firstValueFrom(this.http.post<AppUser>(this.usersUrl, payload));
       if (newUser) {
         this.users.update(users => [...users, newUser]);
       }
@@ -89,7 +90,7 @@ export class AuthService {
 
   async emailExists(email: string): Promise<boolean> {
     try {
-      const users = await this.http.get<AppUser[]>(this.usersUrl, { params: { email } }).toPromise();
+      const users = await firstValueFrom(this.http.get<AppUser[]>(this.usersUrl, { params: { email } }));
       return (users?.length || 0) > 0;
     } catch (err) {
       this.error.set('Error verificando email');
@@ -99,7 +100,7 @@ export class AuthService {
 
   async updateUserRole(id: number, rol: AppUser['rol']): Promise<AppUser | null> {
     try {
-      const updatedUser = await this.http.patch<AppUser>(`${this.usersUrl}/${id}`, { rol }).toPromise();
+      const updatedUser = await firstValueFrom(this.http.patch<AppUser>(`${this.usersUrl}/${id}`, { rol }));
       if (updatedUser) {
         this.users.update(users => 
           users.map(u => u.id === updatedUser.id ? updatedUser : u)
@@ -118,7 +119,7 @@ export class AuthService {
 
   async deleteUser(id: number): Promise<void> {
     try {
-      await this.http.delete(`${this.usersUrl}/${id}`).toPromise();
+      await firstValueFrom(this.http.delete(`${this.usersUrl}/${id}`));
       this.users.update(users => users.filter(u => u.id !== id));
     } catch (err) {
       this.error.set('Error eliminando usuario');

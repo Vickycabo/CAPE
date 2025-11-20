@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { Vehicle } from './vehicle';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class VehicleClient {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const vehicles = await this.http.get<Vehicle[]>(this.baseUrl).toPromise();
+      const vehicles = await firstValueFrom(this.http.get<Vehicle[]>(this.baseUrl));
       this.vehicles.set(vehicles || []);
       return this.vehicles();
     } catch (err) {
@@ -37,7 +38,7 @@ export class VehicleClient {
 
   async getVehicleById(id: string | number): Promise<Vehicle | null> {
     try {
-      const vehicle = await this.http.get<Vehicle>(`${this.baseUrl}/${id}`).toPromise();
+      const vehicle = await firstValueFrom(this.http.get<Vehicle>(`${this.baseUrl}/${id}`));
       return vehicle || null;
     } catch (err) {
       this.error.set('Error cargando vehículo');
@@ -47,7 +48,7 @@ export class VehicleClient {
 
   async addVehicle(vehicle: Vehicle): Promise<Vehicle | null> {
     try {
-      const newVehicle = await this.http.post<Vehicle>(this.baseUrl, vehicle).toPromise();
+      const newVehicle = await firstValueFrom(this.http.post<Vehicle>(this.baseUrl, vehicle));
       if (newVehicle) {
         this.vehicles.update(vehicles => [...vehicles, newVehicle]);
       }
@@ -60,7 +61,7 @@ export class VehicleClient {
 
   async updateVehicle(vehicle: Vehicle, id: string | number): Promise<Vehicle | null> {
     try {
-      const updatedVehicle = await this.http.put<Vehicle>(`${this.baseUrl}/${id}`, vehicle).toPromise();
+      const updatedVehicle = await firstValueFrom(this.http.put<Vehicle>(`${this.baseUrl}/${id}`, vehicle));
       if (updatedVehicle) {
         this.vehicles.update(vehicles => 
           vehicles.map(v => v.id == id ? updatedVehicle : v)
@@ -75,7 +76,7 @@ export class VehicleClient {
 
   async deleteVehicle(id: string | number): Promise<void> {
     try {
-      await this.http.delete(`${this.baseUrl}/${id}`).toPromise();
+      await firstValueFrom(this.http.delete(`${this.baseUrl}/${id}`));
       this.vehicles.update(vehicles => vehicles.filter(v => v.id != id));
     } catch (err) {
       this.error.set('Error eliminando vehículo');

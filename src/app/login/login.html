@@ -37,10 +37,14 @@
   @if (errorMessage()) { <div class="error-message">{{ errorMessage() }}</div> }
 
         <div class="actions">
-          <button type="submit" [disabled]="!loginForm.valid" class="submit-button">
-            Iniciar Sesión
+          <button type="submit" [disabled]="!loginForm.valid || loading()" class="submit-button">
+            @if (loading()) {
+              <span>Iniciando sesión...</span>
+            } @else {
+              <span>Iniciar Sesión</span>
+            }
           </button>
-          <button type="button" class="secondary-button" (click)="toggleRegister()">
+          <button type="button" class="secondary-button" [disabled]="loading()" (click)="toggleRegister()">
             {{ showRegister() ? 'Cancelar' : 'Crear cuenta' }}
           </button>
         </div>
@@ -62,7 +66,13 @@
             <input type="password" formControlName="password" placeholder="********" />
           </div>
           <div class="actions">
-            <button type="submit">Crear cuenta</button>
+            <button type="submit" [disabled]="loading()">
+              @if (loading()) {
+                <span>Creando cuenta...</span>
+              } @else {
+                <span>Crear cuenta</span>
+              }
+            </button>
           </div>
           <small>El rol por defecto es "usuario". Un administrador puede promover tu cuenta a "admin".</small>
         </form>

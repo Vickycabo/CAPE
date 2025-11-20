@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { Booking } from './booking';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class BookingService {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const bookings = await this.http.get<Booking[]>(this.baseUrl).toPromise();
+      const bookings = await firstValueFrom(this.http.get<Booking[]>(this.baseUrl));
       this.bookings.set(bookings || []);
       return this.bookings();
     } catch (err) {
@@ -37,7 +38,7 @@ export class BookingService {
 
   async getBookingById(id: string | number): Promise<Booking | null> {
     try {
-      const booking = await this.http.get<Booking>(`${this.baseUrl}/${id}`).toPromise();
+      const booking = await firstValueFrom(this.http.get<Booking>(`${this.baseUrl}/${id}`));
       return booking || null;
     } catch (err) {
       this.error.set('Error cargando reserva');
@@ -47,7 +48,7 @@ export class BookingService {
 
   async addBooking(booking: Booking): Promise<Booking | null> {
     try {
-      const newBooking = await this.http.post<Booking>(this.baseUrl, booking).toPromise();
+      const newBooking = await firstValueFrom(this.http.post<Booking>(this.baseUrl, booking));
       if (newBooking) {
         this.bookings.update(bookings => [...bookings, newBooking]);
       }
@@ -60,7 +61,7 @@ export class BookingService {
 
   async deleteBooking(id: string | number): Promise<void> {
     try {
-      await this.http.delete(`${this.baseUrl}/${id}`).toPromise();
+      await firstValueFrom(this.http.delete(`${this.baseUrl}/${id}`));
       this.bookings.update(bookings => bookings.filter(b => b.id != id));
     } catch (err) {
       this.error.set('Error eliminando reserva');
@@ -70,7 +71,7 @@ export class BookingService {
 
   async updateBooking(booking: Booking, id: string | number): Promise<Booking | null> {
     try {
-      const updatedBooking = await this.http.put<Booking>(`${this.baseUrl}/${id}`, booking).toPromise();
+      const updatedBooking = await firstValueFrom(this.http.put<Booking>(`${this.baseUrl}/${id}`, booking));
       if (updatedBooking) {
         this.bookings.update(bookings => 
           bookings.map(b => b.id == id ? updatedBooking : b)

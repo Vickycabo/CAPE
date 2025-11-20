@@ -66,3 +66,6 @@ coverage/
 
 # Build artifacts
 build/
+
+# Documentation and text files (excluded from version control)
+textos/
