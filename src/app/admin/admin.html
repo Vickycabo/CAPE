@@ -1,0 +1,66 @@
+<div class="admin-panel">
+  <h2>Panel de Administración</h2>
+  
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+  
+  @if (cargando()) {
+    <p>Cargando usuarios...</p>
+  } @else {
+    <div class="usuarios-header">
+      <h3>Gestión de Usuarios</h3>
+      @if (hayCambios()) {
+        <button class="save-changes-btn" (click)="guardarCambios()">
+          Guardar Cambios ({{ cambiosPendientes.size }})
+        </button>
+      }
+    </div>
+    <table class="usuarios-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuarios(); track usuario.id) {
+          <tr [class.changed]="cambiosPendientes.has(usuario.id)">
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.name }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>
+              <span class="rol-badge" [class]="getRolActual(usuario)">
+                {{ getRolActual(usuario) }}
+              </span>
+              @if (cambiosPendientes.has(usuario.id)) {
+                <span class="cambio-pendiente">*</span>
+              }
+            </td>
+            <td>
+              <div class="acciones-container">
+                <select [value]="getRolActual(usuario)" 
+                        (change)="onRolChange(usuario, $event)"
+                        [disabled]="usuario.id === auth.getUser()?.id">
+                  <option value="usuario">Usuario</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <button 
+                  class="delete-user-btn" 
+                  (click)="eliminarUsuario(usuario)"
+                  [disabled]="usuario.id === auth.getUser()?.id">
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+

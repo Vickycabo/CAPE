@@ -1,0 +1,114 @@
+@let vehicle = this.vehicle();
+
+<div class="vehicle-details-container">
+  @if (vehicle) {
+    <div class="vehicle-card">
+      <!-- Sección de imágenes -->
+      <div class="image-section">
+        <div class="image-gallery">
+          @if (selectedImage()) {
+            <img [src]="selectedImage()" [alt]="vehicle.model" class="main-image">
+          } @else {
+            <div class="no-image">Sin imagen disponible</div>
+          }
+
+          @if (vehicle.images && vehicle.images.length > 1) {
+            <div class="thumbnail-gallery">
+              @for (image of vehicle.images; track $index) {
+                <img 
+                  [src]="image" 
+                  [alt]="vehicle.model + ' miniatura ' + ($index + 1)"
+                  class="thumbnail"
+                  (click)="selectImage(image)"
+                  [class.active]="image === selectedImage()"
+                >
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Sección de información -->
+      <div class="info-section">
+        <div class="vehicle-info-card">
+          <div class="vehicle-header">
+            <h1 class="vehicle-title">{{vehicle.brand}} {{vehicle.model}}</h1>
+            <div class="price-tag">
+              ${{vehicle.price | number:'1.0-0'}}
+            </div>
+          </div>
+
+          <div class="vehicle-details-grid">
+            <div class="detail-item">
+              <span class="detail-label">📅 Año:</span>
+              <span class="detail-value">{{vehicle.year}}</span>
+            </div>
+            
+            <div class="detail-item">
+              <span class="detail-label">🎨 Color:</span>
+              <span class="detail-value">{{vehicle.color}}</span>
+            </div>
+          </div>
+
+          @if (vehicle.description) {
+            <div class="description-section">
+              <h3 class="description-title">Descripción</h3>
+              <p class="description-text">{{vehicle.description}}</p>
+            </div>
+          }
+
+          <div class="actions-section">
+            @if (!isAdmin()) {
+              <button class="action-btn primary" (click)="openInquiryForm()">
+                💬 Consultar
+              </button>
+              <button
+                class="action-btn secondary"
+                (click)="openBookingForm()"
+                [class.disabled]="!isLoggedIn()"
+                [title]="!isLoggedIn() ? 'Debes iniciar sesión para reservar' : 'Reservar este vehículo'">
+                📅 Reservar
+              </button>
+            }
+            @if (isAdmin()) {
+              <button class="action-btn danger" (click)="deleteVehicle()">
+                🗑️ Eliminar
+              </button>
+              <button class="action-btn warning" (click)="toggleEdit()">
+                ✏️ Editar
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div> @if (vehicle && isEditing()) {
+  <div class="edit-form-container">
+    <app-vehicle-form [isEditing]="true" [vehicle]="vehicle" (edited)="handleEdit($event)"></app-vehicle-form>
+  </div>
+}
+
+@if (showInquiryForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Consulta</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-inquiry-form [vehicleId]="id!"></app-inquiry-form>
+    </div>
+  </div>
+}
+
+@if (showBookingForm()) {
+  <div class="modal-overlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h3>Formulario de Reserva</h3>
+        <button class="close-button" (click)="closeForm()">×</button>
+      </div>
+      <app-booking-form [vehicleId]="id!"></app-booking-form>
+    </div>
+  </div>
+}

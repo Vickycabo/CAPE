@@ -1,0 +1,118 @@
+@if (canAdd()) {
+<h2>{{ isEditing() ? 'Editar Vehículo' : 'Agregar Vehículo' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+
+<div class="form-field">
+    <label for="brand">Marca</label>
+    <select id="brand" formControlName="brand">
+        <option value="" selected disabled>Seleccione una marca</option>
+        @for (brand of brands; track $index){
+            <option [value]="brand">{{brand}}</option>
+        }
+        <option value="Otra">Otra (escribir manualmente)</option>
+    </select>
+    @if (brand.touched && brand.hasError('required')) {
+        <span class="errors">La marca es requerida</span>
+    }
+</div>
+
+@if (brand.value === 'Otra') {
+    <div class="form-field">
+        <label for="customBrand">Escribir marca personalizada</label>
+        <input type="text" id="customBrand" formControlName="customBrand" placeholder="Ingrese la marca del vehículo">
+        @if (customBrand.touched && !customBrand.value) {
+            <span class="errors">Debe ingresar el nombre de la marca</span>
+        }
+    </div>
+}
+
+<div class="form-field">
+<label for="model">Modelo</label>
+<input type="text" id="model" formControlName="model">
+@if(model.dirty){
+    @if(model.hasError('required')){
+        <span class="errors">El modelo es requerido</span>
+    }
+}
+</div>
+
+<div class="form-field">
+    <label for="year">Año</label>
+    <input type="number" id="year" formControlName="year" min="1980" [max]="nextYear">
+    @if (year.dirty){
+        @if(year.hasError('required')){
+            <span class="errors">El año del vehículo es requerido</span>
+        }@else if(year.hasError('min')){
+            <span class="errors">El vehículo mas viejo que se vende es de 1980</span>
+        }@else if(year.hasError('max')){
+             <span class="errors">El vehículo mas nuevo que se vende es de {{nextYear}}</span>
+        }
+    }
+</div>
+
+<div class="form-field">
+    <label for="color">Color</label>
+    <select id="color" formControlName="color">
+        <option value="" selected disabled>Seleccione color del vehículo</option>
+        @for (color of colors; track $index){
+            <option [value]="color">{{color}}</option>
+        }
+        <option value="Otro">Otro (escribir manualmente)</option>
+    </select>
+    @if (color.touched && color.hasError('required')) {
+        <span class="errors">El color es requerido</span>
+    }
+</div>
+
+@if (color.value === 'Otro') {
+    <div class="form-field">
+        <label for="customColor">Escribir color personalizado</label>
+        <input type="text" id="customColor" formControlName="customColor" placeholder="Ingrese el color del vehículo">
+        @if (customColor.touched && !customColor.value) {
+            <span class="errors">Debe ingresar el color</span>
+        }
+    </div>
+}
+
+<div class="form-field">
+    <label for="price">Precio</label>
+    <input type="number" id="price" formControlName="price" min="1000000" max="250000000">
+    @if (price.dirty){
+        @if(price.hasError('required')){
+            <span class="errors">El precio del vehículo es requerido</span>
+        }@else if(price.hasError('min')){
+            <span class="errors">El minimo es 1.000.000</span>
+        }@else if(price.hasError('max')){
+             <span class="errors">El máximo es 250.000.000</span>
+        }
+    }
+</div>
+
+<div class="form-field">
+    <label for="images">Imágenes (URLs separadas por coma)</label>
+    <input type="text" id="images" formControlName="images" placeholder="https://img1.jpg, https://img2.jpg">
+    @if (images.touched) {
+        @if(images.hasError('required')){
+        <span class="errors">Debe ingresar al menos una imagen</span>    
+        }
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="description">Descripción</label>
+    <textarea id="description" formControlName="description" rows="3" placeholder="Descripción del vehiculo..."></textarea>
+    @if (description.touched || description.dirty) {
+      @if (description.hasError('required')) {
+        <span>Descripción es requerida</span>
+      } }
+  </div>
+
+  <div class="form-actions">
+    <button type="reset">Borrar</button>
+    <button type="submit" [disabled]="form.invalid">{{ isEditing() ? 'Actualizar' : 'Agregar' }}</button>
+  </div>
+</form>
+} @else {
+    <p>Debes iniciar sesión con una cuenta de usuario para agregar un vehículo.</p>
+}

@@ -1,0 +1,69 @@
+<div class="form-container">
+  <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()" class="inquiry-form">
+    <div class="form-group">
+      <label for="name">Nombre:</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        placeholder="Ingrese su nombre"
+        class="form-control">
+      @if (inquiryForm.get('name')?.errors?.['required'] && inquiryForm.get('name')?.touched) {
+        <div class="error-message">El nombre es requerido</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email" 
+        placeholder="ejemplo@email.com"
+        class="form-control">
+      @if (inquiryForm.get('email')?.errors?.['required'] && inquiryForm.get('email')?.touched) {
+        <div class="error-message">El email es requerido</div>
+      }
+      @if (inquiryForm.get('email')?.errors?.['email'] && inquiryForm.get('email')?.touched) {
+        <div class="error-message">Ingrese un email válido</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Teléfono:</label>
+      <input
+        type="tel"
+        id="phone"
+        formControlName="phone"
+        placeholder="Ingrese su teléfono"
+        class="form-control">
+      @if (inquiryForm.get('phone')?.errors?.['required'] && inquiryForm.get('phone')?.touched) {
+        <div class="error-message">El teléfono es requerido</div>
+      }
+      @if (inquiryForm.get('phone')?.errors?.['pattern'] && inquiryForm.get('phone')?.touched) {
+        <div class="error-message">El teléfono debe contener solo números</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="message">Mensaje:</label>
+      <textarea
+        id="message"
+        formControlName="message"
+        placeholder="Escriba su consulta"
+        class="form-control textarea"></textarea>
+      @if (inquiryForm.get('message')?.errors?.['required'] && inquiryForm.get('message')?.touched) {
+        <div class="error-message">El mensaje es requerido</div>
+      }
+    </div>
+
+  @if (successMessage()) { <div class="success-message">{{ successMessage() }}</div> }
+
+  @if (errorMessage()) { <div class="error-message">{{ errorMessage() }}</div> }
+
+    <button type="submit" [disabled]="!inquiryForm.valid" class="submit-button">
+      Enviar Consulta
+    </button>
+  </form>
+</div>
+

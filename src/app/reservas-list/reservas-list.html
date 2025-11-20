@@ -1,0 +1,89 @@
+<div class="reservas-container">
+  <h2>Reservas Realizadas</h2>
+  
+  @if (cargando()) {
+    <div class="loading">
+      <p>Cargando reservas...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!cargando() && !error()) {
+    <div class="reservas-header">
+      <p>Total de reservas: <strong>{{ reservas.length }}</strong></p>
+    </div>
+
+    @if (reservas.length === 0) {
+      <div class="no-data">
+        <p>No hay reservas registradas aún.</p>
+      </div>
+    } @else {
+      <div class="reservas-grid">
+        @for (reserva of reservas; track reserva.id) {
+          <div class="reserva-card">
+            <div class="reserva-header">
+              <h3>{{ reserva.name }}</h3>
+              <span class="reserva-id">ID: {{ reserva.id }}</span>
+            </div>
+            
+            @if (getVehicleImage(reserva.vehicleId)) {
+              <div class="vehicle-image">
+                <img [src]="getVehicleImage(reserva.vehicleId)" 
+                     [alt]="getVehicleInfo(reserva.vehicleId)"
+                     onerror="this.style.display='none'">
+              </div>
+            }
+            
+            <div class="reserva-info">
+              <div class="info-section">
+                <h4>Información del Cliente</h4>
+                <div class="info-row">
+                  <span class="label">Email:</span>
+                  <span class="value">{{ reserva.email }}</span>
+                </div>
+                
+                <div class="info-row">
+                  <span class="label">Teléfono:</span>
+                  <span class="value">{{ reserva.phone }}</span>
+                </div>
+              </div>
+              
+              <div class="info-section">
+                <h4>Detalles de la Reserva</h4>
+                <div class="info-row">
+                  <span class="label">Vehículo:</span>
+                  <span class="value vehicle-info">{{ getVehicleInfo(reserva.vehicleId) }}</span>
+                </div>
+                
+                <div class="info-row">
+                  <span class="label">Fecha de Visita:</span>
+                  <span class="value date-info">{{ formatDate(reserva.date) }}</span>
+                </div>
+                
+                @if (reserva.userId) {
+                  <div class="info-row">
+                    <span class="label">Usuario ID:</span>
+                    <span class="value">{{ reserva.userId }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <div class="reserva-actions">
+              <button class="delete-btn" 
+                      (click)="eliminarReserva(reserva)"
+                      title="Eliminar reserva">
+                🗑️ Eliminar Reserva
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

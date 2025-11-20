@@ -1,0 +1,120 @@
+<div class="consultas-container">
+  <h2>Consultas Recibidas</h2>
+  
+  @if (cargando()) {
+    <div class="loading">
+      <p>Cargando consultas...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!cargando() && !error()) {
+    <div class="consultas-header">
+      <p>Total de consultas: <strong>{{ consultas.length }}</strong></p>
+      
+      @if (cambiosPendientes.size > 0) {
+        <div class="cambios-pendientes">
+          <div class="cambios-info">
+            <span class="cambios-count">{{ cambiosPendientes.size }} cambio(s) pendiente(s)</span>
+          </div>
+          <div class="cambios-actions">
+            <button class="guardar-btn" 
+                    (click)="guardarCambios()"
+                    [disabled]="guardando()">
+              @if (guardando()) {
+                <span class="spinner"></span> Guardando...
+              } @else {
+                💾 Guardar Cambios
+              }
+            </button>
+            <button class="cancelar-btn" 
+                    (click)="cancelarCambios()"
+                    [disabled]="guardando()">
+              ❌ Cancelar
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (consultas.length === 0) {
+      <div class="no-data">
+        <p>No hay consultas registradas aún.</p>
+      </div>
+    } @else {
+      <div class="consultas-grid">
+        @for (consulta of consultas; track consulta.id) {
+          <div class="consulta-card" [class]="getStatusClass(consulta.status)" 
+               [class.cambio-pendiente]="tieneChangesPendientes(consulta.id)">
+            <div class="consulta-header">
+              <h3>{{ consulta.name }}</h3>
+              <span class="status-badge" [class]="getStatusClass(consulta.status)">
+                {{ getStatusText(consulta.status) }}
+                @if (tieneChangesPendientes(consulta.id)) {
+                  <small class="pendiente-indicador">* (cambio pendiente)</small>
+                }
+              </span>
+            </div>
+            
+            <div class="consulta-info">
+              <div class="info-row">
+                <span class="label">Email:</span>
+                <span class="value">{{ consulta.email }}</span>
+              </div>
+              
+              <div class="info-row">
+                <span class="label">Teléfono:</span>
+                <span class="value">{{ consulta.phone }}</span>
+              </div>
+              
+              <div class="info-row">
+                <span class="label">Vehículo:</span>
+                <span class="value">{{ getVehicleInfo(consulta.vehicleId) }}</span>
+              </div>
+              
+              <div class="info-row">
+                <span class="label">Fecha:</span>
+                <span class="value">{{ consulta.date }}</span>
+              </div>
+            </div>
+            
+            <div class="consulta-message">
+              <h4>Mensaje:</h4>
+              <p>{{ consulta.message }}</p>
+            </div>
+            
+            <div class="consulta-actions">
+              <div class="status-control">
+                <label for="status-{{consulta.id}}">Cambiar estado:</label>
+                <div class="select-container">
+                  <select id="status-{{consulta.id}}" 
+                          [value]="getEstadoActual(consulta)"
+                          (change)="cambiarEstado(consulta, $any($event.target).value)"
+                          [class]="tieneChangesPendientes(consulta.id) ? 'cambio-pendiente-select' : getStatusClass(consulta.status)"
+                          [disabled]="guardando()">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="contactado">Contactado</option>
+                  </select>
+                  @if (tieneChangesPendientes(consulta.id)) {
+                    <span class="cambio-indicador" title="Cambio pendiente de guardar">⚠️</span>
+                  }
+                </div>
+              </div>
+              
+              <button class="delete-btn" 
+                      (click)="eliminarConsulta(consulta)"
+                      title="Eliminar consulta">
+                🗑️ Eliminar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

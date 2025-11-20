@@ -1,0 +1,55 @@
+<h2>Catálogo de Vehículos</h2>
+
+<!-- Filtros de búsqueda -->
+<div class="filters">
+  <div class="filter-item">
+    <label>Marca:</label>
+    <select [value]="filterBrand()" (change)="filterBrand.set($any($event.target).value)">
+      <option value="">Todas las marcas</option>
+      @for (brand of availableBrands(); track brand) {
+        <option [value]="brand">{{brand}}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-item">
+    <label>Año:</label>
+    <select [value]="filterYear()" (change)="filterYear.set($any($event.target).value)">
+      <option value="">Todos los años</option>
+      @for (year of availableYears(); track year) {
+        <option [value]="year">{{year}}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-item">
+    <label>Precio máximo:</label>
+    <select [value]="filterMaxPrice()" (change)="filterMaxPrice.set($any($event.target).value)">
+      <option value="">Todos los precios</option>
+      @for (price of availablePrices(); track price) {
+        <option [value]="price">{{price | number:'1.0-0'}}</option>
+      }
+    </select>
+  </div>
+
+  <button class="clear-btn" (click)="clearFilters()">Limpiar Filtros</button>
+</div>
+
+@let vehicles = this.vehicles();
+
+<div class="vehicle-grid">
+  @for (vehicle of vehicles; track vehicle.id) {
+    <div class="vehicle-card">
+        <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.brand}} {{vehicle.model}}">
+        @if (isAdmin()) {
+          <button class="delete-btn" (click)="deleteVehicle(vehicle.id!)">Eliminar</button>
+        }
+      <h3>{{vehicle.brand}} {{vehicle.model}}</h3>
+      <p>Año: {{vehicle.year}}</p>
+      <p>Precio: ${{vehicle.price | number:'1.0-0'}} </p>
+      <button (click)="navigateToDetails(vehicle.id!)">Ver Detalles</button>
+    </div>
+  } @empty {
+    <p class="no-results">No se encontraron vehículos con esos filtros.</p>
+  }
+</div>

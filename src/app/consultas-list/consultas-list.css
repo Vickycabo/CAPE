@@ -1,0 +1,465 @@
+.consultas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h2 {
+  text-align: center;
+  color: #ffffff;
+  margin: 30px 0 20px 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px 30px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.loading, .error, .no-data {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 8px;
+}
+
+.loading {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+.error {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #feb2b2;
+}
+
+.no-data {
+  background-color: #f0f4f8;
+  color: #718096;
+}
+
+.consultas-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.consultas-header p {
+  font-size: 1.1rem;
+  color: #4a5568;
+}
+
+.consultas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.consulta-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.consulta-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.consulta-card.pendiente {
+  border-left-color: #f56565;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.consulta-card.contactado {
+  border-left-color: #48bb78;
+  background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+.consulta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.consulta-header h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  Border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.pendiente {
+  background-color: #feb2b2;
+  color: #742a2a;
+}
+
+.status-badge.contactado {
+  background-color: #9ae6b4;
+  color: #22543d;
+}
+
+.consulta-info {
+  margin-bottom: 1rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px dotted #e2e8f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.label {
+  font-weight: 600;
+  color: #4a5568;
+  min-width: 80px;
+}
+
+.value {
+  color: #2d3748;
+  text-align: right;
+  max-width: 250px;
+  word-wrap: break-word;
+}
+
+.consulta-message {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.consulta-message h4 {
+  margin: 0 0 0.5rem 0;
+  color: #4a5568;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.consulta-message p {
+  margin: 0;
+  color: #2d3748;
+  line-height: 1.5;
+  background-color: #f7fafc;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border-left: 3px solid #4299e1;
+  font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .consultas-container {
+    padding: 1rem;
+  }
+  
+  .consultas-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .consulta-card {
+    padding: 1rem;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .value {
+    text-align: left;
+    max-width: none;
+  }
+}
+
+.consulta-actions {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.status-control label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.875rem;
+}
+
+.status-control select {
+  padding: 0.5rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.status-control select:hover {
+  border-color: #4a5568;
+}
+
+.status-control select:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.status-control select.pendiente {
+  background-color: #feb2b2;
+  color: #742a2a;
+  border-color: #f56565;
+}
+
+.status-control select.contactado {
+  background-color: #9ae6b4;
+  color: #22543d;
+  border-color: #48bb78;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+.cambios-pendientes {
+  background: linear-gradient(135deg, #fef5e7 0%, #fff3cd 100%);
+  border: 1px solid #fdd835;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cambios-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cambios-count {
+  font-weight: 600;
+  color: #b45309;
+}
+
+.cambios-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.guardar-btn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.guardar-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.guardar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancelar-btn {
+  background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.cancelar-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+  transform: translateY(-1px);
+}
+
+.cancelar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cambio-indicador {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pendiente-indicador {
+  color: #f59e0b;
+  font-weight: bold;
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.consulta-card.cambio-pendiente {
+  border: 2px dashed #f59e0b !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
+}
+
+.consulta-card.cambio-pendiente::before {
+  content: "⚠️ Cambio pendiente";
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: #f59e0b;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.cambio-pendiente-select {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+  border: 2px solid #f59e0b !important;
+  color: #92400e !important;
+  font-weight: 600;
+}
+
+.cambio-pendiente-select:focus {
+  border-color: #d97706 !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2) !important;
+}
+
+.status-badge {
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .consulta-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .status-control {
+    justify-content: space-between;
+  }
+  
+  .delete-btn {
+    justify-content: center;
+  }
+  
+  .cambios-pendientes {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .cambios-actions {
+    justify-content: center;
+  }
+}
