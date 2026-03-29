@@ -1,7 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { VehicleClient } from '../vehicle-client';
 import { Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { AuthService } from '../auth-service';
 import { Vehicle } from '../vehicle';
@@ -25,8 +24,14 @@ export class Catalog {
     this.loadVehicles();
   }
 
-  private loadVehicles() {
-    this.client.getVehicles().subscribe(v => this.allVehicles.set(v));
+  private async loadVehicles() {
+    try {
+      const vehicles = await this.client.getVehicles();
+      this.allVehicles.set(vehicles);
+    } catch (error) {
+      console.error('Error cargando vehículos:', error);
+      this.allVehicles.set([]);
+    }
   }
 
   // Signals para los filtros
@@ -120,13 +125,16 @@ export class Catalog {
     return this.auth.isAdmin();
   }
 
-  deleteVehicle(id: string | number) {
+  async deleteVehicle(id: string | number) {
     if (!this.isAdmin()) return;
     if (confirm('¿Eliminar este vehículo?')) {
-      this.client.deleteVehicle(id).subscribe(() => {
-        this.loadVehicles();
+      try {
+        await this.client.deleteVehicle(id);
+        await this.loadVehicles();
         alert('Vehículo eliminado');
-      });
+      } catch (error) {
+        alert('Error al eliminar el vehículo');
+      }
     }
   }
 }

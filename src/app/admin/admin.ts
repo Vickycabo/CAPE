@@ -2,10 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService, AppUser } from '../auth-service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BookingService } from '../booking-service';
-import { InquiryService } from '../inquiry-service';
-import { Booking } from '../booking';
-import { Inquiry } from '../inquiry';
+
 
 @Component({
   selector: 'app-admin',
@@ -15,109 +12,109 @@ import { Inquiry } from '../inquiry';
   styleUrl: './admin.css',
 })
 export class Admin {
-  private auth = inject(AuthService);
-  private bookingService = inject(BookingService);
-  private inquiryService = inject(InquiryService);
+  protected auth = inject(AuthService);
 
   protected usuarios = signal<AppUser[]>([]); //señal para el cambio de rol
-  protected reservas: Booking[] = [];
-  protected consultas: Inquiry[] = [];
-
-  protected vistaActual = signal('usuarios');
   protected cargando = signal(true);
   protected error = signal('');
+  protected cambiosPendientes = new Map<number, 'admin' | 'usuario'>(); // userId -> nuevo rol
+  protected hayCambios = signal(false);
 
   ngOnInit() {
     this.cargarUsuarios();
   }
 
-  mostrarUsuarios() {
-    this.vistaActual.set('usuarios');
-    this.cargarUsuarios();
-  }
 
-  mostrarReservas() {
-    this.vistaActual.set('reservas');
-    this.cargarReservas();
-  }
 
-  mostrarConsultas() {
-    this.vistaActual.set('consultas');
-    this.cargarConsultas();
-  }
-
-  cargarUsuarios() {
+  async cargarUsuarios() {
     this.cargando.set(true);
-    this.auth.listUsers().subscribe({
-      next: users => {
-       this.usuarios.set(users);
-        this.cargando.set(false);
-      },
-      error: () => {
-        this.error.set('Error cargando usuarios');
-        this.cargando.set(false);
+    try {
+      const users = await this.auth.listUsers();
+      this.usuarios.set(users);
+    } catch (err) {
+      this.error.set('Error cargando usuarios');
+    } finally {
+      this.cargando.set(false);
+    }
+  }
+
+
+
+  cambiarRol(usuario: AppUser, nuevoRol: 'admin' | 'usuario') {
+    if (!usuario.id) return;
+    
+    // Guardar el cambio pendiente
+    this.cambiosPendientes.set(usuario.id, nuevoRol);
+    this.hayCambios.set(this.cambiosPendientes.size > 0);
+  }
+
+  getRolActual(usuario: AppUser): 'admin' | 'usuario' {
+    if (!usuario.id) return usuario.rol;
+    return this.cambiosPendientes.get(usuario.id) || usuario.rol;
+  }
+
+  onRolChange(usuario: AppUser, event: Event) {
+    // Verificar que no sea el usuario actual
+    const usuarioActual = this.auth.getUser();
+    if (usuarioActual && usuarioActual.id === usuario.id) {
+      // Restaurar el valor original si intentan cambiar su propio rol
+      const target = event.target as HTMLSelectElement;
+      target.value = usuario.rol;
+      alert('No puedes cambiar tu propio rol');
+      return;
+    }
+
+    const target = event.target as HTMLSelectElement;
+    const nuevoRol = target.value as 'admin' | 'usuario';
+    this.cambiarRol(usuario, nuevoRol);
+  }
+
+  async guardarCambios() {
+    if (this.cambiosPendientes.size === 0) return;
+
+    const cambios = Array.from(this.cambiosPendientes.entries());
+    
+    try {
+      // Procesar todos los cambios en paralelo
+      await Promise.all(
+        cambios.map(([userId, nuevoRol]) => 
+          this.auth.updateUserRole(userId, nuevoRol)
+        )
+      );
+      
+      // Todos los cambios completados
+      this.cambiosPendientes.clear();
+      this.hayCambios.set(false);
+      await this.cargarUsuarios();
+    } catch (err) {
+      this.error.set('Error guardando algunos cambios');
+    }
+  }
+
+
+
+  async eliminarUsuario(usuario: AppUser) {
+    if (!usuario.id) return;
+    
+    // Verificar que no sea el usuario actual
+    const usuarioActual = this.auth.getUser();
+    if (usuarioActual && usuarioActual.id === usuario.id) {
+      alert('No puedes eliminar tu propio usuario');
+      return;
+    }
+
+    if (confirm(`¿Estás seguro de que quieres eliminar al usuario ${usuario.name}?`)) {
+      try {
+        await this.auth.deleteUser(usuario.id);
+        // Remover cambios pendientes si los había
+        this.cambiosPendientes.delete(usuario.id);
+        this.hayCambios.set(this.cambiosPendientes.size > 0);
+        // Actualizar la lista de usuarios
+        await this.cargarUsuarios();
+      } catch (err) {
+        this.error.set('Error eliminando usuario');
       }
-    });
-  }
-
-  cargarReservas() {
-    this.cargando.set(true);
-    this.bookingService.getBookings().subscribe({
-      next: bookings => {
-        this.reservas = bookings;
-        this.cargando.set(false);
-      },
-      error: () => {
-        this.error.set('Error cargando reservas');
-        this.cargando.set(false);
-      }
-    });
-  }
-
-  cargarConsultas() {
-    this.cargando.set(true);
-    this.inquiryService.getInquiries().subscribe({
-      next: inquiries => {
-        this.consultas = inquiries;
-        this.cargando.set(false);
-      },
-      error: () => {
-        this.error.set('Error cargando consultas');
-        this.cargando.set(false);
-      }
-    });
-  }
-
-  cambiarRol(user: AppUser, nuevoRol: AppUser['rol']) {
-    if (user.rol === nuevoRol) return;
-    this.auth.updateUserRole(user.id, nuevoRol).subscribe({
-      next: updated => {
-
-        this.usuarios.update(currentUsers => 
-          currentUsers.map(u => u.id === updated.id ? updated : u)
-        );
-
-        // Si el usuario modificado es el actual, actualizar la sesión
-        const currentUser = this.auth.getUser();
-        if (currentUser && currentUser.id === updated.id) {
-          this.auth.setCurrentUser(updated);
-        }
-      },
-      error: () => alert('Error actualizando rol')
-    });
-  }
-
-  cambiarEstado(consulta: Inquiry, nuevoEstado: string) {
-    if (!consulta.id) return;
-    this.inquiryService.updateInquiryStatus(consulta.id, nuevoEstado).subscribe({
-      next: updated => {
-        const idx = this.consultas.findIndex(c => c.id === updated.id);
-        if (idx >= 0) {
-          this.consultas[idx] = updated;
-        }
-      },
-      error: () => alert('Error actualizando estado')
-    });
+    }
   }
 
 }
