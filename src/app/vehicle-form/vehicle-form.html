@@ -90,14 +90,30 @@
 </div>
 
 <div class="form-field">
-    <label for="images">Imágenes (URLs separadas por coma)</label>
-    <input type="text" id="images" formControlName="images" placeholder="https://img1.jpg, https://img2.jpg">
-    @if (images.touched) {
-        @if(images.hasError('required')){
-        <span class="errors">Debe ingresar al menos una imagen</span>    
-        }
+  <label for="fileUpload">Subir imagen del Vehiculo</label>
+  <input 
+    type="file" 
+    id="fileUpload" 
+    (change)="onFileSelected($event)" 
+    accept="image/*"
+    [disabled]="isUploading()">
+  
+  @if (isUploading()) {
+    <span class="loading-text">Subiendo imagen...</span>
+  }
+
+  <input type="hidden" formControlName="images">
+
+  @if (images.touched && images.hasError('required')) {
+    <span class="errors">Debe subir al menos una imagen</span>
+  }
+
+  <div class="image-previews">
+    @for (url of uploadedImages(); track url) {
+      <img [src]="url" style="width: 80px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 5px;">
     }
   </div>
+</div>
 
   <div class="form-field">
     <label for="description">Descripción</label>

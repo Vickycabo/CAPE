@@ -2,10 +2,13 @@ import { Component, effect, inject, input, output, computed, signal } from '@ang
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VehicleClient } from '../vehicle-client';
 import { Vehicle } from '../vehicle';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth-service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-form',
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './vehicle-form.html',
   styleUrl: './vehicle-form.css',
@@ -27,6 +30,10 @@ export class VehicleForm {
   private brandValue = signal('');
   private colorValue = signal('');
 
+  private readonly http = inject(HttpClient); // servicio para fotos cloudinary
+  protected isUploading = signal(false);
+  protected uploadedImages = signal<string[]>([]); // guardado de urls de las fotos
+  
   constructor() {
     effect(() => {
       if (this.isEditing() && this.vehicle()) {
@@ -101,25 +108,58 @@ export class VehicleForm {
   get images() { return this.form.controls.images; }
   get description() { return this.form.controls.description; }
 
+
+// funcion para guardado de fotos en nube cloudinary
+  async onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    this.isUploading.set(true);
+
+
+    const data = new FormData(); //datos
+    data.append('file', file);
+    data.append('upload_preset', 'concesionaria_preset'); // nombre del preset de la nube
+    data.append('cloud_name', 'dgipsuntz'); // mi cuenta en cloudinary
+
+    try {
+      const response: any = await firstValueFrom(
+        this.http.post(`https://api.cloudinary.com/v1_1/dgipsuntz/image/upload`, data)
+      );
+      
+     
+      this.uploadedImages.update(prev => [...prev, response.secure_url]); //agregar url a la nube
+      
+
+      this.form.controls.images.setValue(this.uploadedImages().join(',')); //actualizar campo del form
+      
+    } catch (error) {
+      alert("Error al subir la imagen a la nube");
+      console.error(error);
+    } finally {
+      this.isUploading.set(false);
+    }
+  }
+
   async handleSubmit() {
-    if (this.form.invalid) {
-      alert("Formulario invalido");
+    if (this.form.invalid || this.isUploading()) {
+      alert("Formulario inválido o imagen subiéndose...");
       return;
     }
 
-    if (confirm("Confirmar Datos?")) {
+    if (confirm("¿Confirmar Datos?")) {
       const formValue = this.form.getRawValue();
       const finalBrand = formValue.brand === 'Otra' ? formValue.customBrand : formValue.brand;
       const finalColor = formValue.color === 'Otro' ? formValue.customColor : formValue.color;
+      
       const vehicle: Vehicle = {
         ...formValue,
-        brand: finalBrand,
-        color: finalColor,
+        brand: finalBrand!,
+        color: finalColor!,
         year: Number(formValue.year),
         price: Number(formValue.price),
-        images: formValue.images.split(',').map(img => img.trim())
+        images: formValue.images.split(',').map(img => img.trim()) //uso de las urls ya de cloudinary
       };
-
       try {
         if (!this.isEditing()) {
           await this.client.addVehicle(vehicle);

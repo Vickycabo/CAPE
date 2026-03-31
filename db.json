@@ -191,6 +191,21 @@
         "https://www.carsinvasion.com/gallery/1998-ford-focus/1998-ford-focus-02.jpg"
       ],
       "description": "coupe"
+    },
+    {
+      "id": "00b0",
+      "brand": "Chevrolet",
+      "customBrand": "",
+      "model": "Joy HB",
+      "year": 2020,
+      "color": "Azul",
+      "customColor": "",
+      "price": 50000000,
+      "images": [
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1774918437/ruebdc09ucnlkzll4noz.jpg",
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1774918445/ei1jtdd56iuwvjctjs9e.jpg"
+      ],
+      "description": "El Joy llega con un gran diseño y todo lo que necesitás para tu día a día: confort, estilo y performance. El Joy viene con motor 1.4 y cambio manual de 5 velocidades."
     }
   ],
   "consultas": [
