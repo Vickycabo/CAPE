@@ -5,6 +5,7 @@ import { Vehicle } from '../vehicle';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth-service';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2'; //para carteles modales, no olvidar hacer npm install sweetalert2
 
 @Component({
@@ -22,6 +23,7 @@ export class VehicleForm {
   private readonly client = inject(VehicleClient);
   private readonly formBuilder = inject(FormBuilder);
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly isEditing = input(false);
   readonly vehicle = input<Vehicle>();
@@ -98,10 +100,17 @@ export class VehicleForm {
     images: ['', Validators.required],
     description: ['', Validators.required]
   });
+
 @Output() cancelEdit = new EventEmitter<void>();
+
   closeForm() {
+    if (this.isEditing()) {
     this.cancelEdit.emit();
+    } else {
+      this.router.navigate(['/catalogo']); // luego de agregar el auto, vuelve al catálogo
+    }
   }
+    
 
  get brand() {return this.form.controls.brand;}
   get customBrand() {return this.form.controls.customBrand;}
@@ -187,7 +196,7 @@ export class VehicleForm {
         if (!this.isEditing()) {
           await this.client.addVehicle(vehicle);
           
-          Swal.fire({ //cartel de exito
+         await Swal.fire({ //cartel de exito
             icon: 'success',
             title: '¡Vehiculo agregado!',
             text: 'El vehiculo se agregó correctamente',
@@ -196,11 +205,13 @@ export class VehicleForm {
           });
           
           this.form.reset();
+          this.closeForm();
+
         } else if (this.vehicle()) {
           const updatedVehicle = await this.client.updateVehicle(vehicle, this.vehicle()?.id!);
           if (updatedVehicle) {
           
-            Swal.fire({
+          await Swal.fire({
               icon: 'success',
               title: '¡Vehiculo editado con exito!',
               showConfirmButton: false,
@@ -215,7 +226,7 @@ export class VehicleForm {
       }
     }
   }
-  }
+}
 
   
 

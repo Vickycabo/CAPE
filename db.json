@@ -206,6 +206,21 @@
         "https://res.cloudinary.com/dgipsuntz/image/upload/v1775087667/m5sqennzemptutdz8onv.jpg"
       ],
       "description": "Nueva Bronco Sport, con su característico diseño robusto, esta SUV se renueva con tecnologías de vanguardia, lista para llevarte a cualquier aventura. Posee la mejor combinación de potencia y torque para enfrentar cualquier desafío. Ofrece tracción 4WD de serie, sistema de gestión de terrenos con hasta 7 modos de manejo y bloqueo de diferencial trasero."
+    },
+    {
+      "id": "4ada",
+      "brand": "Ford",
+      "customBrand": "",
+      "model": "Camioneta Territory",
+      "year": 2022,
+      "color": "Negro",
+      "customColor": "",
+      "price": 75000000,
+      "images": [
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1775158550/vcge8a3oogn125ui3kzu.jpg",
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1775158555/j3tuzugldywn1bgqx7vl.jpg"
+      ],
+      "description": "Elegante y funcional, la nueva Territory se distingue por la calidad de sus terminaciones y su generoso espacio interior. Asientos recubiertos de ecocuero, motor 1.8L EcoBoost, traccion 4x2 / Automática de 7 velocidades."
     }
   ],
   "consultas": [
