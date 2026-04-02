@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { AuthService } from '../auth-service';
 import { Vehicle } from '../vehicle';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-catalog',
@@ -127,14 +128,34 @@ export class Catalog {
 
   async deleteVehicle(id: string | number) {
     if (!this.isAdmin()) return;
-    if (confirm('¿Eliminar este vehículo?')) {
+
+     const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esta acción! El vehículo se borrará permanentemente.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', 
+            cancelButtonColor: '#6c757d', 
+            confirmButtonText: 'Si, borrar vehículo',
+            cancelButtonText: 'Cancelar'
+          });
+     if (result.isConfirmed)  {
       try {
         await this.client.deleteVehicle(id);
         await this.loadVehicles();
-        alert('Vehículo eliminado');
+         
+              await Swal.fire({
+                title: '¡Borrado!',
+                text: 'El vehículo se eliminó del catalogo.',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+              });
+      
       } catch (error) {
-        alert('Error al eliminar el vehículo');
+        Swal.fire('Error', 'Error al borrar el vehiculo', 'error');
       }
+    
     }
   }
 }

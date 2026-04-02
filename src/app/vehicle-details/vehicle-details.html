@@ -2,6 +2,12 @@
 
 <div class="vehicle-details-container">
   @if (vehicleData) {
+    <div class="details-content-wrapper">
+      
+      <button class="back-btn-top" (click)="goBack()">
+        ← Volver
+      </button>
+
     <div class="vehicle-card">
       <!-- Sección de imágenes -->
       <div class="image-section">
@@ -24,9 +30,11 @@
                 >
               }
             </div>
+            
           }
         </div>
-      </div>
+    </div>
+      
 
       <!-- Sección de información -->
       <div class="info-section">
@@ -40,12 +48,12 @@
 
           <div class="vehicle-details-grid">
             <div class="detail-item">
-              <span class="detail-label">📅 Año:</span>
+              <span class="detail-label">Año:</span>
               <span class="detail-value">{{vehicleData.year}}</span>
             </div>
             
             <div class="detail-item">
-              <span class="detail-label">🎨 Color:</span>
+              <span class="detail-label">Color:</span>
               <span class="detail-value">{{vehicleData.color}}</span>
             </div>
           </div>
@@ -56,26 +64,27 @@
               <p class="description-text">{{vehicleData.description}}</p>
             </div>
           }
-
+</div>
           <div class="actions-section">
+
             @if (!isAdmin()) {
               <button class="action-btn primary" (click)="openInquiryForm()">
-                💬 Consultar
+                Consultar
               </button>
               <button
                 class="action-btn secondary"
                 (click)="openBookingForm()"
                 [class.disabled]="!isLoggedIn()"
                 [title]="!isLoggedIn() ? 'Debes iniciar sesión para reservar' : 'Reservar este vehículo'">
-                📅 Reservar
+                Reservar
               </button>
             }
             @if (isAdmin()) {
               <button class="action-btn danger" (click)="deleteVehicle()">
-                🗑️ Eliminar
+                Eliminar
               </button>
               <button class="action-btn warning" (click)="toggleEdit()">
-                ✏️ Editar
+                Editar
               </button>
             }
           </div>
@@ -85,7 +94,7 @@
   }
 </div> @if (vehicleData && isEditing()) {
   <div class="edit-form-container">
-    <app-vehicle-form [isEditing]="true" [vehicle]="vehicleData" (edited)="handleEdit($event)"></app-vehicle-form>
+    <app-vehicle-form [isEditing]="true" [vehicle]="vehicleData" (edited)="handleEdit($event)" (cancelEdit)="toggleEdit()"></app-vehicle-form>
   </div>
 }
 

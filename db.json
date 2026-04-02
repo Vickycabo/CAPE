@@ -54,7 +54,7 @@
         "https://www.autonocion.com/wp-content/uploads/2022/07/Volkswagen-Amarok-2023-64.jpg",
         "https://www.megautos.com/wp-content/uploads/2022/07/Volkswagen-Amarok-2023-interior.jpg"
       ],
-      "description": "Automática, 4x4, potente y espaciosa.",
+      "description": "Automática, 4x4, potente y espaciosa, motor espectacular y muy cómodo para la familia.",
       "id": "4"
     },
     {
@@ -118,21 +118,6 @@
       "id": "9"
     },
     {
-      "brand": "Nissan",
-      "customBrand": "Nissan",
-      "model": "Kicks",
-      "year": 2024,
-      "color": "Blanco",
-      "customColor": "",
-      "price": 2600000,
-      "images": [
-        "https://nissanofportland.com/wp-content/uploads/2023/11/2024-kicks.webp",
-        "https://www.nissanqueretarobernardoquintana.com.mx/inventoryphotos/9561/mntfp5cp7r6011866/ip/5.jpg?timestamp=2025-08-21T03:00:55Z&bg-color=FFFFFF&width=400%20400w"
-      ],
-      "description": "Crossover compacto, eficiente para uso urbano con buen espacio interior.",
-      "id": "10"
-    },
-    {
       "brand": "Renault",
       "customBrand": "",
       "model": "Sandero",
@@ -193,7 +178,6 @@
       "description": "coupe"
     },
     {
-      "id": "00b0",
       "brand": "Chevrolet",
       "customBrand": "",
       "model": "Joy HB",
@@ -205,7 +189,23 @@
         "https://res.cloudinary.com/dgipsuntz/image/upload/v1774918437/ruebdc09ucnlkzll4noz.jpg",
         "https://res.cloudinary.com/dgipsuntz/image/upload/v1774918445/ei1jtdd56iuwvjctjs9e.jpg"
       ],
-      "description": "El Joy llega con un gran diseño y todo lo que necesitás para tu día a día: confort, estilo y performance. El Joy viene con motor 1.4 y cambio manual de 5 velocidades."
+      "description": "El Joy llega con un gran diseño y todo lo que necesitás para tu día a día: confort, estilo y performance. Este compacto viene con motor 1.4 y cambio manual de 5 velocidades.",
+      "id": "00b0"
+    },
+    {
+      "id": "db97",
+      "brand": "Ford",
+      "customBrand": "",
+      "model": "Bronco Sport",
+      "year": 2023,
+      "color": "verde",
+      "customColor": "verde",
+      "price": 7000000,
+      "images": [
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1775087656/uqso9xfqdqqj7mt1meir.jpg",
+        "https://res.cloudinary.com/dgipsuntz/image/upload/v1775087667/m5sqennzemptutdz8onv.jpg"
+      ],
+      "description": "Nueva Bronco Sport, con su característico diseño robusto, esta SUV se renueva con tecnologías de vanguardia, lista para llevarte a cualquier aventura. Posee la mejor combinación de potencia y torque para enfrentar cualquier desafío. Ofrece tracción 4WD de serie, sistema de gestión de terrenos con hasta 7 modos de manejo y bloqueo de diferencial trasero."
     }
   ],
   "consultas": [
@@ -219,16 +219,6 @@
       "status": "contactado"
     },
     {
-      "id": "0ede",
-      "name": "Vicky",
-      "email": "vi@gmail.com",
-      "phone": "123456",
-      "message": "Quiero que me contacten por el auto",
-      "vehicleId": "3",
-      "date": "2025-11-17",
-      "status": "pendiente"
-    },
-    {
       "id": "8681",
       "name": "Carlos",
       "email": "carlos@mail.com",
@@ -239,35 +229,17 @@
       "status": "pendiente"
     },
     {
-      "id": "eba6",
-      "name": "maxi",
-      "email": "asdasdas@asdasd.com",
-      "phone": "2236359607",
-      "message": "cuanto vale ?",
-      "vehicleId": "3",
-      "date": "2025-11-20",
-      "status": "pendiente"
+      "id": "438e",
+      "name": "Regi Probando",
+      "email": "regiprobando@gmail.com",
+      "phone": "2234567890",
+      "message": "Está disponible en color rojo?",
+      "vehicleId": "00b0",
+      "date": "2026-04-01",
+      "status": "contactado"
     }
   ],
   "reservas": [
-    {
-      "id": "39f7",
-      "name": "Victoria",
-      "email": "victoria_cabo@hotmail.com",
-      "phone": "02235895319",
-      "date": "2025-11-17",
-      "vehicleId": "3",
-      "userId": "2"
-    },
-    {
-      "id": "263e",
-      "name": "pepita",
-      "email": "pepi@gmail.com",
-      "phone": "12345689",
-      "date": "2025-11-19",
-      "vehicleId": "1",
-      "userId": "2"
-    },
     {
       "id": "8101",
       "name": "Juan",
@@ -278,13 +250,13 @@
       "userId": "348a"
     },
     {
-      "id": "34fc",
-      "name": "Maxi",
-      "email": "asasdas@asd.com",
-      "phone": "2236359607",
-      "date": "2025-11-20",
-      "vehicleId": "2",
-      "userId": "2"
+      "id": "bff1",
+      "name": "Regi Probando",
+      "email": "regiprobando@gmail.com",
+      "phone": "2234567890",
+      "date": "2026-04-15",
+      "vehicleId": "db97",
+      "userId": "81a9"
     }
   ],
   "usuarios": [
@@ -314,6 +286,13 @@
       "name": "Juan",
       "email": "juan@mail.com",
       "password": "12568",
+      "rol": "usuario"
+    },
+    {
+      "id": "81a9",
+      "name": "Regi Probando",
+      "email": "regiprobando@gmail.com",
+      "password": "123456789",
       "rol": "usuario"
     }
   ]

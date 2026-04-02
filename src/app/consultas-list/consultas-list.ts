@@ -4,6 +4,7 @@ import { InquiryService } from '../inquiry-service';
 import { VehicleClient } from '../vehicle-client';
 import { Inquiry } from '../inquiry';
 import { Vehicle } from '../vehicle';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-consultas-list',
@@ -106,15 +107,15 @@ export class ConsultasList {
       
       if (errores === 0) {
         this.cambiosPendientes.set(new Map());
-        alert(`${exitosos} cambio(s) guardado(s) exitosamente`);
+        Swal.fire('Éxito', `${exitosos} cambio(s) guardado(s) exitosamente`, 'success');
       } else if (exitosos > 0) {
         this.cambiosPendientes.set(new Map());
-        alert(`${exitosos} cambio(s) guardado(s), ${errores} error(es)`);
+        Swal.fire('Cambios guardados', `${exitosos} cambio(s) guardado(s), ${errores} error(es)`, 'warning');
       } else {
-        alert('Error al guardar los cambios');
+       Swal.fire('Error', 'Error al guardar cambios', 'error');
       }
     } catch (err) {
-      this.error.set('Error guardando cambios');
+    Swal.fire('Error', 'Error guardando cambios', 'error');
     } finally {
       this.guardando.set(false);
     }
@@ -137,7 +138,16 @@ export class ConsultasList {
   async eliminarConsulta(consulta: Inquiry) {
     if (!consulta.id) return;
     
-    if (confirm(`¿Está seguro de que desea eliminar la consulta de ${consulta.name}?`)) {
+   const result = await Swal.fire({
+      title: '¿Eliminar consulta?',
+      text: `¿Deseas eliminar la consulta de ${consulta.name}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar'
+    });
+
+    if (result.isConfirmed) {
       try {
         await this.inquiryService.deleteInquiry(consulta.id);
         this.consultas.update(consultas => consultas.filter(c => c.id !== consulta.id));
@@ -147,8 +157,9 @@ export class ConsultasList {
           nuevosCambios.delete(consulta.id!);
           return nuevosCambios;
         });
+      Swal.fire({ title: 'Eliminada', icon: 'success', timer: 1500, showConfirmButton: false });
       } catch (err) {
-        alert('Error al eliminar la consulta');
+        Swal.fire('Error', 'Error al eliminar la consulta', 'error');
       }
     }
   }

@@ -1,5 +1,11 @@
 @if (canAdd()) {
-<h2>{{ isEditing() ? 'Editar Vehículo' : 'Agregar Vehículo' }}</h2>
+<div class="modal-overlay">
+  <div class="form-container">
+    
+    <div class="form-header">
+      <h3>{{ isEditing() ? 'Editar Vehículo' : 'Agregar Vehículo' }}</h3>
+      <button type="button" class="close-button" (click)="closeForm()">✕</button>
+    </div>
 
 <form [formGroup]="form" (ngSubmit)="handleSubmit()">
 
@@ -125,10 +131,15 @@
   </div>
 
   <div class="form-actions">
-    <button type="reset">Borrar</button>
-    <button type="submit" [disabled]="form.invalid">{{ isEditing() ? 'Actualizar' : 'Agregar' }}</button>
-  </div>
+        <button type="button" class="action-btn secondary" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="action-btn primary" [disabled]="form.invalid || isUploading()">
+          {{ isEditing() ? 'Actualizar' : 'Agregar' }}
+        </button>
+      </div>
+     
 </form>
+ </div>
+</div>
 } @else {
     <p>Debes iniciar sesión con una cuenta de usuario para agregar un vehículo.</p>
 }

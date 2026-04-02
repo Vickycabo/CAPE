@@ -1,10 +1,11 @@
-import { Component, effect, inject, input, output, computed, signal } from '@angular/core';
+import { Component, effect, inject, input, output, computed, signal, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VehicleClient } from '../vehicle-client';
 import { Vehicle } from '../vehicle';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth-service';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2'; //para carteles modales, no olvidar hacer npm install sweetalert2
 
 @Component({
   selector: 'app-vehicle-form',
@@ -97,6 +98,10 @@ export class VehicleForm {
     images: ['', Validators.required],
     description: ['', Validators.required]
   });
+@Output() cancelEdit = new EventEmitter<void>();
+  closeForm() {
+    this.cancelEdit.emit();
+  }
 
  get brand() {return this.form.controls.brand;}
   get customBrand() {return this.form.controls.customBrand;}
@@ -143,11 +148,28 @@ export class VehicleForm {
 
   async handleSubmit() {
     if (this.form.invalid || this.isUploading()) {
-      alert("Formulario inválido o imagen subiéndose...");
+      Swal.fire({ // cartel de error o espera
+        icon: 'error',
+        title: 'Formulario invalido o imagen subiendose',
+        text: 'Por favor, llena todos los campos requeridos y espera a que se complete la subida de imagenes',
+        confirmButtonColor: '#007acc'
+      });
       return;
     }
 
-    if (confirm("¿Confirmar Datos?")) {
+  
+  const result = await Swal.fire({ //cartel confirmar datos
+      title: '¿Confirmar Datos?',
+      text: "¿Estas seguro de que deseas guardar este vehiculo?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
       const formValue = this.form.getRawValue();
       const finalBrand = formValue.brand === 'Otra' ? formValue.customBrand : formValue.brand;
       const finalColor = formValue.color === 'Otro' ? formValue.customColor : formValue.color;
@@ -158,25 +180,42 @@ export class VehicleForm {
         color: finalColor!,
         year: Number(formValue.year),
         price: Number(formValue.price),
-        images: formValue.images.split(',').map(img => img.trim()) //uso de las urls ya de cloudinary
+        images: formValue.images.split(',').map(img => img.trim())
       };
+
       try {
         if (!this.isEditing()) {
           await this.client.addVehicle(vehicle);
-          alert('Vehículo agregado');
+          
+          Swal.fire({ //cartel de exito
+            icon: 'success',
+            title: '¡Vehiculo agregado!',
+            text: 'El vehiculo se agregó correctamente',
+            timer: 2000, 
+            showConfirmButton: false
+          });
+          
           this.form.reset();
         } else if (this.vehicle()) {
           const updatedVehicle = await this.client.updateVehicle(vehicle, this.vehicle()?.id!);
           if (updatedVehicle) {
-            alert('Vehículo editado');
+          
+            Swal.fire({
+              icon: 'success',
+              title: '¡Vehiculo editado con exito!',
+              showConfirmButton: false,
+              timer: 1500 // se cierra solo desps de unos segundos
+            });
+            
             this.edited.emit(updatedVehicle);
           }
         }
       } catch (error) {
-        alert('Error al procesar el vehículo');
+        Swal.fire('Error', 'Hubo un problema al procesar el vehiculo', 'error');
       }
     }
   }
-
   }
+
+  
 
