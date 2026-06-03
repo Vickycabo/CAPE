@@ -8,6 +8,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth-service';
 import { VehicleForm } from '../vehicle-form/vehicle-form';
+import Swal from 'sweetalert2'; //para carteles modales
 
 @Component({
   selector: 'app-vehicle-details',
@@ -49,10 +50,14 @@ export class VehicleDetails {
         const vehicle = await this.client.getVehicleById(this.id);
         this.vehicle.set(vehicle);
       } catch (error) {
-        console.error('Error cargando vehículo:', error);
+         console.error('Error cargando vehículo:', error);
         this.vehicle.set(null);
       }
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/catalogo']);
   }
 
   protected selectImage(image: string) {
@@ -69,14 +74,34 @@ handleEdit(vehicle: Vehicle) {
   }
 
   async deleteVehicle() {
+
     if (!this.isAdmin()) return;
-    if (confirm('Desea borrar este vehículo?')) {
+
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esta acción! El vehículo se borrará permanentemente.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33', //rojo para borrar
+      cancelButtonColor: '#6c757d', // gris para cancelar
+      confirmButtonText: 'Sí, borrar vehículo',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
       try {
         await this.client.deleteVehicle(this.id!);
-        alert('Vehículo borrado');
+        await Swal.fire({
+          title: '¡Borrado!',
+          text: 'El vehículo se eliminó del catalogo.',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+
         this.router.navigateByUrl('/catalogo');
       } catch (error) {
-        alert('Error al borrar el vehículo');
+         Swal.fire('Error', 'Error al borrar el vehiculo', 'error');
       }
     }
   }
@@ -88,7 +113,12 @@ handleEdit(vehicle: Vehicle) {
 
   openBookingForm() {
     if (!this.auth.isLoggedIn()) {
-      alert('Debes iniciar sesión para reservar un vehículo');
+     Swal.fire({
+        icon: 'info',
+        title: 'Atención',
+        text: 'Debes iniciar sesión para reservar un vehículo',
+        confirmButtonColor: '#007acc'
+      });
       this.router.navigate(['/login']);
       return;
     }

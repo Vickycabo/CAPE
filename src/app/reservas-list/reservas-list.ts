@@ -4,6 +4,7 @@ import { BookingService } from '../booking-service';
 import { VehicleClient } from '../vehicle-client';
 import { Booking } from '../booking';
 import { Vehicle } from '../vehicle';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservas-list',
@@ -73,13 +74,22 @@ export class ReservasList {
 
   async eliminarReserva(reserva: Booking) {
     if (!reserva.id) return;
-    
-    if (confirm(`¿Está seguro de que desea eliminar la reserva de ${reserva.name}?`)) {
+    const result = await Swal.fire({
+      title: '¿Cancelar reserva?',
+      text: `¿Seguro que deseas eliminar la reserva de ${reserva.name}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    });
+
+    if (result.isConfirmed) {
       try {
         await this.bookingService.deleteBooking(reserva.id);
         this.reservas.update(reservas => reservas.filter(r => r.id !== reserva.id));
+        Swal.fire({ title: 'Reserva eliminada', icon: 'success', timer: 1500, showConfirmButton: false });
       } catch (err) {
-        alert('Error al eliminar la reserva');
+        Swal.fire('Error', 'Error al eliminar la reserva', 'error');
       }
     }
   }

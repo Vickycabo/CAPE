@@ -1,50 +1,10 @@
 // ===== TIPOS CENTRALIZADOS PARA LA APLICACIÓN CAPE =====
 
-// Usuario de la aplicación
-export interface AppUser {
-  id: number | string;
-  name: string;
-  email: string;
-  password: string;
-  rol: 'admin' | 'usuario';
-}
-
-// Vehículo
-export interface Vehicle {
-  id: string | number;
-  brand: string;
-  customBrand?: string;
-  model: string;
-  year: number;
-  color: string;
-  customColor?: string;
-  price: number;
-  images: string[];
-  description: string;
-}
-
-// Consulta/Inquiry
-export interface Inquiry {
-  id: string | number;
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  vehicleId?: string | number;
-  date: string;
-  status: 'pendiente' | 'contactado' | 'cerrado';
-}
-
-// Reserva/Booking
-export interface Booking {
-  id: string | number;
-  name: string;
-  email: string;
-  phone: string;
-  date: string;
-  vehicleId: string | number;
-  userId: string | number;
-}
+import { Inquiry } from '../inquiry';
+export * from '../auth-service'; 
+export * from '../vehicle';     
+export * from '../inquiry';     
+export * from '../booking';      
 
 // Formularios - DTOs (Data Transfer Objects)
 export interface LoginFormData {

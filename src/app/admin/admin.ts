@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService, AppUser } from '../auth-service';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2'; //para carteles modales
 
 @Component({
   selector: 'app-admin',
@@ -32,7 +32,7 @@ export class Admin {
       const users = await this.auth.listUsers();
       this.usuarios.set(users);
     } catch (err) {
-      this.error.set('Error cargando usuarios');
+    this.error.set('Error cargando usuarios');
     } finally {
       this.cargando.set(false);
     }
@@ -60,7 +60,7 @@ export class Admin {
       // Restaurar el valor original si intentan cambiar su propio rol
       const target = event.target as HTMLSelectElement;
       target.value = usuario.rol;
-      alert('No puedes cambiar tu propio rol');
+      Swal.fire('Acción denegada', 'No puedes cambiar tu propio rol', 'warning');
       return;
     }
 
@@ -87,7 +87,8 @@ export class Admin {
       this.hayCambios.set(false);
       await this.cargarUsuarios();
     } catch (err) {
-      this.error.set('Error guardando algunos cambios');
+      Swal.fire('Error', 'Error guardando algunos cambios', 'error');
+      await this.cargarUsuarios(); // recargar para sincronizar con el estado actual
     }
   }
 
@@ -99,11 +100,20 @@ export class Admin {
     // Verificar que no sea el usuario actual
     const usuarioActual = this.auth.getUser();
     if (usuarioActual && usuarioActual.id === usuario.id) {
-      alert('No puedes eliminar tu propio usuario');
+      Swal.fire('Acción denegada', 'No puedes eliminar tu propio usuario', 'warning');
       return;
     }
+    const result = await Swal.fire({
+      title: '¿Eliminar usuario?',
+      text: `¿Estás seguro de que quieres eliminar a ${usuario.name}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Sí, eliminar'
+    });
 
-    if (confirm(`¿Estás seguro de que quieres eliminar al usuario ${usuario.name}?`)) {
+    if (result.isConfirmed) {
       try {
         await this.auth.deleteUser(usuario.id);
         // Remover cambios pendientes si los había
@@ -111,8 +121,9 @@ export class Admin {
         this.hayCambios.set(this.cambiosPendientes.size > 0);
         // Actualizar la lista de usuarios
         await this.cargarUsuarios();
+        Swal.fire({ title: 'Eliminado', icon: 'success', timer: 1500, showConfirmButton: false });
       } catch (err) {
-        this.error.set('Error eliminando usuario');
+        Swal.fire('Error', 'Error eliminando usuario', 'error');
       }
     }
   }

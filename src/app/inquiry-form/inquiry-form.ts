@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService, AppUser } from '../auth-service';
 import { firstValueFrom } from 'rxjs';
 import { InquiryFormData, Inquiry } from '../types';
+import Swal from 'sweetalert2'; //cartelitos para el envio de form
 
 @Component({
   selector: 'app-inquiry-form',
@@ -57,10 +58,20 @@ export class InquiryForm implements OnInit {
         this.successMessage.set('Consulta enviada exitosamente');
         this.errorMessage.set('');
         this.inquiryForm.reset();
+
+        await Swal.fire({ //Cartel de aviso de envio
+          icon: 'success',
+          title: '¡Consulta enviada!',
+          text: 'Nos pondremos en contacto contigo a la brevedad.',
+          confirmButtonColor: '#1a1a1a', 
+          timer: 3000, 
+          timerProgressBar: true
+        });
+
         this.router.navigate(['/catalogo']);
       } catch (error) {
         this.errorMessage.set('Error al enviar la consulta');
-        this.successMessage.set('');
+        Swal.fire('Error', 'No se pudo enviar la consulta.', 'error');
       }
     }
   }

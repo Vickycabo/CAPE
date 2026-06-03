@@ -5,5 +5,6 @@ export interface Booking {
     phone: string,
     vehicleId?: string | number,
     userId?: string | number,
-    date?: string
+    date?: string,
+    status?: 'pendiente' | 'cancelada'
 }

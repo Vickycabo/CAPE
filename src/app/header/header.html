@@ -15,6 +15,11 @@
         <a routerLink="/agregar-vehiculos" class="nav-button" (click)="closeMenu()">Agregar Vehículo</a>
       }
       <span class="user-label">{{currentUserName()}}</span>
+
+      @if (!isAdmin()) {
+        <a routerLink="/mi-panel" class="nav-button" (click)="closeMenu()">Mi Panel</a>
+      }
+      
       <button class="nav-button" (click)="logout()">Salir</button>
     } @else {
       <a routerLink="/login" class="nav-button" (click)="closeMenu()">Login</a>

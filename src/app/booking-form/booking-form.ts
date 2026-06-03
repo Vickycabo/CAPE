@@ -6,6 +6,7 @@ import { AuthService, AppUser } from '../auth-service';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { BookingFormData, Booking } from '../types';
+import Swal from 'sweetalert2'; //cartelitos para el envio de form
 
 @Component({
   selector: 'app-booking-form',
@@ -54,7 +55,8 @@ export class BookingForm implements OnInit {
       const reserva: Omit<Booking, 'id'> = {
         ...formData,
         vehicleId: this.vehicleId(),
-        userId: user?.id || ''
+        userId: user?.id || '',
+        status: 'pendiente'
       };
 
       try {
@@ -62,10 +64,20 @@ export class BookingForm implements OnInit {
         this.successMessage.set('Reserva realizada exitosamente');
         this.errorMessage.set('');
         this.bookingForm.reset();
+
+        await Swal.fire({ //cartelito de aviso qie se envio
+          icon: 'success',
+          title: '¡Reserva confirmada!',
+          text: 'Tu visita ha sido agendada con éxito. Te esperamos.',
+          confirmButtonColor: '#1a1a1a',
+          timer: 3000,
+          timerProgressBar: true
+        });
+
         this.router.navigate(['/catalogo']);
       } catch (error) {
         this.errorMessage.set('Error al realizar la reserva');
-        this.successMessage.set('');
+        Swal.fire('Error', 'No se pudo realizar la reserva.', 'error');
       }
     }
   }

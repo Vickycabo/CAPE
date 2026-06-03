@@ -6,5 +6,5 @@ export interface Inquiry { //Consultas
     message: string,
     vehicleId?: string | number,
     date?: string,
-    status?: string
+    status?: 'pendiente' | 'contactado' | 'cerrado'
 }
