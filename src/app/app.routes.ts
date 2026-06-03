@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Catalog } from './catalog/catalog';
 import { VehicleDetails } from './vehicle-details/vehicle-details';
 import { VehicleForm } from './vehicle-form/vehicle-form';
 import { Login } from './login/login';
-import { AuthService } from './auth-service';
 import { Admin } from './admin/admin';
-import { InquiryForm } from './inquiry-form/inquiry-form';
-import { BookingForm } from './booking-form/booking-form';
 import { ConsultasList } from './consultas-list/consultas-list';
 import { ReservasList } from './reservas-list/reservas-list';
+import { UserPanel } from './user-panel/user-panel';
+
+//Guards proteccion de rutas para user logueado y admin
+import { adminGuard } from './guards/admin-guard';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [{
         path: '', redirectTo: 'catalogo', pathMatch: 'full'
@@ -26,11 +26,7 @@ export const routes: Routes = [{
     {
         path: 'agregar-vehiculos', component: VehicleForm,
         title: "Agregar Vehículos",
-        canActivate: [() => {
-            const auth = inject(AuthService);
-            const router = inject(Router);
-            return (auth.isLoggedIn() && auth.isAdmin()) || router.createUrlTree(['/login']);
-        }]
+       canActivate: [adminGuard]
     },
     {
         path: 'login', component: Login,
@@ -39,29 +35,22 @@ export const routes: Routes = [{
     {
         path: 'admin', component: Admin,
         title: 'Administración de Usuarios',
-        canActivate: [() => {
-            const auth = inject(AuthService);
-            const router = inject(Router);
-            return auth.isAdmin() || router.createUrlTree(['/login']);
-        }]
+        canActivate: [adminGuard]
     },
     {
         path: 'reservas', component: ReservasList,
         title: 'Reservas Realizadas',
-        canActivate: [() => {
-            const auth = inject(AuthService);
-            const router = inject(Router);
-            return auth.isAdmin() || router.createUrlTree(['/login']);
-        }]
+        canActivate: [adminGuard]
     },
     {
         path: 'consultas', component: ConsultasList,
         title: 'Consultas Recibidas',
-        canActivate: [() => {
-            const auth = inject(AuthService);
-            const router = inject(Router);
-            return auth.isAdmin() || router.createUrlTree(['/login']);
-        }]
+        canActivate: [adminGuard]
+    },
+    {
+        path: 'mi-panel', component: UserPanel,
+        title: 'Mi Panel de Usuario',
+        canActivate: [authGuard]
     },
     {
         path: '**', redirectTo: 'catalogo'

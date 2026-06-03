@@ -55,7 +55,8 @@ export class BookingForm implements OnInit {
       const reserva: Omit<Booking, 'id'> = {
         ...formData,
         vehicleId: this.vehicleId(),
-        userId: user?.id || ''
+        userId: user?.id || '',
+        status: 'pendiente'
       };
 
       try {

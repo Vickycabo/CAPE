@@ -1,70 +1,60 @@
 # 🚗 CAPE - Concesionaria de Autos
 ## Sistema Moderno de Gestión Vehicular
 
-[![Angular](https://img.shields.io/badge/Angular-17+-red?logo=angular)](https://angular.io/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Angular](https://img.shields.io/badge/Angular-20+-red?logo=angular)](https://angular.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Signals](https://img.shields.io/badge/Angular_Signals-✅-green)](https://angular.io/guide/signals)
 [![RxJS](https://img.shields.io/badge/RxJS-Modern-purple?logo=rxjs)](https://rxjs.dev/)
 
-Un sistema de gestión para concesionaria de autos desarrollado con **Angular 17+** utilizando la nueva arquitectura de **Signals** y **RxJS** para máximo rendimiento y reactividad.
+Un sistema de gestión para concesionaria de autos desarrollado con **Angular 20.3+** utilizando la nueva arquitectura de **Signals** y **RxJS** para máximo rendimiento y reactividad.
 
 ## 🎯 Características Destacadas
 
 ### ⚡ **Arquitectura Moderna**
-- **Signals de Angular 17+** para estado reactivo optimizado
-- **RxJS + firstValueFrom()** para operaciones HTTP modernas  
-- **Type Safety completo** - sin uso de `any`
-- **Change Detection granular** para máximo rendimiento
+- **Signals de Angular 20+** para manejo de estado reactivo optimizado.
+- **RxJS + firstValueFrom()** para operaciones HTTP modernas.
+- **Change Detection granular (Zoneless)** para un rendimiento superior.
 
 ### 🔧 **Funcionalidades Principales**
-- **Catálogo inteligente** con filtros reactivos en tiempo real
-- **Gestión completa de inventario** con validaciones dinámicas
-- **Sistema de consultas** con estado de cambios pendientes
-- **Reservas de vehículos** con autocompletado de datos
-- **Autenticación robusta** con roles y persistencia
-- **Panel administrativo** con operaciones CRUD completas
+- **Catálogo inteligente** con ordenamiento y filtros reactivos en tiempo real.
+- **Integración con Cloudinary** para la subida y gestión de imágenes en la nube.
+- **Panel de Autogestión (Mi Panel)** exclusivo para que los clientes administren sus reservas.
+- **Gestión completa de inventario** con validaciones dinámicas para administradores.
+- **Sistema de alertas modales** interactivas implementadas con **SweetAlert2**.
 
-### 🎨 **Experiencia de Usuario**
-- **Autocompletado inteligente** en formularios para usuarios logueados
-- **Estados de carga** reactivos con feedback visual inmediato  
-- **Validaciones dinámicas** que se adaptan en tiempo real
-- **Interfaz responsive** con diseño moderno y accesible
+### 🎨 **Experiencia de Usuario (UX/UI)**
+- **Diseño Clean** inspirado en concesionarias.
+- **Autocompletado inteligente** en formularios para usuarios logueados.
+- **Estados de carga** reactivos con feedback visual inmediato.
+- **Interfaz responsive** con diseño moderno adaptado a dispositivos móviles.
 
 ## 🚀 Stack Tecnológico
 
 ### **Frontend Moderno**
-- **Angular 17+** - Framework principal con standalone components
-- **TypeScript 5.9.2** - Lenguaje con tipado estricto
-- **Signals** - Sistema reactivo nativo de Angular
-- **RxJS** - Para operaciones asíncronas y HTTP requests
-- **CSS3** - Estilos con variables nativas y grid/flexbox
+- **Angular 20.3+** - Framework principal con standalone components.
+- **TypeScript** - Fuerte tipado estricto para mayor seguridad en el código.
+- **Signals & RxJS** - Sistema reactivo híbrido.
+- **SweetAlert2 (11.26+)** - Para notificaciones y confirmaciones modales modernas.
 
 ### **Backend & Datos**
-- **JSON Server 1.0.0-beta.3** - API REST simulada para desarrollo
-- **HTTP Client** - Comunicación moderna con firstValueFrom()
-- **Reactive Forms** - Formularios reactivos con validaciones
+- **JSON Server (1.0.0-beta)** - API REST simulada para desarrollo local.
+- **Cloudinary API (2.10+)** - Almacenamiento de imágenes de vehículos en la nube.
+- **HTTP Client** - Comunicación moderna asíncrona.
 
-### **Testing & Calidad**
-- **Jasmine & Karma** - Testing unitario
-- **TypeScript strict mode** - Máxima seguridad de tipos
-- **ESLint** - Linting de código
+## 📁 Estructura del Proyecto (Clean Architecture)
 
-## 📁 Estructura del Proyecto
-
-```
+```text
 src/
 ├── app/
-│   ├── admin/              # Panel de administración
-│   ├── booking-form/       # Formulario de reservas
-│   ├── catalog/            # Catálogo de vehículos
-│   ├── footer/             # Componente footer
-│   ├── header/             # Componente header
-│   ├── inquiry-form/       # Formulario de consultas
-│   ├── login/              # Sistema de autenticación
-│   ├── vehicle-details/    # Detalles de vehículos
-│   ├── vehicle-form/       # Formulario de vehículos
-│   ├── *.service.ts        # Servicios de la aplicación
-│   └── *.ts               # Modelos y configuración
+│   ├── admin/              # Panel de administración de roles
+│   ├── booking-form/       # Formularios modales de reservas
+│   ├── catalog/            # Catálogo de vehículos y filtros
+│   ├── guards/             # Protecciones de ruta (Auth & Admin) aisladas
+│   ├── user-panel/         # Autogestión de clientes (Mi Panel)
+│   ├── vehicle-details/    # Ficha técnica dividida (Split design)
+│   ├── vehicle-form/       # Formulario interactivo con subida a Cloudinary
+│   ├── *.service.ts        # Lógica de negocio y llamadas HTTP centralizadas
+│   └── types/index.ts      # Interfaces y DTOs centralizados (Pattern Barrel)
 ├── public/                 # Archivos públicos
 └── db.json                # Base de datos JSON
 ```
@@ -90,7 +80,6 @@ export class VehicleClient {
 ### **Ventajas de esta Arquitectura:**
 - 🚀 **Rendimiento**: Change detection granular con Signals
 - 🔄 **Reactividad**: Estado automático sin subscripciones manuales  
-- 🛡️ **Type Safety**: TypeScript estricto sin `any`
 - 🧹 **Clean Code**: Sin memory leaks por subscripciones olvidadas
 
 ## 🛠️ Instalación y Configuración
@@ -98,14 +87,14 @@ export class VehicleClient {
 ### **Prerrequisitos**
 - **Node.js** 20.10.0+ 
 - **npm** (incluido con Node.js)
-- **Angular CLI** 17+ (opcional)
+- **Angular CLI** 20+
 
 ### **Instalación Rápida**
 
 1. **Clonar y configurar**:
    ```powershell
-   git clone [URL_DEL_REPOSITORIO]
-   cd CAPE-fran
+   git clone https://github.com/Vickycabo/CAPE.git
+   cd CAPE
    npm install
    ```
 
@@ -155,15 +144,13 @@ export class VehicleClient {
 
 | **Rol** | **Email** | **Password** | **Permisos** |
 |----------|-----------|--------------|--------------|
-| 👨‍💼 **Admin** | admin@concesionaria.com | admin123 | Gestión completa del sistema |
-| Usuario | usuario@demo.com | user123 | Usuario cliente estándar |
-| 👨‍💼 **Vendedor** | vendedor@concesionaria.com | vend123 | Operaciones de venta |
+| 👨‍💼 **Admin** | admin@concesionaria.com | admin123 | Gestión de inventario, ABM de usuarios, panel global de reservas y consultas. |
+| 👤 **Usuario** | usuario@demo.com | user123 | Catálogo, reservas, consultas y acceso a "Mi Panel" para autogestión. |
 
 ### **Características del Sistema de Auth:**
-- 🔐 **Autenticación JWT** (simulada con localStorage)
-- 🔄 **Auto-login** persistente entre sesiones
-- 🛡️ **Guards de ruta** para protección de contenido
-- 📝 **Autocompletado** de formularios para usuarios logueados
+- 🔐 **Persistencia de Sesión** (simulada con localStorage)
+- 🔄 **Ocultamiento dinámico de elementos** de interfaz según rol activo
+- 🛡️ **Guards de ruta (CanActivate)** para protección de contenido
 
 ## 🎯 Funcionalidades Principales
 
@@ -181,50 +168,16 @@ export class VehicleClient {
 - ⚠️ **Validaciones dinámicas** que se adaptan mientras escribes
 - 💾 **Estados de cambio** con indicadores visuales de datos pendientes
 - 🎨 **UI moderna** con feedback visual inmediato
+- ☁️ **Uso de Cloudinary** para almacenado de imágenes en la nube
+- 💬 **Implmentación de Modales Flotantes** utilizando SweetAlert2
+- 💻 **Separación de Responsabilidades con Guards** para protección de rutas
+- 🧪 **Testing Estratégico (Limpieza de archivos .spec.ts)** autogenerados sin uso  para mantener un repositorio limpio y enfocado, priorizando el test del componente raíz para asegurar el levantamiento de la app en entornos modernos Zoneless.
 
 ### **🔧 Para Administradores**
 - ➕ **Gestión completa** de inventario vehicular
 - ✏️ **Edición en tiempo real** con validaciones estrictas
 - 🗑️ **Eliminación segura** con confirmaciones
-- 📊 **Panel administrativo** con estadísticas en vivo
-- 📞 **Gestión de consultas** con estados de seguimiento
-- 📋 **Administración de reservas** con filtros avanzados
-
-## 🧪 Testing y Calidad
-
-```powershell
-# Tests unitarios con Jasmine
-npm test
-
-# Tests con coverage detallado
-ng test --code-coverage
-
-# Linting de código
-ng lint
-
-# Build de producción con optimizaciones
-npm run build --prod
-```
-
-## ⚡ Características Técnicas Avanzadas
-
-### **🏗️ Arquitectura Moderna**
-- **Angular 17+ Signals** - Estado reactivo sin subscripciones
-- **TypeScript Strict Mode** - 100% type-safe, cero `any`
-- **Standalone Components** - Arquitectura modular sin NgModules
-- **RxJS + firstValueFrom()** - Patrón HTTP moderno sin .toPromise()
-
-### **🎨 UI/UX Optimizada**  
-- **Responsive Design** - Mobile-first con CSS Grid/Flexbox
-- **Loading States** - Feedback visual con Signals reactivos
-- **Form Validation** - Validaciones dinámicas en tiempo real
-- **Error Handling** - Manejo robusto de errores HTTP
-
-### **🔒 Seguridad y Rendimiento**
-- **Route Guards** - Protección de rutas sensibles
-- **Lazy Loading** - Carga diferida de módulos
-- **Change Detection** - OnPush granular con Signals
-- **Memory Management** - Sin memory leaks por subscripciones
+- 📞 **Gestión de consultas y reservas** con estados
 
 ## 🔧 Configuración
 
@@ -266,30 +219,13 @@ const API_ENDPOINTS = {
 - **BookingService** - Reservas con validaciones dinámicas
 - **InquiryService** - Consultas con estado híbrido RxJS+Signals
 
-## 🚀 Roadmap y Mejoras Futuras
-
-### **🎯 Implementado (v1.0)**
-- ✅ Migración completa a Angular 17+ Signals
-- ✅ Eliminación de métodos deprecated (.toPromise → firstValueFrom)
-- ✅ Type safety 100% (eliminación de 'any')
-- ✅ Formularios con autocompletado inteligente
-- ✅ UI/UX optimizada con estados reactivos
-
-### **🔮 Próximas Funcionalidades (v2.0)**
-- [ ] **PWA** - Aplicación web progresiva con service workers
-- [ ] **Real-time** - WebSockets para notificaciones en vivo  
-- [ ] **Analytics** - Dashboard con métricas de ventas
-- [ ] **Mobile App** - Ionic + Angular para iOS/Android
-- [ ] **Payment Gateway** - Integración con Stripe/PayPal
-- [ ] **CRM Advanced** - Gestión completa de clientes
-
 ## 🤝 Contribución y Desarrollo
 
 ### **Workflow de Desarrollo**
 ```powershell
 # 1. Fork y clona el repo
-git clone https://github.com/tu-usuario/CAPE-fran.git
-cd CAPE-fran
+git clone https://github.com/Vickycabo/CAPE.git
+cd CAPE
 
 # 2. Crea rama para tu feature
 git checkout -b feature/nueva-funcionalidad
@@ -307,36 +243,15 @@ git push origin feature/nueva-funcionalidad
 ```
 
 ### **Estándares de Código**
-- **TypeScript Strict**: Sin `any`, máxima type safety
 - **Angular Style Guide**: Convenciones oficiales de Angular
 - **Signals First**: Preferir Signals sobre Observables para estado
 - **Modern RxJS**: firstValueFrom() para operaciones HTTP
-
-## 📊 Métricas del Proyecto
-
-| **Aspecto** | **Estado** | **Detalle** |
-|-------------|------------|-------------|
-| 🏗️ **Arquitectura** | ✅ Moderna | Angular 17+ Signals + RxJS híbrido |
-| 🛡️ **Type Safety** | ✅ 100% | Sin uso de `any`, interfaces completas |
-| ⚡ **Performance** | ✅ Optimizada | Change detection granular con Signals |
-| 🧪 **Testing** | ✅ Cubierto | Tests unitarios con Jasmine/Karma |
-| 📱 **Responsive** | ✅ Completo | Mobile-first, CSS Grid/Flexbox |
-| 🔐 **Seguridad** | ✅ Robusta | Guards de ruta, validaciones estrictas |
-
-## 📞 Contacto y Soporte
-
-- 📧 **Soporte técnico**: [Abrir Issue](https://github.com/tu-usuario/CAPE-fran/issues)
-- 💬 **Discord**: [Comunidad CAPE](https://discord.gg/cape-dev)
-- 📱 **Rama activa**: `maxi` (desarrollo principal)
-- 🌐 **Demo en vivo**: [cape-demo.netlify.app](https://cape-demo.netlify.app)
-
----
 
 <div align="center">
 
 **🚗 CAPE - Concesionaria de Autos**
 
-*Desarrollado con* ❤️ *usando* **Angular 17+ Signals** *y* **TypeScript**
+*Desarrollado con* ❤️ *usando* **Angular 20+ Signals** *y* **TypeScript**
 
 [![Made with Angular](https://img.shields.io/badge/Made%20with-Angular-red?logo=angular&logoColor=white)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)

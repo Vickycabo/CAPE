@@ -20,7 +20,8 @@ export class Catalog {
   private readonly auth = inject(AuthService);
   private readonly allVehicles = signal<Vehicle[] | undefined>(undefined);
   protected readonly isLoading = computed(() => this.allVehicles() === undefined);
-
+  protected readonly sortOrder = signal(''); //para ordenar por año de vehiculo o precio asc o desc
+  
   constructor() {
     this.loadVehicles();
   }
@@ -93,13 +94,26 @@ export class Catalog {
     const year = this.filterYear();
     const maxPrice = this.filterMaxPrice();
 
-    return all.filter(vehicle => {
+    let filtered = all.filter(vehicle => {
       const matchBrand = !brand || vehicle.brand.toLowerCase().includes(brand);
       const matchYear = !year || vehicle.year.toString() === year;
       const matchPrice = !maxPrice || vehicle.price <= Number(maxPrice);
 
       return matchBrand && matchYear && matchPrice;
     });
+
+    //para ordenar por precio menor o mayor y año mas viejo o mas nuevo
+    const order = this.sortOrder();
+    if (order === 'price-asc') {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (order === 'price-desc') {
+      filtered.sort((a, b) => b.price - a.price);
+    } else if (order === 'year-desc') {
+      filtered.sort((a, b) => b.year - a.year);
+    } else if (order === 'year-asc') {
+      filtered.sort((a, b) => a.year - b.year);
+    }
+    return filtered;
   });
 
   navigateToDetails(id: string | number) {
@@ -110,6 +124,7 @@ export class Catalog {
     this.filterBrand.set('');
     this.filterYear.set('');
     this.filterMaxPrice.set('');
+    this.sortOrder.set('');
   }
 
   // Fallback para imágenes externas que fallen: usa un data URI 1x1

@@ -1,0 +1,57 @@
+<div class="user-panel-container">
+  <div class="panel-header">
+    <h2>Hola, {{ currentUser()?.name }}</h2>
+    <p>Gestiona tus visitas y revisa el estado de tus consultas</p>
+  </div>
+
+  <div class="panel-grid">
+    <section class="panel-section">
+      <h3>Mis Reservas de Visita</h3>
+      @if (reservas().length === 0) {
+        <div class="empty-state">No hay reservas (visitas) programadas</div>
+      }
+      
+      <div class="cards-list">
+        @for (reserva of reservas(); track reserva.id) {
+          <div class="item-card" [class.cancelled]="reserva.status === 'cancelada'">
+            <div class="card-top">
+              <strong>{{ getVehicleName(reserva.vehicleId) }}</strong>
+              <span class="badge" [class.badge-pending]="reserva.status === 'pendiente'" [class.badge-cancelled]="reserva.status === 'cancelada'">
+                {{ reserva.status || 'pendiente' }}
+              </span>
+            </div>
+            <p>Fecha de visita: <strong>{{ reserva.date }}</strong></p>
+            
+            @if (reserva.status !== 'cancelada') {
+              @if (canCancel(reserva.date)) {
+                <button class="cancel-btn" (click)="cancelarReserva(reserva)">Cancelar Visita</button>
+              } @else {
+                <small class="no-cancel-msg">Ya no puedes cancelar (fecha muy próxima o vencida)</small>
+              }
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h3>Mis Consultas</h3>
+      @if (consultas().length === 0) {
+        <div class="empty-state">Aún no has hecho ninguna consulta</div>
+      }
+      
+      <div class="cards-list">
+        @for (consulta of consultas(); track consulta.id) {
+          <div class="item-card">
+            <div class="card-top">
+              <strong>{{ getVehicleName(consulta.vehicleId) }}</strong>
+              <span class="badge badge-inquiry">{{ consulta.status }}</span>
+            </div>
+            <p class="date">Enviada el: {{ consulta.date }}</p>
+            <div class="message-box">"{{ consulta.message }}"</div>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>

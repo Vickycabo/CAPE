@@ -32,24 +32,41 @@
     </select>
   </div>
 
+  <div class="filter-item">
+    <label>Ordenar por:</label>
+    <select [value]="sortOrder()" (change)="sortOrder.set($any($event.target).value)">
+      <option value="price-asc">Menor precio</option>
+      <option value="price-desc">Mayor precio</option>
+      <option value="year-desc">Año mas reciente</option>
+      <option value="year-asc">Año mas antiguo</option>
+    </select>
+  </div>
+
   <button class="clear-btn" (click)="clearFilters()">Limpiar Filtros</button>
 </div>
 
 @let vehicles = this.vehicles();
 
-<div class="vehicle-grid">
-  @for (vehicle of vehicles; track vehicle.id) {
-    <div class="vehicle-card">
-        <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.brand}} {{vehicle.model}}">
-        @if (isAdmin()) {
-          <button class="delete-btn" (click)="deleteVehicle(vehicle.id!)">Eliminar</button>
-        }
-      <h3>{{vehicle.brand}} {{vehicle.model}}</h3>
-      <p>Año: {{vehicle.year}}</p>
-      <p>Precio: ${{vehicle.price | number:'1.0-0'}} </p>
-      <button (click)="navigateToDetails(vehicle.id!)">Ver Detalles</button>
-    </div>
-  } @empty {
-    <p class="no-results">No se encontraron vehículos con esos filtros.</p>
-  }
-</div>
+@if (isLoading()) {
+  <div class="loading-catalog">
+    <span class="spinner"></span>
+    <p>Cargando vehículos...</p>
+  </div>
+} @else {
+  <div class="vehicle-grid">
+    @for (vehicle of vehicles; track vehicle.id) {
+      <div class="vehicle-card">
+          <img [src]="vehicle.images[0]" (error)="onImgError($event)" alt="{{vehicle.brand}} {{vehicle.model}}">
+          @if (isAdmin()) {
+            <button class="delete-btn" (click)="deleteVehicle(vehicle.id!)">Eliminar</button>
+          }
+        <h3>{{vehicle.brand}} {{vehicle.model}}</h3>
+        <p>Año: {{vehicle.year}}</p>
+        <p>Precio: ${{vehicle.price | number:'1.0-0'}} </p>
+        <button (click)="navigateToDetails(vehicle.id!)">Ver Detalles</button>
+      </div>
+    } @empty {
+      <p class="no-results">No se encontraron vehículos con esos filtros.</p>
+    }
+  </div>
+}
