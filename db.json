@@ -30,7 +30,7 @@
       "brand": "Ford",
       "customBrand": "",
       "model": "Mustang",
-      "year": 2023,
+      "year": 2022,
       "color": "Negro",
       "customColor": "",
       "price": 4500000,
@@ -208,10 +208,9 @@
       "description": "Nueva Bronco Sport, con su característico diseño robusto, esta SUV se renueva con tecnologías de vanguardia, lista para llevarte a cualquier aventura. Posee la mejor combinación de potencia y torque para enfrentar cualquier desafío. Ofrece tracción 4WD de serie, sistema de gestión de terrenos con hasta 7 modos de manejo y bloqueo de diferencial trasero."
     },
     {
-      "id": "4ada",
       "brand": "Ford",
       "customBrand": "",
-      "model": "Camioneta Territory",
+      "model": "Truck Territory",
       "year": 2022,
       "color": "Negro",
       "customColor": "",
@@ -220,7 +219,8 @@
         "https://res.cloudinary.com/dgipsuntz/image/upload/v1775158550/vcge8a3oogn125ui3kzu.jpg",
         "https://res.cloudinary.com/dgipsuntz/image/upload/v1775158555/j3tuzugldywn1bgqx7vl.jpg"
       ],
-      "description": "Elegante y funcional, la nueva Territory se distingue por la calidad de sus terminaciones y su generoso espacio interior. Asientos recubiertos de ecocuero, motor 1.8L EcoBoost, traccion 4x2 / Automática de 7 velocidades."
+      "description": "Elegante y funcional, la nueva Territory se distingue por la calidad de sus terminaciones y su generoso espacio interior. Asientos recubiertos de ecocuero, motor 1.8L EcoBoost, traccion 4x2 / Automática de 7 velocidades.",
+      "id": "4ada"
     }
   ],
   "consultas": [
@@ -252,6 +252,16 @@
       "vehicleId": "00b0",
       "date": "2026-04-01",
       "status": "contactado"
+    },
+    {
+      "id": "784a",
+      "name": "Regi Probando",
+      "email": "regiprobando@gmail.com",
+      "phone": "1234567890876543",
+      "message": "lo quiero en verde",
+      "vehicleId": "11",
+      "date": "2026-05-11",
+      "status": "pendiente"
     }
   ],
   "reservas": [
@@ -272,6 +282,16 @@
       "date": "2026-04-15",
       "vehicleId": "db97",
       "userId": "81a9"
+    },
+    {
+      "id": "8d04",
+      "name": "Regi Probando",
+      "email": "regiprobando@gmail.com",
+      "phone": "2231456789",
+      "date": "2026-05-29",
+      "vehicleId": "5",
+      "userId": "81a9",
+      "status": "cancelada"
     }
   ],
   "usuarios": [
