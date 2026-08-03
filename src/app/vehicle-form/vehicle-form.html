@@ -80,7 +80,19 @@
         }
     </div>
 }
+<div class="form-field">
+        <label for="motor">Motor</label>
+        <input type="text" id="motor" formControlName="motor" placeholder="Ej: 2.0L, V8, 1.4 Turbo">
+      </div>
 
+      <div class="form-field">
+        <label for="transmision">Transmisión</label>
+        <select id="transmision" formControlName="transmision">
+          <option value="" selected disabled>Seleccione transmisión</option>
+          <option value="Manual">Manual</option>
+          <option value="Automática">Automática</option>
+        </select>
+      </div>
 <div class="form-field">
     <label for="price">Precio</label>
     <input type="number" id="price" formControlName="price" min="1000000" max="250000000">
@@ -102,7 +114,8 @@
     id="fileUpload" 
     (change)="onFileSelected($event)" 
     accept="image/*"
-    [disabled]="isUploading()">
+    [disabled]="isUploading()"
+    multiple> <!--para agregar varias fotos(seleccionar) en vez de hacer 1 por 1 -->
   
   @if (isUploading()) {
     <span class="loading-text">Subiendo imagen...</span>

@@ -1,4 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs'
 import { VehicleClient } from '../vehicle-client';
 import { Router } from '@angular/router';
 import { CommonModule, DecimalPipe } from '@angular/common';
@@ -18,6 +20,13 @@ export class Catalog {
   private readonly client = inject(VehicleClient);
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
+
+  //tema banner opcional poner
+  private readonly http = inject(HttpClient);
+  protected bannerUrl = signal<string | null>(localStorage.getItem('hero_banner'));
+  protected bannerLink = signal<string | null>(localStorage.getItem('hero_banner_link')); //señal para poner un hipervinculo al banner
+  protected isUploadingBanner = signal(false);
+
   private readonly allVehicles = signal<Vehicle[] | undefined>(undefined);
   protected readonly isLoading = computed(() => this.allVehicles() === undefined);
   protected readonly sortOrder = signal(''); //para ordenar por año de vehiculo o precio asc o desc
@@ -171,6 +180,76 @@ export class Catalog {
         Swal.fire('Error', 'Error al borrar el vehiculo', 'error');
       }
     
+    }
+  }
+
+  //controles para el banner (si es que se quiere poner uno): agregar/eliminar/cambiar
+  async onBannerSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    this.isUploadingBanner.set(true);
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'concesionaria_preset');
+    data.append('cloud_name', 'dgipsuntz');
+
+    try {
+      const response: any = await firstValueFrom(
+        this.http.post(`https://api.cloudinary.com/v1_1/dgipsuntz/image/upload`, data)
+      );
+      
+      //guardar link del banner si lo hay
+      this.bannerUrl.set(response.secure_url);
+      localStorage.setItem('hero_banner', response.secure_url);
+
+      // preguntar si quiere poner un hipervinculo al banner
+      const { value: vehicleId } = await Swal.fire({
+        title: '¡Imagen subida!',
+        text: 'Para que al hacer clic en el banner, lleve al usuario a un auto del catálogo, ingresa su ID (ej: 2). Si no, dejalo vacio.',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Omitir'
+      });
+
+      //se guarida el enlace si se ingresó algo
+      if (vehicleId) {
+        this.bannerLink.set(vehicleId);
+        localStorage.setItem('hero_banner_link', vehicleId);
+      } else {
+        this.bannerLink.set(null);
+        localStorage.removeItem('hero_banner_link');
+      }
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Banner actualizado',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    } catch (error) {
+      Swal.fire('Error', 'No se pudo subir el banner a la nube', 'error');
+    } finally {
+      this.isUploadingBanner.set(false);
+      event.target.value = '';
+    }
+  }
+
+//sacar un banner si es que se puso uno al igual que el link de redireccion de ese banner
+removeBanner() {
+    this.bannerUrl.set(null);
+    this.bannerLink.set(null);
+    localStorage.removeItem('hero_banner');
+    localStorage.removeItem('hero_banner_link');
+  }
+
+  onBannerClick() {
+    const link = this.bannerLink();
+    if (link) {
+      this.router.navigateByUrl(`/catalogo/${link}`); //router para redirigir al auto (link del banner)
     }
   }
 }
