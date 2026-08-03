@@ -1,3 +1,46 @@
+<!-- Banner previo al catálogo (opcional) -->
+ @if (bannerUrl()) {
+  <h2 class="novedad-title">¡Novedad!</h2>
+}
+
+<div class="hero-banner-container" [class.has-banner]="bannerUrl()">
+  
+  <!--foto del banner (si existe) -->
+  @if (bannerUrl()) {
+    <img 
+      [src]="bannerUrl()" 
+      alt="Banner Principal" 
+      class="hero-banner-img"
+      [class.clickable]="bannerLink()"
+      (click)="onBannerClick()"> <!--que escuche el "click"-->
+  } @else if (isAdmin()) {
+    <div class="banner-placeholder">
+      <p>Espacio para banner opcional</p>
+    </div>
+  }
+
+  <!--si es admin puede subir/cambiar/sacar el banner-->
+  @if (isAdmin()) {
+    <div class="banner-admin-controls">
+      <input type="file" #bannerInput style="display: none" accept="image/*" (change)="onBannerSelected($event)">
+      
+      <button class="banner-btn edit-btn" (click)="bannerInput.click()" [disabled]="isUploadingBanner()">
+        @if (isUploadingBanner()) {
+          <span class="spinner-small"></span> Subiendo banner...
+        } @else {
+           {{ bannerUrl() ? 'Cambiar Banner' : 'Agregar Banner' }}
+        }
+      </button>
+
+      @if (bannerUrl()) {
+        <button class="banner-btn delete-btn" (click)="removeBanner()">
+           Eliminar banner
+        </button>
+      }
+    </div>
+  }
+</div>
+
 <h2>Catálogo de Vehículos</h2>
 
 <!-- Filtros de búsqueda -->

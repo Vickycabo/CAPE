@@ -1,4 +1,133 @@
- h2 {
+/* Css para el hero (banner si es que está)*/
+.novedad-title {
+  color: #dc3545; /*rojito que resalte*/
+  margin: 15px auto 10px auto;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(220, 53, 69, 0.2);
+}
+.hero-banner-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e2e8f0;
+  min-height: 0;
+  transition: all 0.3s ease;
+}
+
+.hero-banner-container.has-banner {
+  min-height: 350px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.hero-banner-img {
+  width: 100%;
+  height: 350px; 
+  object-fit: cover; 
+  display: block;
+}
+
+.banner-placeholder {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #a0aec0;
+  border-radius: 12px;
+  color: #718096;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Controles admin para el banner opcional */
+.banner-admin-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.banner-btn {
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.banner-btn.edit-btn {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.banner-btn.edit-btn:hover:not(:disabled) {
+  background-color: #e2e8f0;
+}
+
+.banner-btn.delete-btn {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.banner-btn.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.banner-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ccc;
+  border-top-color: #1a1a1a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .hero-banner-img, .hero-banner-container.has-banner {
+    height: 250px; 
+  }
+  .banner-admin-controls {
+    bottom: 10px;
+    right: 10px;
+    flex-direction: column;
+  }
+}
+
+.hero-banner-img.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.hero-banner-img.clickable:hover {
+  opacity: 0.95;
+}
+
+h2 {
   text-align: center;
   color: #0f0d0d;
   margin: 30px 0 20px 0;
@@ -92,7 +221,7 @@
 
 .vehicle-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;
 }
@@ -124,10 +253,10 @@
 
 .vehicle-card img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
-  border-radius: 0; 
-  border-bottom: 3px solid #1a1a1a; 
+  border-radius: 0;
+  display: block;
 }
 
 

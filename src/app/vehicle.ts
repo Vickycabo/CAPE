@@ -7,4 +7,6 @@ export interface Vehicle {
     price: number;
     images: string[]; // array de URLs
     description: string
+    motor: string;
+    transmision: string;
 }

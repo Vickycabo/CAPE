@@ -41,6 +41,7 @@ export class VehicleForm {
     effect(() => {
       if (this.isEditing() && this.vehicle()) {
         const vehicle = this.vehicle()!;
+        this.uploadedImages.set([...vehicle.images]); //que carge lasa fotos que ya están cargadas
         this.form.patchValue({
           ...vehicle,
           year: vehicle.year,
@@ -96,6 +97,8 @@ export class VehicleForm {
     year: [1980, [Validators.required, Validators.min(1980), Validators.max(this.nextYear)]],
     color: ['', Validators.required],
     customColor: [''],
+    motor: ['', Validators.required],
+    transmision: ['', Validators.required],
     price: [1000000, [Validators.required, Validators.min(1)]],
     images: ['', Validators.required],
     description: ['', Validators.required]
@@ -125,33 +128,35 @@ export class VehicleForm {
 
 // funcion para guardado de fotos en nube cloudinary
   async onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (!file) return;
+    const files: FileList = event.target.files;
+    if (!files || files.length === 0) return;
 
     this.isUploading.set(true);
-
-
-    const data = new FormData(); //datos
-    data.append('file', file);
-    data.append('upload_preset', 'concesionaria_preset'); // nombre del preset de la nube
-    data.append('cloud_name', 'dgipsuntz'); // mi cuenta en cloudinary
-
+    
     try {
-      const response: any = await firstValueFrom(
-        this.http.post(`https://api.cloudinary.com/v1_1/dgipsuntz/image/upload`, data)
-      );
-      
-     
-      this.uploadedImages.update(prev => [...prev, response.secure_url]); //agregar url a la nube
-      
+      const uploadallphotos = Array.from(files).map(async (file) => {
+        const data = new FormData();
+        data.append('file', file);
+        data.append('upload_preset', 'concesionaria_preset');
+        data.append('cloud_name', 'dgipsuntz');
+        
+        const response: any = await firstValueFrom(
+          this.http.post(`https://api.cloudinary.com/v1_1/dgipsuntz/image/upload`, data)
+        );
+        return response.secure_url;
+      });
 
-      this.form.controls.images.setValue(this.uploadedImages().join(',')); //actualizar campo del form
-      
+      const newUrls = await Promise.all(uploadallphotos); //espera a que las fotos se suban a cloudinary
+      this.uploadedImages.update(prev => [...prev, ...newUrls]); //por si se agregan fotos
+      this.form.controls.images.setValue(this.uploadedImages().join(',')); //actualizar el formu
+
     } catch (error) {
-      alert("Error al subir la imagen a la nube");
+      alert("Error al subir las imágenes a la nube");
       console.error(error);
+    
     } finally {
       this.isUploading.set(false);
+      event.target.value = ''; 
     }
   }
 
